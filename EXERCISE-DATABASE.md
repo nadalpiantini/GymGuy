@@ -1,8 +1,8 @@
-# Base de Datos de Ejercicios - GymGuy
+# Exercise Database - GymGuy
 
-## 🎯 **Implementación Completada**
+## 🎯 **Implementation Completed**
 
-He implementado una base de datos completa de ejercicios para tu aplicación GymGuy, basada en los mejores recursos disponibles:
+I have implemented a complete exercise database for your GymGuy application, based on the best available resources:
 
 ### **Fuentes Utilizadas:**
 - **[Free Exercise DB (Español)](https://github.com/garri93/free-exercise-db-es)** - Base de datos con 800+ ejercicios

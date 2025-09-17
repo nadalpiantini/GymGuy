@@ -1,0 +1,400 @@
+[
+  {
+    "id": "prog_001",
+    "name": "Beginner Full Body Foundation",
+    "description": "Perfect introduction to strength training with focus on form and fundamental movement patterns",
+    "level": "beginner",
+    "type": "strength",
+    "duration_weeks": 8,
+    "frequency_per_week": 3,
+    "session_duration_minutes": 45,
+    "equipment_required": ["dumbbells", "resistance_bands", "mat"],
+    "phases": [
+      {
+        "id": "phase_001_1",
+        "name": "Foundation Phase",
+        "weeks": 4,
+        "description": "Master basic movement patterns and build initial strength",
+        "focus": ["form", "stability", "endurance"],
+        "workouts": ["w001", "w002", "w003"]
+      },
+      {
+        "id": "phase_001_2",
+        "name": "Progressive Phase",
+        "weeks": 4,
+        "description": "Gradually increase intensity and complexity",
+        "focus": ["strength", "progression", "confidence"],
+        "workouts": ["w004", "w005", "w006"]
+      }
+    ],
+    "workouts": [],
+    "tags": ["beginner", "full-body", "strength", "foundation"],
+    "rating": 4.8,
+    "reviews": 342,
+    "difficulty": 3,
+    "imageUrl": "/images/programs/beginner-strength.jpg"
+  },
+  {
+    "id": "prog_002",
+    "name": "HIIT Shred Challenge",
+    "description": "High-intensity interval training program for maximum fat burn and cardiovascular fitness",
+    "level": "intermediate",
+    "type": "hiit",
+    "duration_weeks": 6,
+    "frequency_per_week": 4,
+    "session_duration_minutes": 30,
+    "equipment_required": ["none"],
+    "phases": [
+      {
+        "id": "phase_002_1",
+        "name": "Adaptation Phase",
+        "weeks": 2,
+        "description": "Build HIIT endurance and technique",
+        "focus": ["endurance", "form", "recovery"],
+        "workouts": ["w007", "w008", "w009", "w010"]
+      },
+      {
+        "id": "phase_002_2",
+        "name": "Intensity Phase",
+        "weeks": 2,
+        "description": "Peak intensity training for maximum results",
+        "focus": ["power", "speed", "endurance"],
+        "workouts": ["w011", "w012", "w013", "w014"]
+      },
+      {
+        "id": "phase_002_3",
+        "name": "Peak Phase",
+        "weeks": 2,
+        "description": "Maximum challenge and results",
+        "focus": ["performance", "endurance", "mental_toughness"],
+        "workouts": ["w015", "w016", "w017", "w018"]
+      }
+    ],
+    "workouts": [],
+    "tags": ["hiit", "cardio", "fat-loss", "no-equipment"],
+    "rating": 4.7,
+    "reviews": 567,
+    "difficulty": 7,
+    "imageUrl": "/images/programs/hiit-shred.jpg"
+  },
+  {
+    "id": "prog_003",
+    "name": "Advanced Powerlifting Program",
+    "description": "Serious strength program focusing on squat, bench, and deadlift for competitive powerlifters",
+    "level": "advanced",
+    "type": "strength",
+    "duration_weeks": 12,
+    "frequency_per_week": 4,
+    "session_duration_minutes": 90,
+    "equipment_required": ["barbell", "plates", "rack", "bench"],
+    "phases": [
+      {
+        "id": "phase_003_1",
+        "name": "Volume Accumulation",
+        "weeks": 4,
+        "description": "Build work capacity with high volume",
+        "focus": ["volume", "technique", "hypertrophy"],
+        "workouts": ["w019", "w020", "w021", "w022"]
+      },
+      {
+        "id": "phase_003_2",
+        "name": "Intensity Phase",
+        "weeks": 4,
+        "description": "Increase weight while maintaining volume",
+        "focus": ["intensity", "strength", "power"],
+        "workouts": ["w023", "w024", "w025", "w026"]
+      },
+      {
+        "id": "phase_003_3",
+        "name": "Peak & Taper",
+        "weeks": 4,
+        "description": "Peak for competition or testing",
+        "focus": ["peak_strength", "recovery", "performance"],
+        "workouts": ["w027", "w028", "w029", "w030"]
+      }
+    ],
+    "workouts": [],
+    "tags": ["powerlifting", "strength", "advanced", "competition"],
+    "rating": 4.9,
+    "reviews": 189,
+    "difficulty": 9,
+    "imageUrl": "/images/programs/powerlifting.jpg"
+  },
+  {
+    "id": "prog_004",
+    "name": "Yoga Flow for Athletes",
+    "description": "Improve flexibility, balance, and recovery with athletic-focused yoga sequences",
+    "level": "beginner",
+    "type": "mobility",
+    "duration_weeks": 8,
+    "frequency_per_week": 3,
+    "session_duration_minutes": 45,
+    "equipment_required": ["mat", "blocks", "strap"],
+    "phases": [
+      {
+        "id": "phase_004_1",
+        "name": "Foundation Flow",
+        "weeks": 4,
+        "description": "Learn fundamental poses and breathing",
+        "focus": ["flexibility", "balance", "breathing"],
+        "workouts": ["w031", "w032", "w033"]
+      },
+      {
+        "id": "phase_004_2",
+        "name": "Power Flow",
+        "weeks": 4,
+        "description": "Dynamic sequences for strength and flexibility",
+        "focus": ["strength", "flow", "balance"],
+        "workouts": ["w034", "w035", "w036"]
+      }
+    ],
+    "workouts": [],
+    "tags": ["yoga", "flexibility", "recovery", "mobility"],
+    "rating": 4.6,
+    "reviews": 423,
+    "difficulty": 4,
+    "imageUrl": "/images/programs/yoga-athletes.jpg"
+  },
+  {
+    "id": "prog_005",
+    "name": "Hybrid Athlete Training",
+    "description": "Combine strength and endurance training to become a well-rounded athlete",
+    "level": "intermediate",
+    "type": "hybrid",
+    "duration_weeks": 10,
+    "frequency_per_week": 5,
+    "session_duration_minutes": 60,
+    "equipment_required": ["dumbbells", "barbell", "kettlebell", "rower"],
+    "phases": [
+      {
+        "id": "phase_005_1",
+        "name": "Base Building",
+        "weeks": 3,
+        "description": "Build aerobic base and strength foundation",
+        "focus": ["endurance", "strength", "technique"],
+        "workouts": ["w037", "w038", "w039", "w040", "w041"]
+      },
+      {
+        "id": "phase_005_2",
+        "name": "Concurrent Training",
+        "weeks": 4,
+        "description": "Balance strength and cardio development",
+        "focus": ["power", "speed", "endurance"],
+        "workouts": ["w042", "w043", "w044", "w045", "w046"]
+      },
+      {
+        "id": "phase_005_3",
+        "name": "Performance Phase",
+        "weeks": 3,
+        "description": "Peak performance in both domains",
+        "focus": ["performance", "competition", "recovery"],
+        "workouts": ["w047", "w048", "w049", "w050", "w051"]
+      }
+    ],
+    "workouts": [],
+    "tags": ["hybrid", "strength", "endurance", "crossfit-style"],
+    "rating": 4.8,
+    "reviews": 278,
+    "difficulty": 8,
+    "imageUrl": "/images/programs/hybrid-athlete.jpg"
+  },
+  {
+    "id": "prog_006",
+    "name": "30-Day Ab Transformation",
+    "description": "Intensive core program to build strong, defined abs in just 30 days",
+    "level": "intermediate",
+    "type": "strength",
+    "duration_weeks": 4,
+    "frequency_per_week": 6,
+    "session_duration_minutes": 20,
+    "equipment_required": ["mat"],
+    "phases": [
+      {
+        "id": "phase_006_1",
+        "name": "Foundation Week",
+        "weeks": 1,
+        "description": "Build core strength foundation",
+        "focus": ["stability", "endurance", "form"],
+        "workouts": ["w052", "w053", "w054", "w055", "w056", "w057"]
+      },
+      {
+        "id": "phase_006_2",
+        "name": "Intensity Weeks",
+        "weeks": 2,
+        "description": "Increase difficulty and volume",
+        "focus": ["strength", "definition", "endurance"],
+        "workouts": ["w058", "w059", "w060", "w061", "w062", "w063"]
+      },
+      {
+        "id": "phase_006_3",
+        "name": "Final Push",
+        "weeks": 1,
+        "description": "Maximum intensity for final results",
+        "focus": ["peak_performance", "definition", "strength"],
+        "workouts": ["w064", "w065", "w066", "w067", "w068", "w069"]
+      }
+    ],
+    "workouts": [],
+    "tags": ["abs", "core", "30-day", "transformation"],
+    "rating": 4.5,
+    "reviews": 892,
+    "difficulty": 6,
+    "imageUrl": "/images/programs/ab-transform.jpg"
+  },
+  {
+    "id": "prog_007",
+    "name": "Marathon Training Plan",
+    "description": "Complete 16-week marathon preparation program for runners",
+    "level": "advanced",
+    "type": "cardio",
+    "duration_weeks": 16,
+    "frequency_per_week": 5,
+    "session_duration_minutes": 60,
+    "equipment_required": ["running_shoes"],
+    "phases": [
+      {
+        "id": "phase_007_1",
+        "name": "Base Building",
+        "weeks": 6,
+        "description": "Build aerobic base and mileage",
+        "focus": ["endurance", "mileage", "easy_pace"],
+        "workouts": []
+      },
+      {
+        "id": "phase_007_2",
+        "name": "Speed Development",
+        "weeks": 6,
+        "description": "Add speed work and tempo runs",
+        "focus": ["speed", "tempo", "intervals"],
+        "workouts": []
+      },
+      {
+        "id": "phase_007_3",
+        "name": "Race Preparation",
+        "weeks": 4,
+        "description": "Taper and race preparation",
+        "focus": ["taper", "race_pace", "recovery"],
+        "workouts": []
+      }
+    ],
+    "workouts": [],
+    "tags": ["running", "marathon", "endurance", "cardio"],
+    "rating": 4.7,
+    "reviews": 156,
+    "difficulty": 9,
+    "imageUrl": "/images/programs/marathon.jpg"
+  },
+  {
+    "id": "prog_008",
+    "name": "Calisthenics Mastery",
+    "description": "Master bodyweight exercises from basics to advanced skills",
+    "level": "intermediate",
+    "type": "strength",
+    "duration_weeks": 12,
+    "frequency_per_week": 4,
+    "session_duration_minutes": 50,
+    "equipment_required": ["pull_up_bar", "dip_bars", "rings"],
+    "phases": [
+      {
+        "id": "phase_008_1",
+        "name": "Foundation Skills",
+        "weeks": 4,
+        "description": "Master basic calisthenics movements",
+        "focus": ["pull_ups", "dips", "push_ups"],
+        "workouts": []
+      },
+      {
+        "id": "phase_008_2",
+        "name": "Skill Development",
+        "weeks": 4,
+        "description": "Learn intermediate skills",
+        "focus": ["muscle_up", "handstand", "lever"],
+        "workouts": []
+      },
+      {
+        "id": "phase_008_3",
+        "name": "Advanced Skills",
+        "weeks": 4,
+        "description": "Progress to advanced movements",
+        "focus": ["planche", "front_lever", "human_flag"],
+        "workouts": []
+      }
+    ],
+    "workouts": [],
+    "tags": ["calisthenics", "bodyweight", "skills", "strength"],
+    "rating": 4.9,
+    "reviews": 234,
+    "difficulty": 7,
+    "imageUrl": "/images/programs/calisthenics.jpg"
+  },
+  {
+    "id": "prog_009",
+    "name": "Postpartum Recovery Program",
+    "description": "Safe and effective program for new mothers to rebuild strength",
+    "level": "beginner",
+    "type": "hybrid",
+    "duration_weeks": 8,
+    "frequency_per_week": 3,
+    "session_duration_minutes": 30,
+    "equipment_required": ["mat", "resistance_bands"],
+    "phases": [
+      {
+        "id": "phase_009_1",
+        "name": "Gentle Recovery",
+        "weeks": 4,
+        "description": "Reconnect with your core and pelvic floor",
+        "focus": ["breathing", "pelvic_floor", "gentle_movement"],
+        "workouts": []
+      },
+      {
+        "id": "phase_009_2",
+        "name": "Strength Rebuilding",
+        "weeks": 4,
+        "description": "Gradually rebuild strength and endurance",
+        "focus": ["core", "strength", "cardio"],
+        "workouts": []
+      }
+    ],
+    "workouts": [],
+    "tags": ["postpartum", "recovery", "women", "gentle"],
+    "rating": 4.8,
+    "reviews": 178,
+    "difficulty": 3,
+    "imageUrl": "/images/programs/postpartum.jpg"
+  },
+  {
+    "id": "prog_010",
+    "name": "Senior Fitness Essentials",
+    "description": "Safe and effective exercise program for adults 60+",
+    "level": "beginner",
+    "type": "hybrid",
+    "duration_weeks": 8,
+    "frequency_per_week": 3,
+    "session_duration_minutes": 40,
+    "equipment_required": ["chair", "resistance_bands", "light_weights"],
+    "phases": [
+      {
+        "id": "phase_010_1",
+        "name": "Mobility Focus",
+        "weeks": 4,
+        "description": "Improve flexibility and joint mobility",
+        "focus": ["flexibility", "balance", "coordination"],
+        "workouts": []
+      },
+      {
+        "id": "phase_010_2",
+        "name": "Strength Building",
+        "weeks": 4,
+        "description": "Build functional strength safely",
+        "focus": ["strength", "stability", "endurance"],
+        "workouts": []
+      }
+    ],
+    "workouts": [],
+    "tags": ["senior", "gentle", "mobility", "balance"],
+    "rating": 4.7,
+    "reviews": 92,
+    "difficulty": 2,
+    "imageUrl": "/images/programs/senior-fitness.jpg"
+  }
+]

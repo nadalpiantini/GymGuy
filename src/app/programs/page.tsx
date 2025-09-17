@@ -1,351 +1,307 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { useAuth } from '@/components/auth/auth-provider'
-import { supabase } from '@/lib/supabase-client'
-import { Button } from '@/components/ui/button'
-import { 
-  Calendar, 
-  Clock, 
-  Users, 
-  Star, 
-  Filter,
-  Search,
-  Dumbbell,
-  Heart,
-  Zap,
-  Target,
-  Crown
-} from 'lucide-react'
+import { useRouter } from 'next/navigation'
+import SimpleNav from '@/components/layout/simple-nav'
+import programsData from '@/data/programs.json'
+import { Search, Filter, Clock, Calendar, Dumbbell, TrendingUp, Star, Users } from 'lucide-react'
 
 interface Program {
-  id: number
+  id: string
   name: string
-  description: string | null
+  description: string
   level: 'beginner' | 'intermediate' | 'advanced'
   type: 'strength' | 'cardio' | 'hiit' | 'mobility' | 'hybrid'
   duration_weeks: number
   frequency_per_week: number
-  session_duration_minutes: number | null
-  equipment_required: number[]
-  is_premium: boolean
-}
-
-interface Equipment {
-  id: number
-  name: string
-  slug: string
-  icon: string | null
+  session_duration_minutes: number
+  equipment_required: string[]
+  tags: string[]
+  rating: number
+  reviews: number
+  difficulty: number
+  imageUrl?: string
 }
 
 export default function ProgramsPage() {
-  const { user, profile } = useAuth()
+  const router = useRouter()
   const [programs, setPrograms] = useState<Program[]>([])
-  const [equipment, setEquipment] = useState<Equipment[]>([])
-  const [loading, setLoading] = useState(true)
-  const [filters, setFilters] = useState({
-    level: 'all',
-    type: 'all',
-    equipment: 'all',
-    search: ''
-  })
-
-  // Using the imported supabase client from supabase-client.ts
+  const [filteredPrograms, setFilteredPrograms] = useState<Program[]>([])
+  const [searchTerm, setSearchTerm] = useState('')
+  const [selectedLevel, setSelectedLevel] = useState<string>('all')
+  const [selectedType, setSelectedType] = useState<string>('all')
+  const [showFilters, setShowFilters] = useState(false)
 
   useEffect(() => {
-    loadData()
+    // Load programs from JSON
+    setPrograms(programsData as Program[])
+    setFilteredPrograms(programsData as Program[])
   }, [])
 
-  const loadData = async () => {
-    try {
-      const [programsRes, equipmentRes] = await Promise.all([
-        supabase.from('programs').select('*').order('name'),
-        supabase.from('equipment').select('*').order('name')
-      ])
+  useEffect(() => {
+    // Filter programs based on search and filters
+    let filtered = programs
 
-      if (programsRes.data) setPrograms(programsRes.data)
-      if (equipmentRes.data) setEquipment(equipmentRes.data)
-    } catch (error) {
-      console.error('Error loading data:', error)
-    } finally {
-      setLoading(false)
+    if (searchTerm) {
+      filtered = filtered.filter(p =>
+        p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        p.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        p.tags.some(t => t.toLowerCase().includes(searchTerm.toLowerCase()))
+      )
     }
-  }
 
-  const filteredPrograms = programs.filter(program => {
-    if (filters.level !== 'all' && program.level !== filters.level) return false
-    if (filters.type !== 'all' && program.type !== filters.type) return false
-    if (filters.equipment !== 'all' && !program.equipment_required.includes(parseInt(filters.equipment))) return false
-    if (filters.search && !program.name.toLowerCase().includes(filters.search.toLowerCase())) return false
-    return true
-  })
+    if (selectedLevel !== 'all') {
+      filtered = filtered.filter(p => p.level === selectedLevel)
+    }
+
+    if (selectedType !== 'all') {
+      filtered = filtered.filter(p => p.type === selectedType)
+    }
+
+    setFilteredPrograms(filtered)
+  }, [searchTerm, selectedLevel, selectedType, programs])
 
   const getLevelColor = (level: string) => {
-    const colors = {
-      beginner: 'bg-green-100 text-green-800',
-      intermediate: 'bg-yellow-100 text-yellow-800',
-      advanced: 'bg-red-100 text-red-800'
+    switch(level) {
+      case 'beginner': return 'text-green-500 bg-green-500/10 border-green-500/20'
+      case 'intermediate': return 'text-blue-500 bg-blue-500/10 border-blue-500/20'
+      case 'advanced': return 'text-red-500 bg-red-500/10 border-red-500/20'
+      default: return 'text-gray-500 bg-gray-500/10 border-gray-500/20'
     }
-    return colors[level as keyof typeof colors] || colors.beginner
   }
 
   const getTypeIcon = (type: string) => {
-    const icons = {
-      strength: Dumbbell,
-      cardio: Heart,
-      hiit: Zap,
-      mobility: Target,
-      hybrid: Calendar
-    }
-    return icons[type as keyof typeof icons] || Calendar
-  }
-
-  const getTypeColor = (type: string) => {
-    const colors = {
-      strength: 'text-blue-600',
-      cardio: 'text-red-600',
-      hiit: 'text-orange-600',
-      mobility: 'text-green-600',
-      hybrid: 'text-purple-600'
-    }
-    return colors[type as keyof typeof colors] || 'text-gray-600'
-  }
-
-  const getEquipmentNames = (equipmentIds: number[]) => {
-    return equipmentIds.map(id => equipment.find(e => e.id === id)?.name).filter(Boolean).join(', ')
-  }
-
-  const handleStartProgram = async (programId: number) => {
-    if (!user) {
-      alert('Please sign in to start a program')
-      return
-    }
-
-    if (programs.find(p => p.id === programId)?.is_premium && profile?.plan !== 'premium') {
-      alert('This is a premium program. Upgrade to premium to access it.')
-      return
-    }
-
-    try {
-      const { error } = await supabase
-        .from('user_programs')
-        .insert({
-          user_id: user.id,
-          program_id: programId,
-          started_at: new Date().toISOString(),
-          status: 'active',
-          current_week: 1
-        } as any)
-
-      if (error) throw error
-
-      alert('Program started successfully! You can view your progress in your profile.')
-    } catch (error) {
-      console.error('Error starting program:', error)
-      alert('Error starting program. Please try again.')
+    switch(type) {
+      case 'strength': return '💪'
+      case 'cardio': return '🏃'
+      case 'hiit': return '⚡'
+      case 'mobility': return '🧘'
+      case 'hybrid': return '🎯'
+      default: return '🏋️'
     }
   }
 
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading programs...</p>
-        </div>
-      </div>
-    )
+  const getDifficultyBars = (difficulty: number) => {
+    return Array.from({ length: 10 }, (_, i) => (
+      <div
+        key={i}
+        className={`h-2 w-3 rounded-sm ${
+          i < difficulty
+            ? difficulty <= 3 ? 'bg-green-500'
+              : difficulty <= 6 ? 'bg-yellow-500'
+              : 'bg-red-500'
+            : 'bg-zinc-800'
+        }`}
+      />
+    ))
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">
-            Training Programs
-          </h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Choose your challenge and get stronger with our professionally designed programs. 
-            From beginner-friendly routines to advanced training protocols.
-          </p>
-        </div>
+    <div className="min-h-screen bg-black">
+      <SimpleNav />
+      <div className="pt-32 pb-24">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Header */}
+          <div className="text-center mb-12">
+            <h1 className="text-5xl font-bold text-white mb-4">
+              Training Programs
+            </h1>
+            <p className="text-xl text-gray-400">
+              Science-based programs designed for real results
+            </p>
+          </div>
 
-        {/* Filters */}
-        <div className="bg-white rounded-xl shadow-lg p-6 mb-8">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-            {/* Search */}
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-              <input
-                type="text"
-                placeholder="Search programs..."
-                value={filters.search}
-                onChange={(e) => setFilters(prev => ({ ...prev, search: e.target.value }))}
-                className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
+          {/* Search and Filters */}
+          <div className="mb-8">
+            <div className="flex flex-col md:flex-row gap-4 mb-4">
+              <div className="flex-1 relative">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 w-5 h-5" />
+                <input
+                  type="text"
+                  placeholder="Search programs..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="w-full bg-zinc-900 border border-zinc-800 rounded-lg py-3 pl-10 pr-4 text-white placeholder-gray-500 focus:border-blue-500 focus:outline-none"
+                />
+              </div>
+              <button
+                onClick={() => setShowFilters(!showFilters)}
+                className="flex items-center gap-2 bg-zinc-900 border border-zinc-800 rounded-lg px-4 py-3 text-white hover:border-blue-500 transition-colors"
+              >
+                <Filter className="w-5 h-5" />
+                <span>Filters</span>
+              </button>
             </div>
 
-            {/* Level Filter */}
-            <select
-              value={filters.level}
-              onChange={(e) => setFilters(prev => ({ ...prev, level: e.target.value }))}
-              className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            >
-              <option value="all">All Levels</option>
-              <option value="beginner">Beginner</option>
-              <option value="intermediate">Intermediate</option>
-              <option value="advanced">Advanced</option>
-            </select>
-
-            {/* Type Filter */}
-            <select
-              value={filters.type}
-              onChange={(e) => setFilters(prev => ({ ...prev, type: e.target.value }))}
-              className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            >
-              <option value="all">All Types</option>
-              <option value="strength">Strength</option>
-              <option value="cardio">Cardio</option>
-              <option value="hiit">HIIT</option>
-              <option value="mobility">Mobility</option>
-              <option value="hybrid">Hybrid</option>
-            </select>
-
-            {/* Equipment Filter */}
-            <select
-              value={filters.equipment}
-              onChange={(e) => setFilters(prev => ({ ...prev, equipment: e.target.value }))}
-              className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            >
-              <option value="all">All Equipment</option>
-              {equipment.map((item) => (
-                <option key={item.id} value={item.id}>
-                  {item.name}
-                </option>
-              ))}
-            </select>
-          </div>
-        </div>
-
-        {/* Programs Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredPrograms.map((program) => {
-            const TypeIcon = getTypeIcon(program.type)
-            
-            return (
-              <div key={program.id} className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
-                {/* Program Image Placeholder */}
-                <div className="h-48 bg-gradient-to-br from-blue-100 to-indigo-200 flex items-center justify-center">
-                  <TypeIcon className={`h-16 w-16 ${getTypeColor(program.type)}`} />
-                </div>
-
-                <div className="p-6">
-                  {/* Header */}
-                  <div className="flex items-start justify-between mb-4">
-                    <div>
-                      <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                        {program.name}
-                      </h3>
-                      <div className="flex items-center space-x-2">
-                        <span className={`px-2 py-1 rounded-full text-xs font-medium ${getLevelColor(program.level)}`}>
-                          {program.level.charAt(0).toUpperCase() + program.level.slice(1)}
-                        </span>
-                        {program.is_premium && (
-                          <Crown className="h-4 w-4 text-yellow-500" />
-                        )}
-                      </div>
-                    </div>
+            {/* Filter Options */}
+            {showFilters && (
+              <div className="bg-zinc-900 border border-zinc-800 rounded-lg p-6 mb-6">
+                <div className="grid md:grid-cols-2 gap-6">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-400 mb-2">
+                      Level
+                    </label>
+                    <select
+                      value={selectedLevel}
+                      onChange={(e) => setSelectedLevel(e.target.value)}
+                      className="w-full bg-black border border-zinc-800 rounded-lg py-2 px-3 text-white focus:border-blue-500 focus:outline-none"
+                    >
+                      <option value="all">All Levels</option>
+                      <option value="beginner">Beginner</option>
+                      <option value="intermediate">Intermediate</option>
+                      <option value="advanced">Advanced</option>
+                    </select>
                   </div>
-
-                  {/* Description */}
-                  {program.description && (
-                    <p className="text-gray-600 mb-4 line-clamp-3">
-                      {program.description}
-                    </p>
-                  )}
-
-                  {/* Program Details */}
-                  <div className="space-y-3 mb-6">
-                    <div className="flex items-center text-sm text-gray-600">
-                      <Calendar className="h-4 w-4 mr-2" />
-                      <span>{program.duration_weeks} weeks</span>
-                    </div>
-                    
-                    <div className="flex items-center text-sm text-gray-600">
-                      <Users className="h-4 w-4 mr-2" />
-                      <span>{program.frequency_per_week} sessions/week</span>
-                    </div>
-                    
-                    {program.session_duration_minutes && (
-                      <div className="flex items-center text-sm text-gray-600">
-                        <Clock className="h-4 w-4 mr-2" />
-                        <span>{program.session_duration_minutes} min/session</span>
-                      </div>
-                    )}
-                    
-                    <div className="flex items-center text-sm text-gray-600">
-                      <Dumbbell className="h-4 w-4 mr-2" />
-                      <span className="truncate">
-                        {getEquipmentNames(program.equipment_required) || 'No equipment needed'}
-                      </span>
-                    </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-400 mb-2">
+                      Type
+                    </label>
+                    <select
+                      value={selectedType}
+                      onChange={(e) => setSelectedType(e.target.value)}
+                      className="w-full bg-black border border-zinc-800 rounded-lg py-2 px-3 text-white focus:border-blue-500 focus:outline-none"
+                    >
+                      <option value="all">All Types</option>
+                      <option value="strength">Strength</option>
+                      <option value="cardio">Cardio</option>
+                      <option value="hiit">HIIT</option>
+                      <option value="mobility">Mobility</option>
+                      <option value="hybrid">Hybrid</option>
+                    </select>
                   </div>
-
-                  {/* Action Button */}
-                  <Button
-                    onClick={() => handleStartProgram(program.id)}
-                    disabled={program.is_premium && profile?.plan !== 'premium'}
-                    className="w-full"
-                  >
-                    {program.is_premium && profile?.plan !== 'premium' ? (
-                      <>
-                        <Crown className="h-4 w-4 mr-2" />
-                        Premium Required
-                      </>
-                    ) : (
-                      'Start Program'
-                    )}
-                  </Button>
                 </div>
               </div>
-            )
-          })}
+            )}
+          </div>
+
+          {/* Results Count */}
+          <div className="mb-6">
+            <p className="text-gray-400">
+              Showing {filteredPrograms.length} of {programs.length} programs
+            </p>
+          </div>
+
+          {/* Program Grid */}
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filteredPrograms.map((program) => (
+              <div
+                key={program.id}
+                className="bg-zinc-900 rounded-2xl border border-zinc-800 hover:border-blue-500 transition-all duration-300 overflow-hidden group"
+              >
+                {/* Program Image */}
+                <div className="relative h-48 bg-gradient-to-br from-blue-600 to-purple-600">
+                  <div className="absolute inset-0 bg-black/40" />
+                  <div className="absolute top-4 left-4">
+                    <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold border ${getLevelColor(program.level)}`}>
+                      {program.level.charAt(0).toUpperCase() + program.level.slice(1)}
+                    </span>
+                  </div>
+                  <div className="absolute top-4 right-4 text-3xl">
+                    {getTypeIcon(program.type)}
+                  </div>
+                  <div className="absolute bottom-4 left-4 right-4">
+                    <h3 className="text-2xl font-bold text-white mb-1">
+                      {program.name}
+                    </h3>
+                  </div>
+                </div>
+
+                {/* Program Details */}
+                <div className="p-6">
+                  <p className="text-gray-400 mb-4 line-clamp-2">
+                    {program.description}
+                  </p>
+
+                  {/* Stats */}
+                  <div className="grid grid-cols-2 gap-3 mb-4">
+                    <div className="flex items-center gap-2 text-sm text-gray-300">
+                      <Calendar className="w-4 h-4 text-gray-500" />
+                      <span>{program.duration_weeks} weeks</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm text-gray-300">
+                      <Dumbbell className="w-4 h-4 text-gray-500" />
+                      <span>{program.frequency_per_week}x/week</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm text-gray-300">
+                      <Clock className="w-4 h-4 text-gray-500" />
+                      <span>{program.session_duration_minutes} min</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm text-gray-300">
+                      <TrendingUp className="w-4 h-4 text-gray-500" />
+                      <span>{program.type}</span>
+                    </div>
+                  </div>
+
+                  {/* Difficulty */}
+                  <div className="mb-4">
+                    <div className="flex items-center justify-between mb-1">
+                      <span className="text-xs text-gray-500">Difficulty</span>
+                      <span className="text-xs text-gray-400">{program.difficulty}/10</span>
+                    </div>
+                    <div className="flex gap-1">
+                      {getDifficultyBars(program.difficulty)}
+                    </div>
+                  </div>
+
+                  {/* Rating */}
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="flex items-center gap-1">
+                      <Star className="w-4 h-4 text-yellow-500 fill-yellow-500" />
+                      <span className="text-sm text-white font-medium">{program.rating}</span>
+                      <span className="text-sm text-gray-500">({program.reviews})</span>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <Users className="w-4 h-4 text-gray-500" />
+                      <span className="text-sm text-gray-400">{program.reviews} users</span>
+                    </div>
+                  </div>
+
+                  {/* Tags */}
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    {program.tags.slice(0, 3).map((tag) => (
+                      <span
+                        key={tag}
+                        className="text-xs bg-zinc-800 text-gray-400 px-2 py-1 rounded-md"
+                      >
+                        #{tag}
+                      </span>
+                    ))}
+                  </div>
+
+                  {/* CTA Button */}
+                  <button
+                    onClick={() => router.push(`/programs/${program.id}`)}
+                    className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white py-3 rounded-lg font-semibold transition-all duration-300 transform group-hover:scale-105">
+                    View Program
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Empty State */}
+          {filteredPrograms.length === 0 && (
+            <div className="text-center py-16">
+              <div className="text-6xl mb-4">🔍</div>
+              <h3 className="text-2xl font-bold text-white mb-2">
+                No programs found
+              </h3>
+              <p className="text-gray-400 mb-6">
+                Try adjusting your search or filters
+              </p>
+              <button
+                onClick={() => {
+                  setSearchTerm('')
+                  setSelectedLevel('all')
+                  setSelectedType('all')
+                }}
+                className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
+              >
+                Clear Filters
+              </button>
+            </div>
+          )}
         </div>
-
-        {/* No Results */}
-        {filteredPrograms.length === 0 && (
-          <div className="text-center py-12">
-            <Filter className="h-16 w-16 text-gray-300 mx-auto mb-4" />
-            <h3 className="text-lg font-medium text-gray-900 mb-2">
-              No programs found
-            </h3>
-            <p className="text-gray-600">
-              Try adjusting your filters to see more programs
-            </p>
-          </div>
-        )}
-
-        {/* Premium CTA */}
-        {profile?.plan !== 'premium' && (
-          <div className="mt-12 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-xl p-8 text-center">
-            <Crown className="h-12 w-12 text-white mx-auto mb-4" />
-            <h3 className="text-2xl font-bold text-white mb-4">
-              Unlock Premium Programs
-            </h3>
-            <p className="text-white/90 mb-6 max-w-2xl mx-auto">
-              Get access to advanced training programs, personalized coaching, 
-              and exclusive content designed for serious athletes.
-            </p>
-            <Button
-              size="lg"
-              variant="secondary"
-              onClick={() => window.location.href = '/premium'}
-            >
-              Upgrade to Premium
-            </Button>
-          </div>
-        )}
       </div>
     </div>
   )

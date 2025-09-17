@@ -1,4 +1,4 @@
-# Workout.cool - Build Your Perfect Workout
+# GymGuy - Build Your Perfect Workout
 
 A modern, open-source fitness platform that allows users to create personalized workouts, follow structured programs, and track their fitness journey. Built as a community-driven alternative to abandoned fitness platforms.
 
@@ -38,8 +38,8 @@ A modern, open-source fitness platform that allows users to create personalized 
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/your-username/workout-cool.git
-cd workout-cool
+git clone https://github.com/your-username/gymguy.git
+cd gymguy
 ```
 
 ### 2. Install Dependencies
@@ -128,10 +128,10 @@ The application uses PostgreSQL with the following main tables:
 ### Docker
 ```bash
 # Build the image
-docker build -t workout-cool .
+docker build -t gymguy .
 
 # Run the container
-docker run -p 3000:3000 workout-cool
+docker run -p 3000:3000 gymguy
 ```
 
 ## 🤝 Contributing
@@ -166,10 +166,10 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📞 Support
 
-- **Documentation**: [docs.workout.cool](https://docs.workout.cool)
-- **Discord**: [Join our community](https://discord.gg/workout-cool)
-- **GitHub Issues**: [Report bugs or request features](https://github.com/your-username/workout-cool/issues)
-- **Email**: support@workout.cool
+- **Documentation**: [docs.gymguy.app](https://docs.gymguy.app)
+- **Discord**: [Join our community](https://discord.gg/gymguy)
+- **GitHub Issues**: [Report bugs or request features](https://github.com/your-username/gymguy/issues)
+- **Email**: hello@gymguy.app
 
 ## 🗺️ Roadmap
 
@@ -203,4 +203,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-**Made with ❤️ by the Workout.cool community**
+**Made with ❤️ by the GymGuy community**

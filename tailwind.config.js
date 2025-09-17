@@ -8,51 +8,51 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        // Core brand colors - energetic and motivating
+        // Core brand colors - TrunkForce inspired (Red, Black, White)
         primary: {
-          DEFAULT: "#FF6B35", // Energetic orange-red
+          DEFAULT: "#EF4444", // Enhanced red for WCAG AA compliance
           foreground: "#ffffff",
-          50: "#FFF5F3",
-          100: "#FFE8E3",
-          200: "#FFD1C7",
-          300: "#FFB5A0",
-          400: "#FF8B6B",
-          500: "#FF6B35", // DEFAULT
-          600: "#E55A2B",
-          700: "#C44B21",
-          800: "#A23D1C",
-          900: "#7A2E15",
-          950: "#4A1A0B",
+          50: "#FEF2F2",
+          100: "#FEE2E2",
+          200: "#FECACA",
+          300: "#FCA5A5",
+          400: "#F87171",
+          500: "#EF4444", // DEFAULT - WCAG AA compliant
+          600: "#DC2626",
+          700: "#991B1B",
+          800: "#7F1D1D",
+          900: "#6B1A1A",
+          950: "#450A0A",
         },
         secondary: {
-          DEFAULT: "#00C9A7", // Motivating teal
+          DEFAULT: "#000000", // TrunkForce Black - Power and Elegance
           foreground: "#ffffff",
-          50: "#F0FFFE",
-          100: "#CCFBF1",
-          200: "#99F6E4",
-          300: "#5EEAD4",
-          400: "#2DD4BF",
-          500: "#00C9A7", // DEFAULT
-          600: "#00A693",
-          700: "#0D9488",
-          800: "#0F766E",
-          900: "#115E59",
-          950: "#042F2E",
+          50: "#F8FAFC",
+          100: "#F1F5F9",
+          200: "#E2E8F0",
+          300: "#CBD5E1",
+          400: "#94A3B8",
+          500: "#64748B",
+          600: "#475569",
+          700: "#334155",
+          800: "#1E293B",
+          900: "#0F172A",
+          950: "#000000", // DEFAULT
         },
         accent: {
-          DEFAULT: "#7C3AED", // Power purple
-          foreground: "#ffffff",
-          50: "#F5F3FF",
-          100: "#EDE9FE",
-          200: "#DDD6FE",
-          300: "#C4B5FD",
-          400: "#A78BFA",
-          500: "#7C3AED", // DEFAULT
-          600: "#7C2D92",
-          700: "#6B21A8",
-          800: "#581C87",
-          900: "#4C1D95",
-          950: "#2E1065",
+          DEFAULT: "#FFFFFF", // TrunkForce White - Pure and Clean
+          foreground: "#000000",
+          50: "#FFFFFF",
+          100: "#F8FAFC",
+          200: "#F1F5F9",
+          300: "#E2E8F0",
+          400: "#CBD5E1",
+          500: "#94A3B8",
+          600: "#64748B",
+          700: "#475569",
+          800: "#334155",
+          900: "#1E293B",
+          950: "#0F172A",
         },
         // Fitness-specific color palette
         energy: {
@@ -128,18 +128,18 @@ module.exports = {
         warning: "#F59E0B",
         error: "#DC2626",
         info: "#06B6D4",
-        // Updated base colors
+        // Updated base colors - TrunkForce Dark theme
         muted: {
-          DEFAULT: "#F8FAFC",
-          foreground: "#64748B",
+          DEFAULT: "#334155", // Better contrast for muted elements
+          foreground: "#CBD5E1", // WCAG AA compliant on dark backgrounds
         },
-        background: "#FFFFFF",
-        foreground: "#0F172A",
-        card: "#FFFFFF",
-        "card-foreground": "#0F172A",
-        border: "#E2E8F0",
-        input: "#E2E8F0",
-        ring: "#FF6B35", // Updated to primary orange
+        background: "#000000", // TrunkForce Black Background
+        foreground: "#FFFFFF", // Better contrast for general text
+        card: "#0F172A",
+        "card-foreground": "#DC2626",
+        border: "#334155", // Improved border visibility
+        input: "#1E293B",
+        ring: "#3B82F6", // High contrast blue for focus states
       },
       // Enhanced responsive breakpoints for better mobile-first design
       screens: {
@@ -167,8 +167,9 @@ module.exports = {
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', 'sans-serif'],
-        display: ['Inter', 'system-ui', 'sans-serif'],
+        display: ['Teko', 'Inter', 'system-ui', 'sans-serif'], // TrunkForce inspired - Teko Bold
         mono: ['JetBrains Mono', 'Consolas', 'Monaco', 'monospace'], // For data display
+        teko: ['Teko', 'Inter', 'system-ui', 'sans-serif'], // TrunkForce primary font
       },
       fontSize: {
         // Enhanced typography optimized for fitness data display
@@ -300,8 +301,8 @@ module.exports = {
           '50%': { transform: 'translateY(-10px)' },
         },
         glow: {
-          '0%': { boxShadow: '0 0 5px rgba(255, 107, 53, 0.5)' }, // Updated to primary color
-          '100%': { boxShadow: '0 0 20px rgba(255, 107, 53, 0.8)' },
+          '0%': { boxShadow: '0 0 5px rgba(220, 38, 38, 0.5)' }, // TrunkForce Red
+          '100%': { boxShadow: '0 0 20px rgba(220, 38, 38, 0.8)' },
         },
         
         // Workout tracking keyframes
@@ -364,7 +365,7 @@ module.exports = {
         },
         muscleHighlight: {
           '0%, 100%': { backgroundColor: 'currentColor', transform: 'scale(1)' },
-          '50%': { backgroundColor: 'rgb(255, 107, 53)', transform: 'scale(1.05)' },
+          '50%': { backgroundColor: 'rgb(220, 38, 38)', transform: 'scale(1.05)' }, // TrunkForce Red
         },
         energyBoost: {
           '0%': { transform: 'scale(1)', filter: 'brightness(1)' },
@@ -423,8 +424,8 @@ module.exports = {
         
         // Motivational keyframes
         motivatePulse: {
-          '0%, 100%': { transform: 'scale(1)', boxShadow: '0 0 0 0 rgba(255, 107, 53, 0.7)' },
-          '50%': { transform: 'scale(1.05)', boxShadow: '0 0 0 10px rgba(255, 107, 53, 0)' },
+          '0%, 100%': { transform: 'scale(1)', boxShadow: '0 0 0 0 rgba(220, 38, 38, 0.7)' }, // TrunkForce Red
+          '50%': { transform: 'scale(1.05)', boxShadow: '0 0 0 10px rgba(220, 38, 38, 0)' },
         },
         celebrate: {
           '0%, 100%': { transform: 'rotate(0deg) scale(1)' },
@@ -465,15 +466,15 @@ module.exports = {
         'medium': '0 4px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
         'large': '0 10px 60px -15px rgba(0, 0, 0, 0.12), 0 25px 25px -5px rgba(0, 0, 0, 0.06)',
         
-        // Updated primary glow effects
-        'glow': '0 0 20px rgba(255, 107, 53, 0.3), 0 0 40px rgba(255, 107, 53, 0.1)',
-        'glow-lg': '0 0 60px rgba(255, 107, 53, 0.4), 0 0 100px rgba(255, 107, 53, 0.2)',
-        'glow-xl': '0 0 80px rgba(255, 107, 53, 0.5), 0 0 120px rgba(255, 107, 53, 0.3)',
+        // Updated primary glow effects - TrunkForce Red
+        'glow': '0 0 20px rgba(220, 38, 38, 0.3), 0 0 40px rgba(220, 38, 38, 0.1)',
+        'glow-lg': '0 0 60px rgba(220, 38, 38, 0.4), 0 0 100px rgba(220, 38, 38, 0.2)',
+        'glow-xl': '0 0 80px rgba(220, 38, 38, 0.5), 0 0 120px rgba(220, 38, 38, 0.3)',
         
-        // Fitness-themed colored shadows
-        'primary-glow': '0 4px 25px -5px rgba(255, 107, 53, 0.25), 0 0 20px rgba(255, 107, 53, 0.1)',
-        'secondary-glow': '0 4px 25px -5px rgba(0, 201, 167, 0.25), 0 0 20px rgba(0, 201, 167, 0.1)',
-        'accent-glow': '0 4px 25px -5px rgba(124, 58, 237, 0.25), 0 0 20px rgba(124, 58, 237, 0.1)',
+        // Fitness-themed colored shadows - TrunkForce theme
+        'primary-glow': '0 4px 25px -5px rgba(220, 38, 38, 0.25), 0 0 20px rgba(220, 38, 38, 0.1)', // TrunkForce Red
+        'secondary-glow': '0 4px 25px -5px rgba(0, 0, 0, 0.25), 0 0 20px rgba(0, 0, 0, 0.1)', // TrunkForce Black
+        'accent-glow': '0 4px 25px -5px rgba(255, 255, 255, 0.25), 0 0 20px rgba(255, 255, 255, 0.1)', // TrunkForce White
         'energy-glow': '0 4px 25px -5px rgba(254, 231, 92, 0.25), 0 0 20px rgba(254, 231, 92, 0.1)',
         'strength-glow': '0 4px 25px -5px rgba(220, 38, 38, 0.25), 0 0 20px rgba(220, 38, 38, 0.1)',
         'cardio-glow': '0 4px 25px -5px rgba(251, 113, 133, 0.25), 0 0 20px rgba(251, 113, 133, 0.1)',
@@ -494,11 +495,11 @@ module.exports = {
         'inner-md': 'inset 0 2px 4px 0 rgba(0, 0, 0, 0.06)',
       },
       
-      // Enhanced gradient color stops for progress and achievements
+      // Enhanced gradient color stops for progress and achievements - TrunkForce theme
       gradientColorStops: {
-        'primary': '#FF6B35',      // Energetic orange-red
-        'secondary': '#00C9A7',    // Motivating teal
-        'accent': '#7C3AED',       // Power purple
+        'primary': '#DC2626',      // TrunkForce Red
+        'secondary': '#000000',    // TrunkForce Black
+        'accent': '#FFFFFF',       // TrunkForce White
         'energy': '#FEE75C',       // Electric yellow
         'strength': '#DC2626',     // Bold red
         'cardio': '#FB7185',       // Cardio pink

@@ -1,0 +1,270 @@
+[
+  {
+    "id": "ex_001",
+    "name": "Barbell Back Squat",
+    "category": "strength",
+    "primaryMuscle": "Quadriceps",
+    "secondaryMuscles": ["Glutes", "Hamstrings", "Core"],
+    "equipment": ["barbell", "squat_rack"],
+    "instructions": [
+      "Position the barbell on your upper back",
+      "Stand with feet shoulder-width apart",
+      "Keep chest up and core tight",
+      "Lower down by bending knees and hips",
+      "Descend until thighs are parallel to floor",
+      "Drive through heels to return to standing"
+    ],
+    "tips": [
+      "Keep knees tracking over toes",
+      "Maintain neutral spine throughout",
+      "Don't let knees cave inward",
+      "Breathe in on descent, out on ascent"
+    ],
+    "variations": ["Front Squat", "Box Squat", "Pause Squat"],
+    "difficulty": 7,
+    "videoUrl": "https://www.youtube.com/watch?v=squat",
+    "sets": 4,
+    "reps": "8-12",
+    "rest": 120,
+    "tempo": "2-0-2-0"
+  },
+  {
+    "id": "ex_002",
+    "name": "Push-ups",
+    "category": "strength",
+    "primaryMuscle": "Chest",
+    "secondaryMuscles": ["Triceps", "Shoulders", "Core"],
+    "equipment": [],
+    "instructions": [
+      "Start in plank position with hands shoulder-width apart",
+      "Lower body until chest nearly touches floor",
+      "Keep core engaged and body in straight line",
+      "Push through palms to return to start",
+      "Keep elbows at 45-degree angle from body"
+    ],
+    "tips": [
+      "Don't let hips sag or pike up",
+      "Look slightly ahead, not down",
+      "Modify on knees if needed",
+      "Focus on controlled movement"
+    ],
+    "variations": ["Diamond Push-ups", "Wide-grip Push-ups", "Decline Push-ups"],
+    "difficulty": 4,
+    "sets": 3,
+    "reps": "10-20",
+    "rest": 60
+  },
+  {
+    "id": "ex_003",
+    "name": "Deadlift",
+    "category": "strength",
+    "primaryMuscle": "Hamstrings",
+    "secondaryMuscles": ["Glutes", "Lower Back", "Traps", "Core"],
+    "equipment": ["barbell"],
+    "instructions": [
+      "Stand with feet hip-width apart, toes under bar",
+      "Bend at hips and knees to grip bar",
+      "Keep back straight, chest up, shoulders back",
+      "Drive through heels and extend hips to lift",
+      "Stand fully upright with shoulders back",
+      "Lower bar with control back to floor"
+    ],
+    "tips": [
+      "Keep bar close to body throughout",
+      "Engage lats to keep bar path straight",
+      "Don't hyperextend at the top",
+      "Reset between reps if needed"
+    ],
+    "variations": ["Romanian Deadlift", "Sumo Deadlift", "Trap Bar Deadlift"],
+    "difficulty": 8,
+    "sets": 3,
+    "reps": "5-8",
+    "rest": 180,
+    "tempo": "1-0-1-1"
+  },
+  {
+    "id": "ex_004",
+    "name": "Pull-ups",
+    "category": "strength",
+    "primaryMuscle": "Lats",
+    "secondaryMuscles": ["Biceps", "Middle Back", "Shoulders"],
+    "equipment": ["pull_up_bar"],
+    "instructions": [
+      "Hang from bar with overhand grip, hands shoulder-width apart",
+      "Pull body up until chin clears the bar",
+      "Focus on pulling elbows down and back",
+      "Lower with control to full arm extension",
+      "Keep core engaged throughout movement"
+    ],
+    "tips": [
+      "Don't swing or use momentum",
+      "Imagine pulling the bar to your chest",
+      "Use assistance band if needed",
+      "Full range of motion is key"
+    ],
+    "variations": ["Chin-ups", "Wide-grip Pull-ups", "Neutral-grip Pull-ups"],
+    "difficulty": 7,
+    "sets": 3,
+    "reps": "5-12",
+    "rest": 90
+  },
+  {
+    "id": "ex_005",
+    "name": "Plank",
+    "category": "strength",
+    "primaryMuscle": "Core",
+    "secondaryMuscles": ["Shoulders", "Back", "Glutes"],
+    "equipment": [],
+    "instructions": [
+      "Start in forearm position, elbows under shoulders",
+      "Extend legs back, balancing on forearms and toes",
+      "Keep body in straight line from head to heels",
+      "Engage core and glutes",
+      "Hold position while breathing normally"
+    ],
+    "tips": [
+      "Don't let hips sag or rise",
+      "Keep neck neutral",
+      "Breathe steadily throughout",
+      "Quality over duration"
+    ],
+    "variations": ["Side Plank", "Plank Ups", "Plank Jacks"],
+    "difficulty": 3,
+    "sets": 3,
+    "reps": "30-60 seconds",
+    "rest": 30
+  },
+  {
+    "id": "ex_006",
+    "name": "Dumbbell Bench Press",
+    "category": "strength",
+    "primaryMuscle": "Chest",
+    "secondaryMuscles": ["Triceps", "Shoulders"],
+    "equipment": ["dumbbells", "bench"],
+    "instructions": [
+      "Lie on bench with dumbbells at chest level",
+      "Press dumbbells up until arms are extended",
+      "Keep slight bend in elbows at top",
+      "Lower dumbbells with control to chest",
+      "Keep core engaged and feet flat on floor"
+    ],
+    "tips": [
+      "Keep shoulder blades retracted",
+      "Control the negative portion",
+      "Don't bounce at bottom",
+      "Maintain natural arch in lower back"
+    ],
+    "variations": ["Incline DB Press", "Decline DB Press", "DB Flyes"],
+    "difficulty": 5,
+    "sets": 3,
+    "reps": "8-12",
+    "rest": 90
+  },
+  {
+    "id": "ex_007",
+    "name": "Burpees",
+    "category": "cardio",
+    "primaryMuscle": "Full Body",
+    "secondaryMuscles": ["Chest", "Legs", "Core", "Shoulders"],
+    "equipment": [],
+    "instructions": [
+      "Start standing with feet hip-width apart",
+      "Drop into squat and place hands on floor",
+      "Jump feet back into plank position",
+      "Perform a push-up (optional)",
+      "Jump feet back to squat position",
+      "Jump up explosively with arms overhead"
+    ],
+    "tips": [
+      "Keep movements explosive",
+      "Land softly on jumps",
+      "Maintain steady pace",
+      "Modify by stepping instead of jumping"
+    ],
+    "variations": ["Half Burpees", "Burpee Box Jumps", "Burpee Pull-ups"],
+    "difficulty": 6,
+    "sets": 3,
+    "reps": "10-15",
+    "rest": 60
+  },
+  {
+    "id": "ex_008",
+    "name": "Mountain Climbers",
+    "category": "cardio",
+    "primaryMuscle": "Core",
+    "secondaryMuscles": ["Shoulders", "Hip Flexors", "Quads"],
+    "equipment": [],
+    "instructions": [
+      "Start in high plank position",
+      "Drive one knee toward chest",
+      "Quickly switch legs, extending one back while bringing other forward",
+      "Continue alternating legs at quick pace",
+      "Keep hips level and core engaged"
+    ],
+    "tips": [
+      "Keep shoulders over hands",
+      "Don't let hips bounce up and down",
+      "Breathe steadily",
+      "Start slow and build speed"
+    ],
+    "variations": ["Cross-body Mountain Climbers", "Slow Mountain Climbers"],
+    "difficulty": 4,
+    "sets": 3,
+    "reps": "20-30 total",
+    "rest": 45
+  },
+  {
+    "id": "ex_009",
+    "name": "Kettlebell Swing",
+    "category": "strength",
+    "primaryMuscle": "Glutes",
+    "secondaryMuscles": ["Hamstrings", "Core", "Back", "Shoulders"],
+    "equipment": ["kettlebell"],
+    "instructions": [
+      "Stand with feet wider than shoulders, kettlebell in front",
+      "Hinge at hips to grab kettlebell with both hands",
+      "Swing kettlebell back between legs",
+      "Drive hips forward explosively to swing kettlebell up",
+      "Let momentum carry kettlebell to shoulder height",
+      "Control the descent and repeat"
+    ],
+    "tips": [
+      "Power comes from hips, not arms",
+      "Keep back straight throughout",
+      "Squeeze glutes at top",
+      "Breathe out forcefully at top"
+    ],
+    "variations": ["Single-arm Swing", "American Swing", "Double Swing"],
+    "difficulty": 6,
+    "sets": 4,
+    "reps": "15-20",
+    "rest": 60
+  },
+  {
+    "id": "ex_010",
+    "name": "Lunges",
+    "category": "strength",
+    "primaryMuscle": "Quadriceps",
+    "secondaryMuscles": ["Glutes", "Hamstrings", "Calves"],
+    "equipment": [],
+    "instructions": [
+      "Stand with feet hip-width apart",
+      "Step forward with one leg",
+      "Lower hips until both knees bent at 90 degrees",
+      "Keep front knee over ankle",
+      "Push through front heel to return to start",
+      "Repeat on other leg"
+    ],
+    "tips": [
+      "Keep torso upright",
+      "Don't let front knee extend past toes",
+      "Keep weight balanced",
+      "Control the descent"
+    ],
+    "variations": ["Reverse Lunges", "Walking Lunges", "Lateral Lunges"],
+    "difficulty": 4,
+    "sets": 3,
+    "reps": "10-12 each leg",
+    "rest": 60
+  }
+]

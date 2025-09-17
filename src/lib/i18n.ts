@@ -1,6 +1,6 @@
 import { supabase } from './supabase-client'
 
-export type Locale = 'en' | 'es'
+export type Locale = 'en'
 
 export interface Translation {
   key: string
@@ -22,8 +22,8 @@ export class I18nService {
       if (!process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL === 'https://placeholder.supabase.co') {
         // Use default translations in development mode
         this.translations.clear()
-        Object.entries(defaultTranslations).forEach(([key, translations]) => {
-          this.translations.set(key, translations[locale] || translations.en)
+        Object.entries(defaultTranslations).forEach(([key, value]) => {
+          this.translations.set(key, value)
         })
         this.currentLocale = locale
         return
@@ -64,48 +64,56 @@ export class I18nService {
 }
 
 // Default translations for fallback
-export const defaultTranslations: Record<string, Record<Locale, string>> = {
-  'nav.home': { en: 'Home', es: 'Inicio' },
-  'nav.workouts': { en: 'Workouts', es: 'Entrenamientos' },
-  'nav.programs': { en: 'Programs', es: 'Programas' },
-  'nav.statistics': { en: 'Statistics', es: 'Estadísticas' },
-  'nav.tools': { en: 'Tools', es: 'Herramientas' },
-  'nav.leaderboard': { en: 'Leaderboard', es: 'Ranking' },
-  'nav.premium': { en: 'Premium', es: 'Premium' },
-  'nav.about': { en: 'About', es: 'Acerca de' },
-  'landing.title': { en: 'Build Your Perfect Workout', es: 'Construye tu Entrenamiento Perfecto' },
-  'landing.subtitle': { 
-    en: 'Create personalized workouts, follow structured programs, and track your fitness journey with our comprehensive platform.',
-    es: 'Crea entrenamientos personalizados, sigue programas estructurados y rastrea tu viaje fitness con nuestra plataforma integral.'
-  },
-  'landing.cta': { en: 'Create Workout', es: 'Crear Entrenamiento' },
-  'landing.explore_programs': { en: 'Explore Programs', es: 'Explorar Programas' },
-  'generator.step1.title': { en: 'Select Equipment', es: 'Seleccionar Equipo' },
-  'generator.step2.title': { en: 'Choose Muscles', es: 'Elegir Músculos' },
-  'generator.step3.title': { en: 'Add Exercises', es: 'Añadir Ejercicios' },
-  'generator.next': { en: 'Next', es: 'Siguiente' },
-  'generator.previous': { en: 'Previous', es: 'Anterior' },
-  'generator.save': { en: 'Save Workout', es: 'Guardar Entrenamiento' },
-  'tools.calorie.title': { en: 'Calorie Calculator', es: 'Calculadora de Calorías' },
-  'tools.bmi.title': { en: 'BMI Calculator', es: 'Calculadora de IMC' },
-  'tools.macro.title': { en: 'Macro Calculator', es: 'Calculadora de Macros' },
-  'tools.heartrate.title': { en: 'Heart Rate Zones', es: 'Zonas de Frecuencia Cardíaca' },
-  'tools.onerm.title': { en: '1RM Calculator', es: 'Calculadora de 1RM' },
-  'premium.title': { en: 'Go Premium', es: 'Hazte Premium' },
-  'premium.subtitle': { 
-    en: 'Unlock advanced features and support the project',
-    es: 'Desbloquea funciones avanzadas y apoya el proyecto'
-  },
-  'about.title': { en: 'About Workout.cool', es: 'Acerca de Workout.cool' },
-  'about.story': { 
-    en: 'Workout.cool was created to provide a modern, actively maintained alternative to the abandoned workout.lol platform.',
-    es: 'Workout.cool fue creado para proporcionar una alternativa moderna y mantenida activamente a la plataforma abandonada workout.lol.'
-  },
-  'auth.sign_in': { en: 'Sign In', es: 'Iniciar Sesión' },
-  'auth.sign_up': { en: 'Sign Up', es: 'Registrarse' },
-  'auth.sign_out': { en: 'Sign Out', es: 'Cerrar Sesión' }
+export const defaultTranslations: Record<string, string> = {
+  'nav.home': 'Home',
+  'nav.workouts': 'Workouts',
+  'nav.programs': 'Programs',
+  'nav.statistics': 'Statistics',
+  'nav.tools': 'Tools',
+  'nav.leaderboard': 'Leaderboard',
+  'nav.premium': 'Premium',
+  'nav.about': 'About',
+  'landing.title': 'Build Your Perfect Workout',
+  'landing.subtitle': 'Create personalized workouts, follow structured programs, and track your fitness journey with our comprehensive platform.',
+  'landing.cta': 'Create Workout',
+  'landing.explore_programs': 'Explore Programs',
+  'generator.step1.title': 'Select Equipment',
+  'generator.step2.title': 'Choose Muscles',
+  'generator.step3.title': 'Add Exercises',
+  'generator.next': 'Next',
+  'generator.previous': 'Previous',
+  'generator.save': 'Save Workout',
+  'tools.calorie.title': 'Calorie Calculator',
+  'tools.bmi.title': 'BMI Calculator',
+  'tools.macro.title': 'Macro Calculator',
+  'tools.heartrate.title': 'Heart Rate Zones',
+  'tools.onerm.title': '1RM Calculator',
+  'premium.title': 'Go Premium',
+  'premium.subtitle': 'Unlock advanced features and support the project',
+  'about.title': 'About GymGuy',
+  'about.story': 'GymGuy was created to provide a modern, actively maintained alternative to the abandoned workout.lol platform.',
+  'auth.sign_in': 'Sign In',
+  'auth.sign_up': 'Sign Up',
+  'auth.sign_out': 'Sign Out',
+  'auth.password_mismatch': 'Passwords do not match',
+  'auth.password_too_short': 'Password must be at least 6 characters',
+  'auth.signup_success': 'Account created successfully!',
+  'auth.check_email': 'Please check your email to verify your account.',
+  'auth.name': 'Name',
+  'auth.name_placeholder': 'Enter your name',
+  'auth.email': 'Email',
+  'auth.email_placeholder': 'Enter your email',
+  'auth.password': 'Password',
+  'auth.password_placeholder': 'Enter your password',
+  'auth.confirm_password': 'Confirm Password',
+  'auth.confirm_password_placeholder': 'Confirm your password',
+  'auth.creating_account': 'Creating account...',
+  'auth.create_account': 'Create Account',
+  'auth.have_account': 'Already have an account? Sign in',
+  'auth.signing_in': 'Signing in...',
+  'auth.no_account': "Don't have an account? Sign up"
 }
 
 export function getTranslation(key: string, locale: Locale = 'en'): string {
-  return defaultTranslations[key]?.[locale] || key
+  return defaultTranslations[key] || key
 }

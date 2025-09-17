@@ -440,7 +440,7 @@ export default function PremiumPage() {
             Open Source & Self-Hostable
           </h3>
           <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
-            Workout.cool is and will always be open source. You can self-host the entire platform 
+            GymGuy is and will always be open source. You can self-host the entire platform 
             for free. Premium subscriptions support the hosted version and help us continue development.
           </p>
           <div className="flex justify-center space-x-4">

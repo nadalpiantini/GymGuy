@@ -1,341 +1,423 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { useParams } from 'next/navigation'
-import { useAuth } from '@/components/auth/auth-provider'
-import { supabase } from '@/lib/supabase-client'
-import { Button } from '@/components/ui/button'
-import { 
-  Calendar, 
-  Clock, 
-  Users, 
-  Dumbbell, 
-  ArrowLeft,
-  Play,
-  Crown,
-  CheckCircle,
-  Circle
+import { useParams, useRouter } from 'next/navigation'
+import SimpleNav from '@/components/layout/simple-nav'
+import programsData from '@/data/programs.json'
+import exercisesData from '@/data/exercises.json'
+import { userStorage, programStorage } from '@/lib/local-storage'
+import {
+  ArrowLeft, Calendar, Clock, Dumbbell, Users, Star,
+  TrendingUp, Award, Play, CheckCircle, Lock, ChevronRight,
+  Target, Zap, Brain, Heart
 } from 'lucide-react'
-import Link from 'next/link'
 
 interface Program {
-  id: number
+  id: string
   name: string
-  description: string | null
+  description: string
   level: 'beginner' | 'intermediate' | 'advanced'
   type: 'strength' | 'cardio' | 'hiit' | 'mobility' | 'hybrid'
   duration_weeks: number
   frequency_per_week: number
-  session_duration_minutes: number | null
-  equipment_required: number[]
-  is_premium: boolean
+  session_duration_minutes: number
+  equipment_required: string[]
+  phases: ProgramPhase[]
+  tags: string[]
+  rating: number
+  reviews: number
+  difficulty: number
+  imageUrl?: string
 }
 
-interface ProgramSession {
-  id: number
-  program_id: number
-  week: number
-  day: number
-  name: string | null
-  blocks: any
-}
-
-interface Equipment {
-  id: number
+interface ProgramPhase {
+  id: string
   name: string
-  slug: string
-  icon: string | null
+  weeks: number
+  description: string
+  focus: string[]
+  workouts: string[]
 }
 
 export default function ProgramDetailPage() {
   const params = useParams()
-  const { user, profile } = useAuth()
+  const router = useRouter()
   const [program, setProgram] = useState<Program | null>(null)
-  const [sessions, setSessions] = useState<ProgramSession[]>([])
-  const [equipment, setEquipment] = useState<Equipment[]>([])
-  const [loading, setLoading] = useState(true)
-  const [starting, setStarting] = useState(false)
-
-  // Using the imported supabase client from supabase-client.ts
+  const [isEnrolled, setIsEnrolled] = useState(false)
+  const [currentWeek, setCurrentWeek] = useState(1)
+  const [completedWorkouts, setCompletedWorkouts] = useState<string[]>([])
+  const [activePhaseIndex, setActivePhaseIndex] = useState(0)
 
   useEffect(() => {
-    if (params.id) {
-      loadProgramData(parseInt(params.id as string))
+    // Load program data
+    const foundProgram = programsData.find(p => p.id === params.id)
+    if (foundProgram) {
+      setProgram(foundProgram as Program)
+
+      // Check enrollment status
+      const userProgress = userStorage.getProgress()
+      if (userProgress?.currentProgram === params.id) {
+        setIsEnrolled(true)
+        setCurrentWeek(userProgress.currentWeek || 1)
+      }
+
+      // Load program progress
+      const programProgress = programStorage.getProgress(params.id as string)
+      if (programProgress) {
+        setCompletedWorkouts(programProgress.completedWorkouts || [])
+        setActivePhaseIndex(programProgress.currentPhase || 0)
+      }
     }
   }, [params.id])
 
-  const loadProgramData = async (programId: number) => {
-    try {
-      const [programRes, sessionsRes, equipmentRes] = await Promise.all([
-        supabase.from('programs').select('*').eq('id', programId).single(),
-        supabase.from('program_sessions').select('*').eq('program_id', programId).order('week, day'),
-        supabase.from('equipment').select('*').order('name')
-      ])
+  const handleStartProgram = () => {
+    if (!program) return
 
-      if ((programRes as any).data) setProgram((programRes as any).data)
-      if ((sessionsRes as any).data) setSessions((sessionsRes as any).data)
-      if ((equipmentRes as any).data) setEquipment((equipmentRes as any).data)
-    } catch (error) {
-      console.error('Error loading program data:', error)
-    } finally {
-      setLoading(false)
-    }
-  }
+    // Update user progress
+    const userProgress = userStorage.getProgress()!
+    userProgress.currentProgram = program.id
+    userProgress.currentWeek = 1
+    userStorage.setProgress(userProgress)
 
-  const handleStartProgram = async () => {
-    if (!user) {
-      alert('Please sign in to start a program')
-      return
-    }
+    // Initialize program progress
+    programStorage.setProgress(program.id, {
+      programId: program.id,
+      startDate: new Date().toISOString(),
+      completedWorkouts: [],
+      currentPhase: 0,
+      completionPercentage: 0,
+      notes: []
+    })
 
-    if (program?.is_premium && profile?.plan !== 'premium') {
-      alert('This is a premium program. Upgrade to premium to access it.')
-      return
-    }
-
-    setStarting(true)
-    try {
-      const { error } = await supabase
-        .from('user_programs')
-        .insert({
-          user_id: user.id,
-          program_id: program!.id,
-          started_at: new Date().toISOString(),
-          status: 'active',
-          current_week: 1
-        } as any)
-
-      if (error) throw error
-
-      alert('Program started successfully! You can view your progress in your profile.')
-      window.location.href = '/profile'
-    } catch (error) {
-      console.error('Error starting program:', error)
-      alert('Error starting program. Please try again.')
-    } finally {
-      setStarting(false)
-    }
+    setIsEnrolled(true)
+    setCurrentWeek(1)
   }
 
   const getLevelColor = (level: string) => {
-    const colors = {
-      beginner: 'bg-green-100 text-green-800',
-      intermediate: 'bg-yellow-100 text-yellow-800',
-      advanced: 'bg-red-100 text-red-800'
+    switch(level) {
+      case 'beginner': return 'text-green-500 bg-green-500/10 border-green-500/20'
+      case 'intermediate': return 'text-blue-500 bg-blue-500/10 border-blue-500/20'
+      case 'advanced': return 'text-red-500 bg-red-500/10 border-red-500/20'
+      default: return 'text-gray-500 bg-gray-500/10 border-gray-500/20'
     }
-    return colors[level as keyof typeof colors] || colors.beginner
   }
 
-  const getEquipmentNames = (equipmentIds: number[]) => {
-    return equipmentIds.map(id => equipment.find(e => e.id === id)?.name).filter(Boolean).join(', ')
+  const getTypeIcon = (type: string) => {
+    switch(type) {
+      case 'strength': return '💪'
+      case 'cardio': return '🏃'
+      case 'hiit': return '⚡'
+      case 'mobility': return '🧘'
+      case 'hybrid': return '🎯'
+      default: return '🏋️'
+    }
   }
 
-  const getWeekSessions = (week: number) => {
-    return sessions.filter(session => session.week === week)
-  }
-
-  const getDayName = (day: number) => {
-    const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
-    return days[day - 1] || `Day ${day}`
-  }
-
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading program details...</p>
-        </div>
-      </div>
-    )
+  const getFocusIcon = (focus: string) => {
+    const focusLower = focus.toLowerCase()
+    if (focusLower.includes('strength') || focusLower.includes('power')) return <Zap className="w-4 h-4" />
+    if (focusLower.includes('endurance') || focusLower.includes('cardio')) return <Heart className="w-4 h-4" />
+    if (focusLower.includes('technique') || focusLower.includes('form')) return <Brain className="w-4 h-4" />
+    return <Target className="w-4 h-4" />
   }
 
   if (!program) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-black flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-4">Program not found</h1>
-          <Link href="/programs">
-            <Button>Back to Programs</Button>
-          </Link>
+          <div className="text-6xl mb-4">⏳</div>
+          <h2 className="text-2xl font-bold text-white">Loading program...</h2>
         </div>
       </div>
     )
   }
 
+  const totalWorkouts = program.duration_weeks * program.frequency_per_week
+  const completionPercentage = (completedWorkouts.length / totalWorkouts) * 100
+
   return (
-    <div className="min-h-screen bg-gray-50 py-12">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Back Button */}
-        <div className="mb-8">
-          <Link href="/programs">
-            <Button variant="outline" className="flex items-center space-x-2">
-              <ArrowLeft className="h-4 w-4" />
-              <span>Back to Programs</span>
-            </Button>
-          </Link>
-        </div>
-
-        {/* Program Header */}
-        <div className="bg-white rounded-xl shadow-lg p-8 mb-8">
-          <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between">
-            <div className="flex-1">
-              <div className="flex items-center space-x-3 mb-4">
-                <h1 className="text-3xl font-bold text-gray-900">{program.name}</h1>
-                {program.is_premium && (
-                  <Crown className="h-6 w-6 text-yellow-500" />
-                )}
-              </div>
-              
-              <div className="flex items-center space-x-2 mb-4">
-                <span className={`px-3 py-1 rounded-full text-sm font-medium ${getLevelColor(program.level)}`}>
-                  {program.level.charAt(0).toUpperCase() + program.level.slice(1)}
-                </span>
-                <span className="text-sm text-gray-600 capitalize">
-                  {program.type} Training
-                </span>
-              </div>
-
-              {program.description && (
-                <p className="text-gray-600 mb-6">{program.description}</p>
-              )}
-
-              {/* Program Stats */}
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <div className="flex items-center space-x-2">
-                  <Calendar className="h-5 w-5 text-blue-600" />
-                  <div>
-                    <div className="text-sm text-gray-600">Duration</div>
-                    <div className="font-semibold">{program.duration_weeks} weeks</div>
-                  </div>
-                </div>
-                
-                <div className="flex items-center space-x-2">
-                  <Users className="h-5 w-5 text-green-600" />
-                  <div>
-                    <div className="text-sm text-gray-600">Frequency</div>
-                    <div className="font-semibold">{program.frequency_per_week}/week</div>
-                  </div>
-                </div>
-                
-                {program.session_duration_minutes && (
-                  <div className="flex items-center space-x-2">
-                    <Clock className="h-5 w-5 text-orange-600" />
-                    <div>
-                      <div className="text-sm text-gray-600">Session Time</div>
-                      <div className="font-semibold">{program.session_duration_minutes} min</div>
-                    </div>
-                  </div>
-                )}
-                
-                <div className="flex items-center space-x-2">
-                  <Dumbbell className="h-5 w-5 text-purple-600" />
-                  <div>
-                    <div className="text-sm text-gray-600">Equipment</div>
-                    <div className="font-semibold text-xs">
-                      {getEquipmentNames(program.equipment_required) || 'None'}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Start Button */}
-            <div className="mt-6 lg:mt-0 lg:ml-8">
-              <Button
-                onClick={handleStartProgram}
-                disabled={starting || (program.is_premium && profile?.plan !== 'premium')}
-                size="lg"
-                className="w-full lg:w-auto"
+    <div className="min-h-screen bg-black">
+      <SimpleNav />
+      <div className="pt-24 pb-24">
+        {/* Hero Section */}
+        <div className="relative h-96 bg-gradient-to-br from-blue-600 to-purple-600">
+          <div className="absolute inset-0 bg-black/50" />
+          <div className="absolute inset-0 flex flex-col justify-end p-8">
+            <div className="max-w-7xl mx-auto w-full">
+              <button
+                onClick={() => router.push('/programs')}
+                className="flex items-center gap-2 text-white/80 hover:text-white mb-4 transition-colors"
               >
-                {starting ? (
-                  'Starting...'
-                ) : program.is_premium && profile?.plan !== 'premium' ? (
-                  <>
-                    <Crown className="h-5 w-5 mr-2" />
-                    Premium Required
-                  </>
-                ) : (
-                  <>
-                    <Play className="h-5 w-5 mr-2" />
-                    Start Program
-                  </>
+                <ArrowLeft className="w-5 h-5" />
+                <span>Back to Programs</span>
+              </button>
+              <div className="flex items-start justify-between">
+                <div>
+                  <div className="flex items-center gap-3 mb-4">
+                    <span className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold border ${getLevelColor(program.level)}`}>
+                      {program.level.charAt(0).toUpperCase() + program.level.slice(1)}
+                    </span>
+                    <span className="text-4xl">{getTypeIcon(program.type)}</span>
+                  </div>
+                  <h1 className="text-5xl font-bold text-white mb-4">
+                    {program.name}
+                  </h1>
+                  <p className="text-xl text-white/80 max-w-3xl">
+                    {program.description}
+                  </p>
+                </div>
+                {isEnrolled && (
+                  <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4">
+                    <div className="text-white/60 text-sm mb-1">Your Progress</div>
+                    <div className="text-3xl font-bold text-white mb-2">
+                      {completionPercentage.toFixed(0)}%
+                    </div>
+                    <div className="text-white/80 text-sm">
+                      Week {currentWeek} of {program.duration_weeks}
+                    </div>
+                  </div>
                 )}
-              </Button>
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Program Schedule */}
-        <div className="bg-white rounded-xl shadow-lg p-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">Program Schedule</h2>
-          
-          <div className="space-y-8">
-            {Array.from({ length: program.duration_weeks }, (_, weekIndex) => {
-              const week = weekIndex + 1
-              const weekSessions = getWeekSessions(week)
-              
-              return (
-                <div key={week} className="border border-gray-200 rounded-lg p-6">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-4">
-                    Week {week}
-                  </h3>
-                  
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {weekSessions.map((session) => (
-                      <div key={session.id} className="border border-gray-200 rounded-lg p-4">
-                        <div className="flex items-center justify-between mb-3">
-                          <h4 className="font-medium text-gray-900">
-                            {session.name || getDayName(session.day)}
-                          </h4>
-                          <Circle className="h-4 w-4 text-gray-400" />
-                        </div>
-                        
-                        {session.blocks && Array.isArray(session.blocks) && (
-                          <div className="space-y-2">
-                            {session.blocks.map((block: any, blockIndex: number) => (
-                              <div key={blockIndex} className="text-sm">
-                                <div className="font-medium text-gray-700 mb-1">
-                                  {block.name || `Block ${blockIndex + 1}`}
-                                </div>
-                                {block.exercises && (
-                                  <div className="text-gray-600">
-                                    {block.exercises.length} exercise{block.exercises.length !== 1 ? 's' : ''}
-                                  </div>
-                                )}
-                              </div>
-                            ))}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
+          <div className="grid lg:grid-cols-3 gap-8">
+            {/* Main Content */}
+            <div className="lg:col-span-2 space-y-8">
+              {/* Quick Stats */}
+              <div className="bg-zinc-900 rounded-2xl border border-zinc-800 p-6">
+                <h2 className="text-2xl font-bold text-white mb-6">Program Overview</h2>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  <div className="bg-black rounded-lg p-4">
+                    <Calendar className="w-5 h-5 text-blue-500 mb-2" />
+                    <div className="text-2xl font-bold text-white">{program.duration_weeks}</div>
+                    <div className="text-sm text-gray-400">Weeks</div>
+                  </div>
+                  <div className="bg-black rounded-lg p-4">
+                    <Dumbbell className="w-5 h-5 text-green-500 mb-2" />
+                    <div className="text-2xl font-bold text-white">{program.frequency_per_week}</div>
+                    <div className="text-sm text-gray-400">Days/Week</div>
+                  </div>
+                  <div className="bg-black rounded-lg p-4">
+                    <Clock className="w-5 h-5 text-purple-500 mb-2" />
+                    <div className="text-2xl font-bold text-white">{program.session_duration_minutes}</div>
+                    <div className="text-sm text-gray-400">Min/Session</div>
+                  </div>
+                  <div className="bg-black rounded-lg p-4">
+                    <TrendingUp className="w-5 h-5 text-red-500 mb-2" />
+                    <div className="text-2xl font-bold text-white">{program.difficulty}/10</div>
+                    <div className="text-sm text-gray-400">Difficulty</div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Program Phases */}
+              <div className="bg-zinc-900 rounded-2xl border border-zinc-800 p-6">
+                <h2 className="text-2xl font-bold text-white mb-6">Training Phases</h2>
+                <div className="space-y-4">
+                  {program.phases.map((phase, index) => (
+                    <div
+                      key={phase.id}
+                      className={`bg-black rounded-lg p-6 border transition-all ${
+                        index === activePhaseIndex && isEnrolled
+                          ? 'border-blue-500 ring-2 ring-blue-500/20'
+                          : 'border-zinc-800'
+                      }`}
+                    >
+                      <div className="flex items-start justify-between mb-4">
+                        <div>
+                          <div className="flex items-center gap-3 mb-2">
+                            <div className={`w-10 h-10 rounded-full flex items-center justify-center text-white font-bold ${
+                              index < activePhaseIndex ? 'bg-green-500' :
+                              index === activePhaseIndex ? 'bg-blue-500' : 'bg-zinc-700'
+                            }`}>
+                              {index < activePhaseIndex ? <CheckCircle className="w-5 h-5" /> : index + 1}
+                            </div>
+                            <h3 className="text-xl font-bold text-white">{phase.name}</h3>
                           </div>
-                        )}
+                          <p className="text-gray-400 mb-3">{phase.description}</p>
+                        </div>
+                        <span className="text-sm text-gray-500">{phase.weeks} weeks</span>
+                      </div>
+
+                      <div className="flex flex-wrap gap-2">
+                        {phase.focus.map((focus) => (
+                          <div key={focus} className="flex items-center gap-1 bg-zinc-800 text-gray-300 px-3 py-1 rounded-md text-sm">
+                            {getFocusIcon(focus)}
+                            <span>{focus}</span>
+                          </div>
+                        ))}
+                      </div>
+
+                      {index > activePhaseIndex && (
+                        <div className="mt-4 flex items-center gap-2 text-gray-500 text-sm">
+                          <Lock className="w-4 h-4" />
+                          <span>Complete previous phases to unlock</span>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Equipment Required */}
+              <div className="bg-zinc-900 rounded-2xl border border-zinc-800 p-6">
+                <h2 className="text-2xl font-bold text-white mb-6">Equipment Required</h2>
+                {program.equipment_required.length > 0 ? (
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                    {program.equipment_required.map((equipment) => (
+                      <div key={equipment} className="bg-black rounded-lg p-3 text-center">
+                        <div className="text-2xl mb-2">
+                          {equipment === 'barbell' && '🏋️'}
+                          {equipment === 'dumbbells' && '💪'}
+                          {equipment === 'kettlebell' && '🔔'}
+                          {equipment === 'resistance_bands' && '🎗️'}
+                          {equipment === 'pull_up_bar' && '🚪'}
+                          {equipment === 'mat' && '🧘'}
+                          {equipment === 'none' && '👐'}
+                          {!['barbell', 'dumbbells', 'kettlebell', 'resistance_bands', 'pull_up_bar', 'mat', 'none'].includes(equipment) && '🎯'}
+                        </div>
+                        <div className="text-sm text-gray-300 capitalize">
+                          {equipment.replace('_', ' ')}
+                        </div>
                       </div>
                     ))}
                   </div>
+                ) : (
+                  <div className="text-center py-8">
+                    <div className="text-4xl mb-3">👐</div>
+                    <p className="text-gray-400">No equipment required!</p>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Sidebar */}
+            <div className="lg:col-span-1 space-y-6">
+              {/* CTA Card */}
+              <div className="bg-gradient-to-br from-blue-600 to-purple-600 rounded-2xl p-6 text-white">
+                <h3 className="text-2xl font-bold mb-2">
+                  {isEnrolled ? 'Continue Training' : 'Ready to Start?'}
+                </h3>
+                <p className="mb-4 text-white/80">
+                  {isEnrolled
+                    ? `You're on week ${currentWeek} of ${program.duration_weeks}`
+                    : 'Join thousands transforming their fitness'
+                  }
+                </p>
+                {isEnrolled ? (
+                  <button className="w-full bg-white text-black py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors flex items-center justify-center gap-2">
+                    <Play className="w-5 h-5" />
+                    Continue Workout
+                  </button>
+                ) : (
+                  <button
+                    onClick={handleStartProgram}
+                    className="w-full bg-white text-black py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors"
+                  >
+                    Start Program
+                  </button>
+                )}
+                {!isEnrolled && (
+                  <p className="text-xs text-white/60 mt-3 text-center">
+                    Free • No credit card required
+                  </p>
+                )}
+              </div>
+
+              {/* Rating Card */}
+              <div className="bg-zinc-900 rounded-2xl border border-zinc-800 p-6">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-lg font-bold text-white">Community Rating</h3>
+                  <div className="flex items-center gap-1">
+                    <Star className="w-5 h-5 text-yellow-500 fill-yellow-500" />
+                    <span className="text-lg font-bold text-white">{program.rating}</span>
+                  </div>
                 </div>
-              )
-            })}
+                <div className="space-y-3">
+                  {[5, 4, 3, 2, 1].map((stars) => {
+                    const percentage = stars === 5 ? 60 : stars === 4 ? 25 : stars === 3 ? 10 : stars === 2 ? 3 : 2
+                    return (
+                      <div key={stars} className="flex items-center gap-3">
+                        <div className="flex items-center gap-1">
+                          <span className="text-sm text-gray-400">{stars}</span>
+                          <Star className="w-4 h-4 text-gray-600" />
+                        </div>
+                        <div className="flex-1 bg-zinc-800 rounded-full h-2 overflow-hidden">
+                          <div
+                            className="h-full bg-yellow-500 transition-all duration-500"
+                            style={{ width: `${percentage}%` }}
+                          />
+                        </div>
+                        <span className="text-sm text-gray-400 w-10 text-right">{percentage}%</span>
+                      </div>
+                    )
+                  })}
+                </div>
+                <div className="mt-4 pt-4 border-t border-zinc-800">
+                  <div className="flex items-center gap-2 text-sm text-gray-400">
+                    <Users className="w-4 h-4" />
+                    <span>Based on {program.reviews} reviews</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Tags */}
+              <div className="bg-zinc-900 rounded-2xl border border-zinc-800 p-6">
+                <h3 className="text-lg font-bold text-white mb-4">Program Tags</h3>
+                <div className="flex flex-wrap gap-2">
+                  {program.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="bg-zinc-800 text-gray-300 px-3 py-1 rounded-full text-sm"
+                    >
+                      #{tag}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              {/* Achievements Preview */}
+              <div className="bg-zinc-900 rounded-2xl border border-zinc-800 p-6">
+                <h3 className="text-lg font-bold text-white mb-4">Unlock Achievements</h3>
+                <div className="space-y-3">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 bg-yellow-500/10 rounded-full flex items-center justify-center text-2xl">
+                      🎯
+                    </div>
+                    <div className="flex-1">
+                      <div className="text-sm font-medium text-white">First Steps</div>
+                      <div className="text-xs text-gray-400">Complete your first workout</div>
+                    </div>
+                    <Award className="w-5 h-5 text-yellow-500" />
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 bg-blue-500/10 rounded-full flex items-center justify-center text-2xl">
+                      🗓️
+                    </div>
+                    <div className="flex-1">
+                      <div className="text-sm font-medium text-white">Week Warrior</div>
+                      <div className="text-xs text-gray-400">Complete 7 workouts in a week</div>
+                    </div>
+                    <Award className="w-5 h-5 text-blue-500" />
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 bg-purple-500/10 rounded-full flex items-center justify-center text-2xl">
+                      🎓
+                    </div>
+                    <div className="flex-1">
+                      <div className="text-sm font-medium text-white">Program Graduate</div>
+                      <div className="text-xs text-gray-400">Complete the full program</div>
+                    </div>
+                    <Award className="w-5 h-5 text-purple-500" />
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-
-        {/* Premium Upgrade CTA */}
-        {program.is_premium && profile?.plan !== 'premium' && (
-          <div className="mt-8 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-xl p-8 text-center">
-            <Crown className="h-12 w-12 text-white mx-auto mb-4" />
-            <h3 className="text-2xl font-bold text-white mb-4">
-              Unlock This Premium Program
-            </h3>
-            <p className="text-white/90 mb-6 max-w-2xl mx-auto">
-              Get access to this advanced training program along with all other premium features 
-              including unlimited history, advanced statistics, and 1-on-1 coaching.
-            </p>
-            <Button
-              size="lg"
-              variant="secondary"
-              onClick={() => window.location.href = '/premium'}
-            >
-              Upgrade to Premium
-            </Button>
-          </div>
-        )}
       </div>
     </div>
   )

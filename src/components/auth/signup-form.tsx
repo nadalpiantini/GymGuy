@@ -8,7 +8,7 @@ import { getTranslation } from '@/lib/i18n'
 interface SignUpFormProps {
   onSuccess?: () => void
   onSwitchToLogin?: () => void
-  locale?: 'en' | 'es'
+  locale?: 'en'
 }
 
 export function SignUpForm({ onSuccess, onSwitchToLogin, locale = 'en' }: SignUpFormProps) {
@@ -20,6 +20,8 @@ export function SignUpForm({ onSuccess, onSwitchToLogin, locale = 'en' }: SignUp
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState(false)
   const { signUp } = useAuth()
+  const errorId = 'signup-error'
+  const formId = 'signup-form'
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -52,11 +54,11 @@ export function SignUpForm({ onSuccess, onSwitchToLogin, locale = 'en' }: SignUp
 
   if (success) {
     return (
-      <div className="text-center space-y-4">
-        <div className="text-green-600 text-lg font-medium">
+      <div className="text-center space-y-4" role="status" aria-live="polite">
+        <div className="text-green-400 text-lg font-medium">
           {getTranslation('auth.signup_success', locale)}
         </div>
-        <p className="text-gray-600">
+        <p className="text-gray-300">
           {getTranslation('auth.check_email', locale)}
         </p>
       </div>
@@ -64,70 +66,104 @@ export function SignUpForm({ onSuccess, onSwitchToLogin, locale = 'en' }: SignUp
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <form
+      id={formId}
+      onSubmit={handleSubmit}
+      className="space-y-4"
+      aria-label="Sign up form"
+      noValidate
+    >
       <div>
-        <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+        <label htmlFor="signup-name" className="block text-sm font-medium text-white mb-1">
           {getTranslation('auth.name', locale)}
         </label>
         <input
-          id="name"
+          id="signup-name"
+          name="name"
           type="text"
+          autoComplete="name"
           value={name}
           onChange={(e) => setName(e.target.value)}
           required
-          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          aria-required="true"
+          aria-invalid={error ? 'true' : 'false'}
+          aria-describedby={error ? errorId : undefined}
+          className="w-full px-3 py-2 border border-gray-600 bg-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white placeholder:text-gray-400"
           placeholder={getTranslation('auth.name_placeholder', locale)}
         />
       </div>
 
       <div>
-        <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+        <label htmlFor="signup-email" className="block text-sm font-medium text-white mb-1">
           {getTranslation('auth.email', locale)}
         </label>
         <input
-          id="email"
+          id="signup-email"
+          name="email"
           type="email"
+          autoComplete="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
-          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          aria-required="true"
+          aria-invalid={error ? 'true' : 'false'}
+          aria-describedby={error ? errorId : undefined}
+          className="w-full px-3 py-2 border border-gray-600 bg-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white placeholder:text-gray-400"
           placeholder={getTranslation('auth.email_placeholder', locale)}
         />
       </div>
 
       <div>
-        <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
+        <label htmlFor="signup-password" className="block text-sm font-medium text-white mb-1">
           {getTranslation('auth.password', locale)}
+          <span className="text-gray-400 text-xs ml-1">(min 6 characters)</span>
         </label>
         <input
-          id="password"
+          id="signup-password"
+          name="password"
           type="password"
+          autoComplete="new-password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
-          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          aria-required="true"
+          aria-invalid={error ? 'true' : 'false'}
+          aria-describedby={error ? errorId : 'password-requirements'}
+          minLength={6}
+          className="w-full px-3 py-2 border border-gray-600 bg-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white placeholder:text-gray-400"
           placeholder={getTranslation('auth.password_placeholder', locale)}
         />
+        <span id="password-requirements" className="sr-only">Password must be at least 6 characters</span>
       </div>
 
       <div>
-        <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-1">
+        <label htmlFor="signup-confirm-password" className="block text-sm font-medium text-white mb-1">
           {getTranslation('auth.confirm_password', locale)}
         </label>
         <input
-          id="confirmPassword"
+          id="signup-confirm-password"
+          name="confirmPassword"
           type="password"
+          autoComplete="new-password"
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
           required
-          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          aria-required="true"
+          aria-invalid={error ? 'true' : 'false'}
+          aria-describedby={error ? errorId : undefined}
+          className="w-full px-3 py-2 border border-gray-600 bg-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white placeholder:text-gray-400"
           placeholder={getTranslation('auth.confirm_password_placeholder', locale)}
         />
       </div>
 
       {error && (
-        <div className="text-red-600 text-sm bg-red-50 p-3 rounded-md">
-          {error}
+        <div
+          id={errorId}
+          role="alert"
+          aria-live="assertive"
+          className="text-red-400 text-sm bg-red-900/20 border border-red-800 p-3 rounded-md"
+        >
+          <span className="sr-only">Error:</span> {error}
         </div>
       )}
 
@@ -135,8 +171,17 @@ export function SignUpForm({ onSuccess, onSwitchToLogin, locale = 'en' }: SignUp
         type="submit"
         disabled={loading}
         className="w-full"
+        aria-busy={loading}
+        aria-label={loading ? getTranslation('auth.creating_account', locale) : getTranslation('auth.create_account', locale)}
       >
-        {loading ? getTranslation('auth.creating_account', locale) : getTranslation('auth.create_account', locale)}
+        {loading ? (
+          <>
+            <span aria-hidden="true">⏛</span>
+            <span>{getTranslation('auth.creating_account', locale)}</span>
+          </>
+        ) : (
+          getTranslation('auth.create_account', locale)
+        )}
       </Button>
 
       {onSwitchToLogin && (

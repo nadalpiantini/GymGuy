@@ -1,0 +1,222 @@
+[
+  {
+    "id": "ach_001",
+    "name": "First Steps",
+    "description": "Complete your first workout",
+    "icon": "🎯",
+    "unlockedAt": null,
+    "progress": 0,
+    "target": 1,
+    "xpReward": 100,
+    "category": "milestone"
+  },
+  {
+    "id": "ach_002",
+    "name": "Week Warrior",
+    "description": "Complete 7 workouts in a week",
+    "icon": "🗓️",
+    "unlockedAt": null,
+    "progress": 0,
+    "target": 7,
+    "xpReward": 250,
+    "category": "consistency"
+  },
+  {
+    "id": "ach_003",
+    "name": "Strength Seeker",
+    "description": "Complete 10 strength training sessions",
+    "icon": "💪",
+    "unlockedAt": null,
+    "progress": 0,
+    "target": 10,
+    "xpReward": 300,
+    "category": "strength"
+  },
+  {
+    "id": "ach_004",
+    "name": "Cardio Champion",
+    "description": "Complete 10 cardio sessions",
+    "icon": "🏃",
+    "unlockedAt": null,
+    "progress": 0,
+    "target": 10,
+    "xpReward": 300,
+    "category": "endurance"
+  },
+  {
+    "id": "ach_005",
+    "name": "30 Day Streak",
+    "description": "Work out for 30 days in a row",
+    "icon": "🔥",
+    "unlockedAt": null,
+    "progress": 0,
+    "target": 30,
+    "xpReward": 1000,
+    "category": "consistency"
+  },
+  {
+    "id": "ach_006",
+    "name": "Program Graduate",
+    "description": "Complete your first program",
+    "icon": "🎓",
+    "unlockedAt": null,
+    "progress": 0,
+    "target": 1,
+    "xpReward": 500,
+    "category": "milestone"
+  },
+  {
+    "id": "ach_007",
+    "name": "Heavy Lifter",
+    "description": "Lift a total of 10,000 kg",
+    "icon": "🏋️",
+    "unlockedAt": null,
+    "progress": 0,
+    "target": 10000,
+    "xpReward": 750,
+    "category": "strength"
+  },
+  {
+    "id": "ach_008",
+    "name": "Marathon Mind",
+    "description": "Complete 100 total workouts",
+    "icon": "🧠",
+    "unlockedAt": null,
+    "progress": 0,
+    "target": 100,
+    "xpReward": 2000,
+    "category": "milestone"
+  },
+  {
+    "id": "ach_009",
+    "name": "Early Bird",
+    "description": "Complete 10 workouts before 7 AM",
+    "icon": "🌅",
+    "unlockedAt": null,
+    "progress": 0,
+    "target": 10,
+    "xpReward": 400,
+    "category": "consistency"
+  },
+  {
+    "id": "ach_010",
+    "name": "Night Owl",
+    "description": "Complete 10 workouts after 8 PM",
+    "icon": "🌙",
+    "unlockedAt": null,
+    "progress": 0,
+    "target": 10,
+    "xpReward": 400,
+    "category": "consistency"
+  },
+  {
+    "id": "ach_011",
+    "name": "Perfect Week",
+    "description": "Complete all scheduled workouts in a week",
+    "icon": "⭐",
+    "unlockedAt": null,
+    "progress": 0,
+    "target": 1,
+    "xpReward": 350,
+    "category": "consistency"
+  },
+  {
+    "id": "ach_012",
+    "name": "Variety Master",
+    "description": "Try 5 different program types",
+    "icon": "🎨",
+    "unlockedAt": null,
+    "progress": 0,
+    "target": 5,
+    "xpReward": 600,
+    "category": "milestone"
+  },
+  {
+    "id": "ach_013",
+    "name": "Personal Best",
+    "description": "Set 10 personal records",
+    "icon": "🏆",
+    "unlockedAt": null,
+    "progress": 0,
+    "target": 10,
+    "xpReward": 800,
+    "category": "strength"
+  },
+  {
+    "id": "ach_014",
+    "name": "Endurance Expert",
+    "description": "Complete 50 hours of training",
+    "icon": "⏱️",
+    "unlockedAt": null,
+    "progress": 0,
+    "target": 3000,
+    "xpReward": 1500,
+    "category": "endurance"
+  },
+  {
+    "id": "ach_015",
+    "name": "Social Butterfly",
+    "description": "Share 10 workout achievements",
+    "icon": "🦋",
+    "unlockedAt": null,
+    "progress": 0,
+    "target": 10,
+    "xpReward": 200,
+    "category": "milestone"
+  },
+  {
+    "id": "ach_016",
+    "name": "Level 10",
+    "description": "Reach level 10",
+    "icon": "🎖️",
+    "unlockedAt": null,
+    "progress": 0,
+    "target": 10,
+    "xpReward": 1000,
+    "category": "milestone"
+  },
+  {
+    "id": "ach_017",
+    "name": "Comeback Kid",
+    "description": "Return after a 7+ day break",
+    "icon": "💫",
+    "unlockedAt": null,
+    "progress": 0,
+    "target": 1,
+    "xpReward": 150,
+    "category": "consistency"
+  },
+  {
+    "id": "ach_018",
+    "name": "Speed Demon",
+    "description": "Complete 20 HIIT sessions",
+    "icon": "⚡",
+    "unlockedAt": null,
+    "progress": 0,
+    "target": 20,
+    "xpReward": 500,
+    "category": "endurance"
+  },
+  {
+    "id": "ach_019",
+    "name": "Flexibility Friend",
+    "description": "Complete 20 mobility sessions",
+    "icon": "🧘",
+    "unlockedAt": null,
+    "progress": 0,
+    "target": 20,
+    "xpReward": 500,
+    "category": "endurance"
+  },
+  {
+    "id": "ach_020",
+    "name": "Elite Athlete",
+    "description": "Reach level 50",
+    "icon": "👑",
+    "unlockedAt": null,
+    "progress": 0,
+    "target": 50,
+    "xpReward": 5000,
+    "category": "milestone"
+  }
+]

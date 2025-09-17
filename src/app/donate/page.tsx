@@ -22,7 +22,7 @@ export default function DonatePage() {
             <Heart className="h-10 w-10 text-white" />
           </div>
           <h1 className="text-4xl font-bold text-gray-900 mb-4">
-            Support Workout.cool
+            Support GymGuy
           </h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
             Help us keep the project running, growing, and improving. 
@@ -187,14 +187,14 @@ export default function DonatePage() {
               </div>
               <h3 className="text-lg font-semibold text-gray-900 mb-2">Spread the Word</h3>
               <p className="text-gray-600 mb-4">
-                Share Workout.cool with friends, family, and your fitness community.
+                Share GymGuy with friends, family, and your fitness community.
               </p>
               <Button 
                 variant="outline"
                 onClick={() => {
                   if (navigator.share) {
                     navigator.share({
-                      title: 'Workout.cool',
+                      title: 'GymGuy',
                       text: 'Check out this amazing fitness platform!',
                       url: window.location.origin
                     })

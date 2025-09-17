@@ -21,7 +21,7 @@ export default function AboutPage() {
         {/* Header */}
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold text-gray-900 mb-4">
-            About Workout.cool
+            About GymGuy
           </h1>
           <p className="text-xl text-gray-600">
             Building the future of fitness, one workout at a time
@@ -33,7 +33,7 @@ export default function AboutPage() {
           <h2 className="text-2xl font-bold text-gray-900 mb-6">Our Story</h2>
           <div className="prose prose-lg max-w-none text-gray-600">
             <p className="mb-4">
-              Workout.cool was born out of frustration with the abandonment of workout.lol, 
+              GymGuy was born out of frustration with the abandonment of workout.lol, 
               a beloved fitness platform that helped thousands of people create and track their workouts. 
               When the original platform was discontinued, we saw an opportunity to build something better.
             </p>
@@ -224,7 +224,7 @@ export default function AboutPage() {
               <div className="space-y-3">
                 <div className="flex items-center space-x-3">
                   <Mail className="h-5 w-5 text-gray-600" />
-                  <span className="text-gray-600">hello@workout.cool</span>
+                  <span className="text-gray-600">hello@gymguy.app</span>
                 </div>
                 <div className="flex items-center space-x-3">
                   <Github className="h-5 w-5 text-gray-600" />
@@ -246,7 +246,7 @@ export default function AboutPage() {
                 <Button 
                   variant="outline" 
                   size="sm"
-                  onClick={() => window.open('mailto:hello@workout.cool', '_blank')}
+                  onClick={() => window.open('mailto:hello@gymguy.app', '_blank')}
                 >
                   Send Email
                 </Button>
