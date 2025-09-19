@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
+import Image from 'next/image'
 import './globals.css'
 import { AuthProvider } from '@/components/auth/auth-provider'
 import { HydrationFix } from '@/components/hydration-fix'
@@ -7,20 +8,34 @@ import { HydrationFix } from '@/components/hydration-fix'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'https://gymguy.sujeto10.com'),
   title: 'GymGuy - Build Your Perfect Workout',
   description: 'Create personalized workouts, follow structured programs, and track your fitness journey with our comprehensive platform.',
   keywords: 'workout, fitness, exercise, training, gym, health, wellness',
   authors: [{ name: 'GymGuy Team' }],
+  icons: {
+    icon: '/images/ponteroca-logo.jpg',
+    apple: '/images/ponteroca-logo.jpg',
+  },
   openGraph: {
     title: 'GymGuy - Build Your Perfect Workout',
     description: 'Create personalized workouts, follow structured programs, and track your fitness journey.',
     type: 'website',
     locale: 'en_US',
+    images: [
+      {
+        url: '/images/ponteroca-logo.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'PONTEROCA Logo - GymGuy Fitness Platform',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'GymGuy - Build Your Perfect Workout',
     description: 'Create personalized workouts, follow structured programs, and track your fitness journey.',
+    images: ['/images/ponteroca-logo.jpg'],
   },
   robots: {
     index: true,
@@ -51,13 +66,14 @@ export default function RootLayout({
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
                   <div className="col-span-1 md:col-span-2">
                     <div className="flex items-center space-x-3 mb-6">
-                      <div className="w-12 h-12 bg-gradient-to-br from-primary to-secondary rounded-xl flex items-center justify-center shadow-primary-glow animate-motivate-pulse">
-                        <div className="relative">
-                          <span className="text-white font-bold text-xl">💪</span>
-                          <div className="absolute -top-1 -right-1 w-4 h-4 bg-white rounded-full flex items-center justify-center">
-                            <div className="w-2 h-2 bg-primary rounded-full"></div>
-                          </div>
-                        </div>
+                      <div className="w-12 h-12 rounded-xl overflow-hidden shadow-primary-glow animate-motivate-pulse">
+                        <Image
+                          src="/images/ponteroca-logo.jpg"
+                          alt="PONTEROCA Logo"
+                          width={48}
+                          height={48}
+                          className="w-full h-full object-cover"
+                        />
                       </div>
                       <div className="flex flex-col">
                         <span className="text-2xl font-teko-bold brand-text">GymGuy</span>

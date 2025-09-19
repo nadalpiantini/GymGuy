@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link';
-import { Dumbbell } from 'lucide-react';
+import Image from 'next/image';
 
 export default function SimpleNav() {
   return (
@@ -18,8 +18,14 @@ export default function SimpleNav() {
               className="flex items-center space-x-2 group"
               aria-label="GymGuy - Go to homepage"
             >
-              <div className="w-8 h-8 bg-gradient-to-br from-primary to-secondary rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-primary-glow">
-                <Dumbbell className="h-5 w-5 text-white" aria-hidden="true" />
+              <div className="w-8 h-8 rounded-lg overflow-hidden group-hover:scale-110 transition-transform duration-300 shadow-primary-glow">
+                <Image
+                  src="/images/ponteroca-logo.jpg"
+                  alt="PONTEROCA Logo"
+                  width={32}
+                  height={32}
+                  className="w-full h-full object-cover"
+                />
               </div>
               <div className="flex flex-col">
                 <span className="text-lg font-teko-bold text-primary">GymGuy</span>

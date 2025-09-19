@@ -13,8 +13,7 @@
     "db:seed": "supabase db seed",
     "setup": "node scripts/setup-database.js",
     "deploy:vercel": "vercel --prod",
-    "deploy:preview": "vercel",
-    "postbuild": "next-sitemap"
+    "deploy:preview": "vercel"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.0.2",
