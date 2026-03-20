@@ -172,7 +172,7 @@ export default function HomePage() {
               <span className="brand-text animate-glow">GymGuy</span>?
             </h2>
             <p className="text-xl text-gray-400 max-w-3xl mx-auto leading-relaxed">
-              We're different from other fitness platforms. Here's what makes us special and unique.
+              We&apos;re different from other fitness platforms. Here&apos;s what makes us special and unique.
             </p>
           </div>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
@@ -221,7 +221,7 @@ export default function HomePage() {
               <h4 className="text-2xl font-teko-bold mb-6 text-primary">Modern Alternative</h4>
               <p className="text-gray-400 mb-8 leading-relaxed text-lg">
                 GymGuy was created to provide a modern, actively maintained alternative 
-                to outdated fitness platforms. We're committed to continuous improvement 
+                to outdated fitness platforms. We&apos;re committed to continuous improvement 
                 and community support.
               </p>
               <div className="bg-primary/10 p-6 rounded-xl border border-primary/20 shadow-primary-glow/30">

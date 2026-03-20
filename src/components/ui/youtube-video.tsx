@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Image from 'next/image'
 import { Play, X } from 'lucide-react'
 
 interface YouTubeVideoProps {
@@ -24,9 +25,11 @@ export function YouTubeVideo({ videoId, title, className = '' }: YouTubeVideoPro
     return (
       <div className={`relative cursor-pointer group ${className}`} onClick={handlePlay} role="button" tabIndex={0} aria-label={`Play video: ${title}`} onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handlePlay(); } }}>
         <div className="relative w-full h-48 bg-gray-900 rounded-lg overflow-hidden">
-          <img
+          <Image
             src={`https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`}
             alt={`Video thumbnail: ${title}`}
+            width={480}
+            height={360}
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center group-hover:bg-opacity-40 transition-all duration-200">

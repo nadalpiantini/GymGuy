@@ -217,7 +217,7 @@ export default function DonatePage() {
           </h2>
           <p className="text-gray-600 max-w-2xl mx-auto">
             Every contribution, no matter how small, helps us continue building 
-            the best fitness platform for our community. Together, we're making 
+            the best fitness platform for our community. Together, we&apos;re making 
             fitness more accessible and enjoyable for everyone.
           </p>
         </div>

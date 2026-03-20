@@ -75,10 +75,11 @@ export default function HeartRateCalculatorPage() {
             <div className="space-y-6">
               {/* Age */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label htmlFor="hr-age" className="block text-sm font-medium text-gray-700 mb-2">
                   Age (years)
                 </label>
                 <input
+                  id="hr-age"
                   type="number"
                   min="1"
                   max="120"
@@ -90,12 +91,13 @@ export default function HeartRateCalculatorPage() {
 
               {/* Sex */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label htmlFor="hr-sex-male" className="block text-sm font-medium text-gray-700 mb-2">
                   Sex
                 </label>
                 <div className="flex space-x-4">
                   <label className="flex items-center">
                     <input
+                      id="hr-sex-male"
                       type="radio"
                       name="sex"
                       value="male"
@@ -107,6 +109,7 @@ export default function HeartRateCalculatorPage() {
                   </label>
                   <label className="flex items-center">
                     <input
+                      id="hr-sex-female"
                       type="radio"
                       name="sex"
                       value="female"

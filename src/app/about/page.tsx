@@ -44,7 +44,7 @@ export default function AboutPage() {
             </p>
             <p>
               What started as a passion project has grown into a comprehensive fitness platform 
-              that serves thousands of users worldwide. We're committed to continuous improvement, 
+              that serves thousands of users worldwide. We&apos;re committed to continuous improvement, 
               community feedback, and maintaining the open-source spirit that makes this project special.
             </p>
           </div>
@@ -138,10 +138,10 @@ export default function AboutPage() {
           <h2 className="text-2xl font-bold text-gray-900 mb-6">Our Partners</h2>
           <div className="text-center">
             <div className="mb-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Fit'Distance</h3>
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">Fit&apos;Distance</h3>
               <p className="text-gray-600">
                 Our trusted partner for high-quality exercise demonstration videos. 
-                Fit'Distance provides the visual content that helps users perform exercises 
+                Fit&apos;Distance provides the visual content that helps users perform exercises 
                 with proper form and technique.
               </p>
             </div>
@@ -149,7 +149,7 @@ export default function AboutPage() {
               variant="outline" 
               onClick={() => window.open('https://fitdistance.io', '_blank')}
             >
-              Visit Fit'Distance
+              Visit Fit&apos;Distance
             </Button>
           </div>
         </div>
@@ -240,7 +240,7 @@ export default function AboutPage() {
             <div>
               <h3 className="text-lg font-semibold text-gray-900 mb-4">Support</h3>
               <p className="text-gray-600 mb-4">
-                Need help? Have a question? Want to report a bug? We're here to help!
+                Need help? Have a question? Want to report a bug? We&apos;re here to help!
               </p>
               <div className="space-y-2">
                 <Button 

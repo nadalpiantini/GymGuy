@@ -74,10 +74,11 @@ export default function OneRMCalculatorPage() {
             <div className="space-y-6">
               {/* Weight */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label htmlFor="1rm-weight" className="block text-sm font-medium text-gray-700 mb-2">
                   Weight Lifted (kg)
                 </label>
                 <input
+                  id="1rm-weight"
                   type="number"
                   min="1"
                   max="1000"
@@ -90,10 +91,11 @@ export default function OneRMCalculatorPage() {
 
               {/* Reps */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label htmlFor="1rm-reps" className="block text-sm font-medium text-gray-700 mb-2">
                   Repetitions Completed
                 </label>
                 <input
+                  id="1rm-reps"
                   type="number"
                   min="1"
                   max="20"
@@ -108,10 +110,11 @@ export default function OneRMCalculatorPage() {
 
               {/* Formula Selection */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label htmlFor="1rm-formula" className="block text-sm font-medium text-gray-700 mb-2">
                   Formula (Optional)
                 </label>
                 <select
+                  id="1rm-formula"
                   value={formData.formula}
                   onChange={(e) => handleInputChange('formula', e.target.value)}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"

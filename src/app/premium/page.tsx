@@ -80,7 +80,7 @@ export default function PremiumPage() {
       
       // For now, we'll simulate the process
       const { error } = await supabase
-        .from('payments')
+        .from('gymguy_payments')
         .insert({
           user_id: user.id,
           plan: 'premium',
@@ -89,13 +89,13 @@ export default function PremiumPage() {
           currency: 'usd',
           period_start: new Date().toISOString(),
           period_end: new Date(Date.now() + (selectedPlan === 'monthly' ? 30 : 365) * 24 * 60 * 60 * 1000).toISOString()
-        } as any)
+        })
 
       if (error) throw error
 
       // Update user profile
-      await (supabase as any)
-        .from('profiles')
+      await supabase
+        .from('gymguy_profiles')
         .update({ plan: 'premium' })
         .eq('id', user.id)
 
@@ -122,8 +122,8 @@ export default function PremiumPage() {
       // 1. Cancel the Stripe subscription
       // 2. Update the user's plan to free
       
-      await (supabase as any)
-        .from('profiles')
+      await supabase
+        .from('gymguy_profiles')
         .update({ plan: 'free' })
         .eq('id', user.id)
 
@@ -396,7 +396,7 @@ export default function PremiumPage() {
                 Can I cancel anytime?
               </h3>
               <p className="text-gray-600">
-                Yes! You can cancel your premium subscription at any time. You'll continue to have 
+                Yes! You can cancel your premium subscription at any time. You&apos;ll continue to have 
                 access to premium features until the end of your current billing period.
               </p>
             </div>
@@ -426,7 +426,7 @@ export default function PremiumPage() {
                 Can I self-host the premium version?
               </h3>
               <p className="text-gray-600">
-                Yes! Since we're open source, you can self-host the entire platform including 
+                Yes! Since we&apos;re open source, you can self-host the entire platform including 
                 premium features. Premium subscriptions support the hosted version and development.
               </p>
             </div>

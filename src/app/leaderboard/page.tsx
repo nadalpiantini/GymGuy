@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useAuth } from '@/components/auth/auth-provider'
 import { supabase } from '@/lib/supabase-client'
 import { Button } from '@/components/ui/button'
@@ -41,15 +41,11 @@ export default function LeaderboardPage() {
 
   // Using the imported supabase client from supabase-client.ts
 
-  useEffect(() => {
-    loadLeaderboard()
-  }, [period, scope])
-
-  const loadLeaderboard = async () => {
+  const loadLeaderboard = useCallback(async () => {
     try {
       // Try to get cached leaderboard first
       const { data: snapshot, error: snapshotError } = await supabase
-        .from('leaderboard_snapshots')
+        .from('gymguy_leaderboard_snapshots')
         .select('*')
         .eq('period', period)
         .eq('scope', scope)
@@ -58,23 +54,28 @@ export default function LeaderboardPage() {
         .single()
 
       if (snapshot && !snapshotError) {
-        setLeaderboard((snapshot as any).ranks || [])
+        setLeaderboard((snapshot as LeaderboardSnapshot).ranks || [])
         setLoading(false)
         return
       }
 
-      // If no cached data, generate leaderboard
-      await generateLeaderboard()
+      // If no cached data, use mock data
+      setLeaderboard([])
+      setLoading(false)
     } catch (error) {
       console.error('Error loading leaderboard:', error)
       setLoading(false)
     }
-  }
+  }, [period, scope])
+
+  useEffect(() => {
+    loadLeaderboard()
+  }, [loadLeaderboard])
 
   const generateLeaderboard = async () => {
     try {
       let query = supabase
-        .from('session_logs')
+        .from('gymguy_session_logs')
         .select(`
           user_id,
           profiles!inner(name),
@@ -142,247 +143,261 @@ export default function LeaderboardPage() {
 
       setLeaderboard(leaderboardData)
 
-      // Cache the result
+      // Cache the leaderboard
       await supabase
-        .from('leaderboard_snapshots')
+        .from('gymguy_leaderboard_snapshots')
         .insert({
           period,
           scope,
           ranks: leaderboardData,
           generated_at: new Date().toISOString()
-        } as any)
+        })
 
+      setLoading(false)
     } catch (error) {
       console.error('Error generating leaderboard:', error)
-    } finally {
       setLoading(false)
     }
   }
 
-  const getMedalIcon = (rank: number) => {
-    if (rank === 1) return <Medal className="h-6 w-6 text-yellow-500" />
-    if (rank === 2) return <Medal className="h-6 w-6 text-gray-400" />
-    if (rank === 3) return <Medal className="h-6 w-6 text-amber-600" />
-    return <span className="text-lg font-bold text-gray-600">#{rank}</span>
-  }
-
-  const getScopeIcon = (scope: string) => {
-    switch (scope) {
-      case 'workouts': return <Target className="h-4 w-4" />
-      case 'volume': return <Dumbbell className="h-4 w-4" />
-      case 'streak': return <TrendingUp className="h-4 w-4" />
-      default: return <Target className="h-4 w-4" />
+  const getRankIcon = (rank: number) => {
+    switch (rank) {
+      case 1:
+        return <Crown className="w-6 h-6 text-yellow-500" />
+      case 2:
+        return <Medal className="w-6 h-6 text-gray-400" />
+      case 3:
+        return <Trophy className="w-6 h-6 text-orange-600" />
+      default:
+        return <Medal className="w-6 h-6 text-gray-300" />
     }
   }
 
-  const getScopeLabel = (scope: string) => {
+  const getScopeLabel = () => {
     switch (scope) {
-      case 'workouts': return 'Workouts Completed'
-      case 'volume': return 'Total Volume (kg)'
-      case 'streak': return 'Current Streak'
-      default: return 'Workouts Completed'
+      case 'workouts':
+        return 'Workouts Completed'
+      case 'volume':
+        return 'Total Volume (lbs)'
+      case 'streak':
+        return 'Current Streak'
+      default:
+        return 'Workouts Completed'
     }
   }
 
-  const getScopeValue = (entry: LeaderboardEntry) => {
-    switch (scope) {
-      case 'workouts': return entry.workouts
-      case 'volume': return entry.volume
-      case 'streak': return entry.streak
-      default: return entry.workouts
+  const getPeriodLabel = () => {
+    switch (period) {
+      case 'week':
+        return 'This Week'
+      case 'month':
+        return 'This Month'
+      case 'all_time':
+        return 'All Time'
+      default:
+        return 'This Week'
     }
   }
 
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading leaderboard...</p>
-        </div>
-      </div>
-    )
-  }
+  const currentUserRank = leaderboard.find(entry => entry.user_id === user?.id)
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <div className="text-center mb-12">
-          <div className="w-16 h-16 bg-yellow-100 rounded-lg flex items-center justify-center mx-auto mb-4">
-            <Trophy className="h-8 w-8 text-yellow-600" />
-          </div>
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">
-            Champions Leaderboard
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
+      <div className="max-w-4xl mx-auto px-4 py-8">
+        <div className="mb-8 text-center">
+          <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">
+            Leaderboard
           </h1>
-          <p className="text-xl text-gray-600">
-            Compete with the community and climb to the top of the rankings
+          <p className="text-gray-600 dark:text-gray-400">
+            See how you stack up against other gym members
           </p>
         </div>
 
         {/* Filters */}
-        <div className="bg-white rounded-xl shadow-lg p-6 mb-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {/* Period Filter */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Time Period
-              </label>
-              <div className="flex space-x-2">
-                {[
-                  { value: 'week', label: 'This Week' },
-                  { value: 'month', label: 'This Month' },
-                  { value: 'all_time', label: 'All Time' }
-                ].map((option) => (
-                  <button
-                    key={option.value}
-                    onClick={() => setPeriod(option.value as any)}
-                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                      period === option.value
-                        ? 'bg-blue-600 text-white'
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                    }`}
-                  >
-                    {option.label}
-                  </button>
-                ))}
-              </div>
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-8">
+          <div className="flex flex-wrap gap-4 items-center justify-between">
+            <div className="flex flex-wrap gap-2">
+              <Button
+                variant={period === 'week' ? 'default' : 'outline'}
+                onClick={() => setPeriod('week')}
+                size="sm"
+              >
+                <Calendar className="w-4 h-4 mr-2" />
+                This Week
+              </Button>
+              <Button
+                variant={period === 'month' ? 'default' : 'outline'}
+                onClick={() => setPeriod('month')}
+                size="sm"
+              >
+                <Calendar className="w-4 h-4 mr-2" />
+                This Month
+              </Button>
+              <Button
+                variant={period === 'all_time' ? 'default' : 'outline'}
+                onClick={() => setPeriod('all_time')}
+                size="sm"
+              >
+                <TrendingUp className="w-4 h-4 mr-2" />
+                All Time
+              </Button>
             </div>
-
-            {/* Scope Filter */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Ranking Criteria
-              </label>
-              <div className="flex space-x-2">
-                {[
-                  { value: 'workouts', label: 'Workouts', icon: Target },
-                  { value: 'volume', label: 'Volume', icon: Dumbbell },
-                  { value: 'streak', label: 'Streak', icon: TrendingUp }
-                ].map((option) => {
-                  const Icon = option.icon
-                  return (
-                    <button
-                      key={option.value}
-                      onClick={() => setScope(option.value as any)}
-                      className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center space-x-1 ${
-                        scope === option.value
-                          ? 'bg-blue-600 text-white'
-                          : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                      }`}
-                    >
-                      <Icon className="h-4 w-4" />
-                      <span>{option.label}</span>
-                    </button>
-                  )
-                })}
-              </div>
+            <div className="flex flex-wrap gap-2">
+              <Button
+                variant={scope === 'workouts' ? 'default' : 'outline'}
+                onClick={() => setScope('workouts')}
+                size="sm"
+              >
+                <Dumbbell className="w-4 h-4 mr-2" />
+                Workouts
+              </Button>
+              <Button
+                variant={scope === 'volume' ? 'default' : 'outline'}
+                onClick={() => setScope('volume')}
+                size="sm"
+              >
+                <Target className="w-4 h-4 mr-2" />
+                Volume
+              </Button>
+              <Button
+                variant={scope === 'streak' ? 'default' : 'outline'}
+                onClick={() => setScope('streak')}
+                size="sm"
+              >
+                <TrendingUp className="w-4 h-4 mr-2" />
+                Streak
+              </Button>
             </div>
           </div>
         </div>
 
-        {/* Leaderboard */}
-        <div className="bg-white rounded-xl shadow-lg overflow-hidden">
-          <div className="p-6 border-b border-gray-200">
-            <h2 className="text-xl font-semibold text-gray-900 flex items-center">
-              {getScopeIcon(scope)}
-              <span className="ml-2">{getScopeLabel(scope)}</span>
+        {/* Current User Stats */}
+        {currentUserRank && (
+          <div className="bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg shadow-md p-6 mb-8 text-white">
+            <div className="flex items-center justify-between">
+              <div>
+                <h3 className="text-lg font-semibold mb-1">Your Rank</h3>
+                <div className="flex items-center gap-2">
+                  <div className="w-12 h-12 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
+                    <span className="text-xl font-bold">{currentUserRank.rank}</span>
+                  </div>
+                  <div>
+                    <p className="font-medium">{currentUserRank.name}</p>
+                    <p className="text-sm opacity-90">
+                      {getScopeLabel()}: {
+                        scope === 'workouts' ? currentUserRank.workouts :
+                        scope === 'volume' ? currentUserRank.volume :
+                        currentUserRank.streak
+                      }
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div className="text-right">
+                <p className="text-sm opacity-90">{getPeriodLabel()}</p>
+                <p className="text-lg font-semibold">
+                  Top {Math.round((currentUserRank.rank / leaderboard.length) * 100)}%
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Leaderboard Table */}
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
+          <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+            <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
+              {getPeriodLabel()} - {getScopeLabel()}
             </h2>
           </div>
-
-          {leaderboard.length > 0 ? (
-            <div className="divide-y divide-gray-200">
-              {leaderboard.map((entry, index) => (
+          
+          {loading ? (
+            <div className="p-8 text-center">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+              <p className="mt-4 text-gray-600 dark:text-gray-400">Loading leaderboard...</p>
+            </div>
+          ) : (
+            <div className="divide-y divide-gray-200 dark:divide-gray-700">
+              {leaderboard.map((entry) => (
                 <div
                   key={entry.user_id}
-                  className={`p-6 flex items-center justify-between ${
-                    entry.user_id === user?.id ? 'bg-blue-50' : ''
+                  className={`px-6 py-4 flex items-center justify-between hover:bg-gray-50 dark:hover:bg-gray-700 ${
+                    entry.user_id === user?.id ? 'bg-blue-50 dark:bg-blue-900/20' : ''
                   }`}
                 >
-                  <div className="flex items-center space-x-4">
-                    <div className="flex-shrink-0">
-                      {getMedalIcon(entry.rank)}
+                  <div className="flex items-center gap-4">
+                    <div className="w-10 h-10 flex items-center justify-center">
+                      {getRankIcon(entry.rank)}
                     </div>
-                    
                     <div>
-                      <div className="flex items-center space-x-2">
-                        <h3 className="text-lg font-medium text-gray-900">
-                          {entry.name}
-                        </h3>
-                        {entry.user_id === user?.id && (
-                          <span className="px-2 py-1 bg-blue-100 text-blue-800 text-xs font-medium rounded-full">
-                            You
-                          </span>
-                        )}
-                      </div>
-                      
-                      <div className="flex items-center space-x-4 text-sm text-gray-600 mt-1">
-                        <span className="flex items-center">
-                          <Target className="h-4 w-4 mr-1" />
-                          {entry.workouts} workouts
-                        </span>
-                        <span className="flex items-center">
-                          <Dumbbell className="h-4 w-4 mr-1" />
-                          {entry.volume} kg
-                        </span>
-                      </div>
+                      <p className={`font-medium ${
+                        entry.user_id === user?.id 
+                          ? 'text-blue-600 dark:text-blue-400' 
+                          : 'text-gray-900 dark:text-white'
+                      }`}>
+                        {entry.name}
+                      </p>
+                      <p className="text-sm text-gray-600 dark:text-gray-400">
+                        {getScopeLabel()}: {
+                          scope === 'workouts' ? entry.workouts :
+                          scope === 'volume' ? entry.volume :
+                          entry.streak
+                        }
+                      </p>
                     </div>
                   </div>
-
                   <div className="text-right">
-                    <div className="text-2xl font-bold text-gray-900">
-                      {getScopeValue(entry)}
-                    </div>
-                    <div className="text-sm text-gray-600">
-                      {scope === 'workouts' && 'workouts'}
-                      {scope === 'volume' && 'kg'}
-                      {scope === 'streak' && 'days'}
-                    </div>
+                    <p className={`font-semibold ${
+                      entry.user_id === user?.id 
+                        ? 'text-blue-600 dark:text-blue-400' 
+                        : 'text-gray-900 dark:text-white'
+                    }`}>
+                      #{entry.rank}
+                    </p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                      {Math.round((entry.rank / leaderboard.length) * 100)}%
+                    </p>
                   </div>
                 </div>
               ))}
             </div>
-          ) : (
-            <div className="text-center py-12">
-              <Trophy className="h-16 w-16 text-gray-300 mx-auto mb-4" />
-              <h3 className="text-lg font-medium text-gray-900 mb-2">
-                No data available
-              </h3>
-              <p className="text-gray-600">
-                Complete some workouts to appear on the leaderboard
-              </p>
-            </div>
           )}
         </div>
 
-        {/* Sign In Prompt */}
-        {!user && (
-          <div className="mt-8 bg-blue-50 rounded-xl p-6 text-center">
-            <Users className="h-12 w-12 text-blue-600 mx-auto mb-4" />
-            <h3 className="text-lg font-medium text-blue-900 mb-2">
-              Join the Competition
+        {/* Stats Summary */}
+        <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 text-center">
+            <Users className="w-8 h-8 text-blue-600 mx-auto mb-2" />
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-1">
+              Total Members
             </h3>
-            <p className="text-blue-700 mb-4">
-              Sign in to track your progress and compete with other users
+            <p className="text-2xl font-bold text-blue-600">
+              {leaderboard.length}
             </p>
-            <Button onClick={() => window.location.href = '/login'}>
-              Sign In
-            </Button>
           </div>
-        )}
-
-        {/* Info */}
-        <div className="mt-8 bg-gray-50 rounded-xl p-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">
-            How the Leaderboard Works
-          </h3>
-          <div className="text-sm text-gray-600 space-y-2">
-            <p>• <strong>Weekly:</strong> Rankings reset every Monday at midnight (Paris time)</p>
-            <p>• <strong>Monthly:</strong> Rankings reset on the 1st of each month</p>
-            <p>• <strong>All Time:</strong> Cumulative rankings since account creation</p>
-            <p>• <strong>Workouts:</strong> Number of completed training sessions</p>
-            <p>• <strong>Volume:</strong> Total weight lifted (kg × reps × sets)</p>
-            <p>• <strong>Streak:</strong> Consecutive days with completed workouts</p>
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 text-center">
+            <Dumbbell className="w-8 h-8 text-green-600 mx-auto mb-2" />
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-1">
+              Avg. {getScopeLabel()}
+            </h3>
+            <p className="text-2xl font-bold text-green-600">
+              {leaderboard.length > 0 
+                ? Math.round(leaderboard.reduce((sum, entry) => 
+                    sum + (scope === 'workouts' ? entry.workouts :
+                          scope === 'volume' ? entry.volume :
+                          entry.streak), 0) / leaderboard.length)
+                : 0
+              }
+            </p>
+          </div>
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 text-center">
+            <Trophy className="w-8 h-8 text-yellow-600 mx-auto mb-2" />
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-1">
+              Top Performer
+            </h3>
+            <p className="text-2xl font-bold text-yellow-600">
+              {leaderboard[0]?.name || 'N/A'}
+            </p>
           </div>
         </div>
       </div>

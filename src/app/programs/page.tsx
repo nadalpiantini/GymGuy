@@ -138,10 +138,11 @@ export default function ProgramsPage() {
               <div className="bg-zinc-900 border border-zinc-800 rounded-lg p-6 mb-6">
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-sm font-medium text-gray-400 mb-2">
+                    <label htmlFor="programs-level" className="block text-sm font-medium text-gray-400 mb-2">
                       Level
                     </label>
                     <select
+                      id="programs-level"
                       value={selectedLevel}
                       onChange={(e) => setSelectedLevel(e.target.value)}
                       className="w-full bg-black border border-zinc-800 rounded-lg py-2 px-3 text-white focus:border-blue-500 focus:outline-none"
@@ -153,10 +154,11 @@ export default function ProgramsPage() {
                     </select>
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-400 mb-2">
+                    <label htmlFor="programs-type" className="block text-sm font-medium text-gray-400 mb-2">
                       Type
                     </label>
                     <select
+                      id="programs-type"
                       value={selectedType}
                       onChange={(e) => setSelectedType(e.target.value)}
                       className="w-full bg-black border border-zinc-800 rounded-lg py-2 px-3 text-white focus:border-blue-500 focus:outline-none"

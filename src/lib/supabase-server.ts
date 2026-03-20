@@ -2,8 +2,8 @@ import { createClient } from '@supabase/supabase-js'
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co'
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder-key'
+const supabaseUrl = process.env.NEXT_PUBLIC_GYMGUY_SUPABASE_URL || 'https://placeholder.supabase.co'
+const supabaseAnonKey = process.env.NEXT_PUBLIC_GYMGUY_SUPABASE_ANON_KEY || 'placeholder-key'
 
 // Server component client
 export const createServerSupabase = () => {
@@ -28,10 +28,10 @@ export const createServerSupabase = () => {
   })
 }
 
-// Service role client (for admin operations)
+// Service role client (for admin operations — server-side only)
 export const createServiceRoleClient = () => {
-  const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY || 'placeholder-service-key'
-  
+  const serviceRoleKey = process.env.GYMGUY_SUPABASE_SERVICE_ROLE_KEY || 'placeholder-service-key'
+
   return createClient(supabaseUrl, serviceRoleKey, {
     auth: {
       autoRefreshToken: false,

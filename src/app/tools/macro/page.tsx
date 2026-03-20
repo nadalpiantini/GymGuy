@@ -94,10 +94,11 @@ export default function MacroCalculatorPage() {
             <div className="space-y-6">
               {/* Calories */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label htmlFor="macro-calories" className="block text-sm font-medium text-gray-700 mb-2">
                   Daily Calorie Target
                 </label>
                 <input
+                  id="macro-calories"
                   type="number"
                   min="500"
                   max="10000"
@@ -113,20 +114,21 @@ export default function MacroCalculatorPage() {
 
               {/* Macro Distribution */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-4">
+                <label htmlFor="macro-protein" className="block text-sm font-medium text-gray-700 mb-4">
                   Macro Distribution
                 </label>
-                
+
                 <div className="space-y-4">
                   {/* Protein */}
                   <div>
                     <div className="flex justify-between items-center mb-2">
-                      <label className="text-sm font-medium text-gray-700">Protein</label>
+                      <label htmlFor="macro-protein" className="text-sm font-medium text-gray-700">Protein</label>
                       <span className="text-sm text-gray-500">
                         {Math.round(formData.proteinPercent * 100)}%
                       </span>
                     </div>
                     <input
+                      id="macro-protein"
                       type="range"
                       min="0.05"
                       max="0.50"
@@ -144,12 +146,13 @@ export default function MacroCalculatorPage() {
                   {/* Carbs */}
                   <div>
                     <div className="flex justify-between items-center mb-2">
-                      <label className="text-sm font-medium text-gray-700">Carbohydrates</label>
+                      <label htmlFor="macro-carbs" className="text-sm font-medium text-gray-700">Carbohydrates</label>
                       <span className="text-sm text-gray-500">
                         {Math.round(formData.carbPercent * 100)}%
                       </span>
                     </div>
                     <input
+                      id="macro-carbs"
                       type="range"
                       min="0.20"
                       max="0.70"
@@ -167,12 +170,13 @@ export default function MacroCalculatorPage() {
                   {/* Fat */}
                   <div>
                     <div className="flex justify-between items-center mb-2">
-                      <label className="text-sm font-medium text-gray-700">Fat</label>
+                      <label htmlFor="macro-fat" className="text-sm font-medium text-gray-700">Fat</label>
                       <span className="text-sm text-gray-500">
                         {Math.round(formData.fatPercent * 100)}%
                       </span>
                     </div>
                     <input
+                      id="macro-fat"
                       type="range"
                       min="0.15"
                       max="0.40"
@@ -346,7 +350,7 @@ export default function MacroCalculatorPage() {
                   Important for maintaining muscle mass during weight loss and supporting recovery.
                 </p>
                 <p>
-                  <strong>Carbohydrates (4 calories/gram):</strong> Your body's primary energy source. 
+                  <strong>Carbohydrates (4 calories/gram):</strong> Your body&apos;s primary energy source. 
                   Important for brain function, exercise performance, and recovery.
                 </p>
                 <p>

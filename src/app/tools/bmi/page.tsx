@@ -70,10 +70,11 @@ export default function BMICalculatorPage() {
             <div className="space-y-6">
               {/* Weight */}
               <div>
-                <label className="block text-sm font-semibold text-foreground mb-3">
+                <label htmlFor="bmi-weight" className="block text-sm font-semibold text-foreground mb-3">
                   Weight (kg)
                 </label>
                 <input
+                  id="bmi-weight"
                   type="number"
                   min="1"
                   max="500"
@@ -86,10 +87,11 @@ export default function BMICalculatorPage() {
 
               {/* Height */}
               <div>
-                <label className="block text-sm font-semibold text-foreground mb-3">
+                <label htmlFor="bmi-height" className="block text-sm font-semibold text-foreground mb-3">
                   Height (cm)
                 </label>
                 <input
+                  id="bmi-height"
                   type="number"
                   min="50"
                   max="250"
@@ -223,17 +225,17 @@ export default function BMICalculatorPage() {
               <div className="text-gray-600 space-y-3">
                 <p>
                   Body Mass Index (BMI) is a measure of body fat based on height and weight. 
-                  It's calculated using the formula: <strong>BMI = weight (kg) / height (m)²</strong>
+                  It&apos;s calculated using the formula: <strong>BMI = weight (kg) / height (m)²</strong>
                 </p>
                 <p>
                   BMI is a useful screening tool to identify potential weight problems, 
-                  but it doesn't directly measure body fat or account for factors like muscle mass, 
+                  but it doesn&apos;t directly measure body fat or account for factors like muscle mass, 
                   bone density, or overall body composition.
                 </p>
                 <p>
                   <strong>Limitations:</strong> BMI may not be accurate for athletes with high muscle mass, 
                   older adults who have lost muscle mass, or people with certain medical conditions. 
-                  It's best used as a general guideline alongside other health assessments.
+                  It&apos;s best used as a general guideline alongside other health assessments.
                 </p>
                 <p>
                   <strong>Important:</strong> Always consult with a healthcare professional for 
