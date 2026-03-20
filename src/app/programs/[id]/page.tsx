@@ -43,10 +43,10 @@ export default function ProgramDetailPage({ params }: { params: { id: string } }
 
   if (!program) {
     return (
-      <div className="min-h-screen bg-black flex items-center justify-center">
+      <div className="min-h-screen bg-[var(--bg-primary)] flex items-center justify-center">
         <div className="text-center">
           <div className="text-6xl mb-4">❌</div>
-          <h2 className="text-2xl font-bold text-white">Program not found</h2>
+          <h2 className="text-2xl font-bold text-[var(--text-primary)]">Program not found</h2>
         </div>
       </div>
     )
