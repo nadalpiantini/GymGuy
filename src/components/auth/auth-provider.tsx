@@ -116,12 +116,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     if (!error && data.user) {
       // Create profile
       const { error: profileError } = await supabase
-        .from('profiles')
+        .from('gymguy_profiles')
         .insert({
           id: data.user.id,
           email: data.user.email!,
           name,
-        } as any)
+        })
 
       if (profileError) {
         console.error('Error creating profile:', profileError)
@@ -145,8 +145,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const updateProfile = async (updates: Partial<Profile>) => {
     if (!user) return { error: new Error('No user logged in') }
 
-    const { error } = await (supabase as any)
-      .from('profiles')
+    const { error } = await supabase
+      .from('gymguy_profiles')
       .update(updates)
       .eq('id', user.id)
 

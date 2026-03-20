@@ -1,6 +1,8 @@
 'use client'
 
 import { Button } from '@/components/ui/button'
+import { Badge } from '@/components/ui/badge'
+import { Card } from '@/components/ui/card'
 import {
   Calendar,
   Clock,
@@ -41,24 +43,24 @@ export default function SimpleProgramCard({
   isPremiumUser,
   onStart
 }: SimpleProgramCardProps) {
-  const getLevelColor = (level: string) => {
-    const colors = {
-      beginner: 'text-green-600 bg-green-50 border-green-200',
-      intermediate: 'text-yellow-600 bg-yellow-50 border-yellow-200',
-      advanced: 'text-red-600 bg-red-50 border-red-200'
+  const getLevelBadgeVariant = (level: string): 'success' | 'warning' | 'default' => {
+    const variants = {
+      beginner: 'success' as const,
+      intermediate: 'warning' as const,
+      advanced: 'default' as const,
     }
-    return colors[level as keyof typeof colors] || colors.beginner
+    return variants[level as keyof typeof variants] ?? 'default'
   }
 
   const getTypeColor = (type: string) => {
     const colors = {
-      strength: 'text-blue-600',
-      cardio: 'text-red-600',
-      hiit: 'text-orange-600',
-      mobility: 'text-green-600',
-      hybrid: 'text-purple-600'
+      strength: 'text-[var(--accent)]',
+      cardio: 'text-[var(--danger)]',
+      hiit: 'text-[var(--warning)]',
+      mobility: 'text-[var(--success)]',
+      hybrid: 'text-[var(--accent)]'
     }
-    return colors[type as keyof typeof colors] || 'text-gray-600'
+    return colors[type as keyof typeof colors] || 'text-[var(--text-secondary)]'
   }
 
   const getEquipmentNames = (equipmentIds: number[]) => {
@@ -73,23 +75,26 @@ export default function SimpleProgramCard({
   const canStart = !program.is_premium || isPremiumUser
 
   return (
-    <div className="bg-gray-900 rounded-lg border border-gray-800 p-6 hover:shadow-primary-glow transition-all duration-300">
+    <Card variant="interactive" className="hover:border-[var(--accent)]/30">
       {/* Header */}
       <div className="mb-4">
         <div className="flex items-start justify-between mb-2">
-          <h3 className="text-lg font-teko-bold text-white leading-tight">
+          <h3 className="text-lg font-bold text-[var(--text-primary)] leading-tight">
             {program.name}
           </h3>
           {program.is_premium && (
-            <Crown className="h-4 w-4 text-yellow-500 flex-shrink-0" />
+            <Crown className="h-4 w-4 text-[var(--warning)] flex-shrink-0" />
           )}
         </div>
 
         {/* Level & Type */}
         <div className="flex items-center gap-2">
-          <span className={`text-xs px-2 py-1 rounded-full border font-medium ${getLevelColor(program.level)}`}>
+          <Badge variant={getLevelBadgeVariant(program.level)}>
             {program.level}
-          </span>
+          </Badge>
+          {program.is_premium && (
+            <Badge variant="premium">Premium</Badge>
+          )}
           <span className={`text-xs font-medium ${getTypeColor(program.type)}`}>
             {program.type}
           </span>
@@ -98,32 +103,32 @@ export default function SimpleProgramCard({
 
       {/* Description */}
       {program.description && (
-        <p className="text-sm text-gray-400 mb-4 line-clamp-2">
+        <p className="text-sm text-[var(--text-secondary)] mb-4 line-clamp-2">
           {program.description}
         </p>
       )}
 
       {/* Stats */}
       <div className="space-y-2 mb-4">
-        <div className="flex items-center text-sm text-gray-400">
-          <Calendar className="h-3.5 w-3.5 mr-2 text-gray-400" />
+        <div className="flex items-center text-sm text-[var(--text-secondary)]">
+          <Calendar className="h-3.5 w-3.5 mr-2 text-[var(--text-secondary)]" />
           <span>{program.duration_weeks} weeks</span>
         </div>
 
-        <div className="flex items-center text-sm text-gray-400">
-          <Users className="h-3.5 w-3.5 mr-2 text-gray-400" />
+        <div className="flex items-center text-sm text-[var(--text-secondary)]">
+          <Users className="h-3.5 w-3.5 mr-2 text-[var(--text-secondary)]" />
           <span>{program.frequency_per_week}x per week</span>
         </div>
 
         {program.session_duration_minutes && (
-          <div className="flex items-center text-sm text-gray-400">
-            <Clock className="h-3.5 w-3.5 mr-2 text-gray-400" />
+          <div className="flex items-center text-sm text-[var(--text-secondary)]">
+            <Clock className="h-3.5 w-3.5 mr-2 text-[var(--text-secondary)]" />
             <span>{program.session_duration_minutes} min/session</span>
           </div>
         )}
 
-        <div className="flex items-center text-sm text-gray-400">
-          <Dumbbell className="h-3.5 w-3.5 mr-2 text-gray-400" />
+        <div className="flex items-center text-sm text-[var(--text-secondary)]">
+          <Dumbbell className="h-3.5 w-3.5 mr-2 text-[var(--text-secondary)]" />
           <span className="truncate">{getEquipmentNames(program.equipment_required)}</span>
         </div>
       </div>
@@ -148,6 +153,6 @@ export default function SimpleProgramCard({
           </>
         )}
       </Button>
-    </div>
+    </Card>
   )
 }

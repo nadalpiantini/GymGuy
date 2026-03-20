@@ -1,7 +1,11 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, ChangeEvent } from 'react'
 import { Button } from '@/components/ui/button'
+import { PageHero } from '@/components/ui/page-hero'
+import { Card } from '@/components/ui/card'
+import { FormField } from '@/components/ui/form-field'
+import { StatCard } from '@/components/ui/stat-card'
 import { calculateBMI } from '@/lib/calculators'
 import { Scale, Info } from 'lucide-react'
 
@@ -10,7 +14,7 @@ export default function BMICalculatorPage() {
     weight: 70,
     height: 175
   })
-  
+
   const [results, setResults] = useState<ReturnType<typeof calculateBMI> | null>(null)
   const [showResults, setShowResults] = useState(false)
 
@@ -28,94 +32,77 @@ export default function BMICalculatorPage() {
   }
 
   const getBMIColor = (bmi: number) => {
-    if (bmi < 18.5) return 'text-blue-600'
-    if (bmi < 25) return 'text-green-600'
-    if (bmi < 30) return 'text-yellow-600'
-    return 'text-red-600'
+    if (bmi < 18.5) return 'text-[var(--accent)]'
+    if (bmi < 25) return 'text-[var(--success)]'
+    if (bmi < 30) return 'text-[var(--warning)]'
+    return 'text-[var(--danger)]'
   }
 
   const getCategoryColor = (category: string) => {
     switch (category) {
-      case 'Underweight': return 'bg-blue-50 border-blue-200 text-blue-800'
-      case 'Normal weight': return 'bg-green-50 border-green-200 text-green-800'
-      case 'Overweight': return 'bg-yellow-50 border-yellow-200 text-yellow-800'
-      case 'Obese': return 'bg-red-50 border-red-200 text-red-800'
-      default: return 'bg-gray-50 border-gray-200 text-gray-800'
+      case 'Underweight': return 'bg-[var(--accent)]/10 border-[var(--accent)]/30 text-[var(--text-primary)]'
+      case 'Normal weight': return 'bg-[var(--success)]/10 border-[var(--success)]/30 text-[var(--text-primary)]'
+      case 'Overweight': return 'bg-[var(--warning)]/10 border-[var(--warning)]/30 text-[var(--text-primary)]'
+      case 'Obese': return 'bg-[var(--danger)]/10 border-[var(--danger)]/30 text-[var(--text-primary)]'
+      default: return 'bg-[var(--bg-tertiary)] border-[var(--border)] text-[var(--text-primary)]'
     }
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <div className="text-center mb-12">
-          <div className="w-16 h-16 bg-green-100 rounded-lg flex items-center justify-center mx-auto mb-4">
-            <Scale className="h-8 w-8 text-green-600" />
-          </div>
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">
-            BMI Calculator
-          </h1>
-          <p className="text-xl text-gray-600">
-            Calculate your Body Mass Index to assess your weight status
-          </p>
-        </div>
+    <div className="min-h-screen bg-[var(--bg-primary)]">
+      <PageHero
+        badge="Body Mass Index"
+        title="BMI Calculator"
+        subtitle="Calculate your Body Mass Index to assess your weight status"
+      />
 
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Form */}
-          <div className="bg-white rounded-xl shadow-lg p-8">
-            <h2 className="text-2xl font-semibold text-gray-900 mb-6">
+          <Card className="p-8">
+            <h2 className="text-2xl font-bold text-[var(--text-primary)] mb-6">
               Your Measurements
             </h2>
-            
-            <div className="space-y-6">
-              {/* Weight */}
-              <div>
-                <label className="block text-sm font-semibold text-foreground mb-3">
-                  Weight (kg)
-                </label>
-                <input
-                  type="number"
-                  min="1"
-                  max="500"
-                  step="0.1"
-                  value={formData.weight}
-                  onChange={(e) => handleInputChange('weight', parseFloat(e.target.value))}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
-                />
-              </div>
 
-              {/* Height */}
-              <div>
-                <label className="block text-sm font-semibold text-foreground mb-3">
-                  Height (cm)
-                </label>
-                <input
-                  type="number"
-                  min="50"
-                  max="250"
-                  value={formData.height}
-                  onChange={(e) => handleInputChange('height', parseInt(e.target.value))}
-                  className="input-modern"
-                />
-              </div>
+            <div className="space-y-6">
+              <FormField
+                label="Weight (kg)"
+                id="bmi-weight"
+                type="number"
+                min="1"
+                max="500"
+                step="0.1"
+                value={formData.weight}
+                onChange={(e: ChangeEvent<HTMLInputElement>) => handleInputChange('weight', parseFloat(e.target.value))}
+              />
+
+              <FormField
+                label="Height (cm)"
+                id="bmi-height"
+                type="number"
+                min="50"
+                max="250"
+                value={formData.height}
+                onChange={(e: ChangeEvent<HTMLInputElement>) => handleInputChange('height', parseInt(e.target.value))}
+              />
 
               <Button
                 onClick={handleCalculate}
-                className="w-full py-4 text-lg shadow-colored-green"
-                variant="gradient"
+                className="w-full py-4 text-lg"
+                variant="default"
                 size="lg"
               >
                 Calculate BMI
               </Button>
             </div>
-          </div>
+          </Card>
 
           {/* Results */}
-          <div className="card-modern p-8 lg:p-10">
-            <h2 className="text-3xl font-bold mb-8">
+          <Card className="p-8">
+            <h2 className="text-2xl font-bold text-[var(--text-primary)] mb-6">
               Your BMI Results
             </h2>
-            
+
             {showResults && results ? (
               <div className="space-y-6">
                 {/* BMI Value */}
@@ -123,15 +110,15 @@ export default function BMICalculatorPage() {
                   <div className={`text-6xl font-bold mb-2 ${getBMIColor(results.bmi)}`}>
                     {results.bmi}
                   </div>
-                  <div className="text-lg text-gray-600">BMI</div>
+                  <div className="text-lg text-[var(--text-secondary)]">BMI</div>
                 </div>
 
                 {/* Category */}
                 <div className={`rounded-lg p-6 border-2 ${getCategoryColor(results.category)}`}>
-                  <h3 className="text-xl font-semibold mb-2">
+                  <h3 className="text-xl font-bold mb-2">
                     {results.category}
                   </h3>
-                  <p className="text-sm">
+                  <p className="text-sm text-[var(--text-secondary)]">
                     {results.category === 'Underweight' && 'You may need to gain weight for optimal health.'}
                     {results.category === 'Normal weight' && 'Great! You have a healthy weight for your height.'}
                     {results.category === 'Overweight' && 'Consider losing weight to improve your health.'}
@@ -140,36 +127,36 @@ export default function BMICalculatorPage() {
                 </div>
 
                 {/* BMI Chart */}
-                <div className="bg-gray-50 rounded-lg p-6">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-4">
+                <Card className="p-6">
+                  <h3 className="text-lg font-bold text-[var(--text-primary)] mb-4">
                     BMI Categories
                   </h3>
                   <div className="space-y-2">
                     <div className="flex justify-between items-center">
-                      <span className="text-sm text-gray-600">Underweight</span>
-                      <span className="text-sm font-medium text-blue-600">&lt; 18.5</span>
+                      <span className="text-sm text-[var(--text-secondary)]">Underweight</span>
+                      <span className="text-sm font-medium text-[var(--accent)]">&lt; 18.5</span>
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="text-sm text-gray-600">Normal weight</span>
-                      <span className="text-sm font-medium text-green-600">18.5 - 24.9</span>
+                      <span className="text-sm text-[var(--text-secondary)]">Normal weight</span>
+                      <span className="text-sm font-medium text-[var(--success)]">18.5 - 24.9</span>
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="text-sm text-gray-600">Overweight</span>
-                      <span className="text-sm font-medium text-yellow-600">25.0 - 29.9</span>
+                      <span className="text-sm text-[var(--text-secondary)]">Overweight</span>
+                      <span className="text-sm font-medium text-[var(--warning)]">25.0 - 29.9</span>
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="text-sm text-gray-600">Obese</span>
-                      <span className="text-sm font-medium text-red-600">≥ 30.0</span>
+                      <span className="text-sm text-[var(--text-secondary)]">Obese</span>
+                      <span className="text-sm font-medium text-[var(--danger)]">≥ 30.0</span>
                     </div>
                   </div>
-                </div>
+                </Card>
 
                 {/* Health Recommendations */}
-                <div className="bg-blue-50 rounded-lg p-6">
-                  <h3 className="text-lg font-semibold text-blue-900 mb-4">
+                <Card className="p-6">
+                  <h3 className="text-lg font-bold text-[var(--text-primary)] mb-4">
                     Health Recommendations
                   </h3>
-                  <div className="text-sm text-blue-800 space-y-2">
+                  <div className="text-sm text-[var(--text-secondary)] space-y-2">
                     {results.category === 'Underweight' && (
                       <>
                         <p>• Focus on gaining weight through healthy foods</p>
@@ -199,50 +186,50 @@ export default function BMICalculatorPage() {
                       </>
                     )}
                   </div>
-                </div>
+                </Card>
               </div>
             ) : (
               <div className="text-center py-12">
-                <Scale className="h-16 w-16 text-gray-300 mx-auto mb-4" />
-                <p className="text-gray-500">
+                <Scale className="h-16 w-16 text-[var(--text-secondary)] mx-auto mb-4" />
+                <p className="text-[var(--text-secondary)]">
                   Enter your weight and height to calculate your BMI
                 </p>
               </div>
             )}
-          </div>
+          </Card>
         </div>
 
         {/* Information */}
-        <div className="mt-12 bg-white rounded-xl shadow-lg p-8">
+        <Card className="mt-8 p-8">
           <div className="flex items-start space-x-3">
-            <Info className="h-6 w-6 text-green-600 mt-0.5" />
+            <Info className="h-6 w-6 text-[var(--accent)] mt-0.5 flex-shrink-0" />
             <div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">
+              <h3 className="text-lg font-bold text-[var(--text-primary)] mb-4">
                 About BMI
               </h3>
-              <div className="text-gray-600 space-y-3">
+              <div className="text-[var(--text-secondary)] space-y-3">
                 <p>
-                  Body Mass Index (BMI) is a measure of body fat based on height and weight. 
-                  It's calculated using the formula: <strong>BMI = weight (kg) / height (m)²</strong>
+                  Body Mass Index (BMI) is a measure of body fat based on height and weight.
+                  It&apos;s calculated using the formula: <strong className="text-[var(--text-primary)]">BMI = weight (kg) / height (m)²</strong>
                 </p>
                 <p>
-                  BMI is a useful screening tool to identify potential weight problems, 
-                  but it doesn't directly measure body fat or account for factors like muscle mass, 
+                  BMI is a useful screening tool to identify potential weight problems,
+                  but it doesn&apos;t directly measure body fat or account for factors like muscle mass,
                   bone density, or overall body composition.
                 </p>
                 <p>
-                  <strong>Limitations:</strong> BMI may not be accurate for athletes with high muscle mass, 
-                  older adults who have lost muscle mass, or people with certain medical conditions. 
-                  It's best used as a general guideline alongside other health assessments.
+                  <strong className="text-[var(--text-primary)]">Limitations:</strong> BMI may not be accurate for athletes with high muscle mass,
+                  older adults who have lost muscle mass, or people with certain medical conditions.
+                  It&apos;s best used as a general guideline alongside other health assessments.
                 </p>
                 <p>
-                  <strong>Important:</strong> Always consult with a healthcare professional for 
+                  <strong className="text-[var(--text-primary)]">Important:</strong> Always consult with a healthcare professional for
                   personalized health advice and weight management recommendations.
                 </p>
               </div>
             </div>
           </div>
-        </div>
+        </Card>
       </div>
     </div>
   )

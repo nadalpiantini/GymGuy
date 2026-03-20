@@ -1,7 +1,7 @@
 -- Seed data for the application
 
 -- Insert equipment
-INSERT INTO public.equipment (name, slug, icon) VALUES
+INSERT INTO public.gymguy_equipment (name, slug, icon) VALUES
 ('Bodyweight', 'bodyweight', '💪'),
 ('Dumbbell', 'dumbbell', '🏋️'),
 ('Barbell', 'barbell', '🏋️‍♂️'),
@@ -16,7 +16,7 @@ INSERT INTO public.equipment (name, slug, icon) VALUES
 ('EZ Bar', 'ez-bar', '🔄');
 
 -- Insert muscles
-INSERT INTO public.muscles (name, slug, icon) VALUES
+INSERT INTO public.gymguy_muscles (name, slug, icon) VALUES
 ('Chest', 'chest', '🫁'),
 ('Back', 'back', '🫂'),
 ('Shoulders', 'shoulders', '💪'),
@@ -34,7 +34,7 @@ INSERT INTO public.muscles (name, slug, icon) VALUES
 ('Lats', 'lats', '🫂');
 
 -- Insert exercises
-INSERT INTO public.exercises (name, description, video_url, cues, difficulty, equipment_required, primary_muscles, secondary_muscles) VALUES
+INSERT INTO public.gymguy_exercises (name, description, video_url, cues, difficulty, equipment_required, primary_muscles, secondary_muscles) VALUES
 -- Chest exercises
 ('Push-ups', 'Classic bodyweight chest exercise', 'https://videos.fitdistance.io/push-ups.mp4', ARRAY['Keep core tight', 'Full range of motion', 'Hands shoulder-width apart'], 'beginner', ARRAY[1], ARRAY[1], ARRAY[3, 5, 7]),
 ('Bench Press', 'Barbell chest press on bench', 'https://videos.fitdistance.io/bench-press.mp4', ARRAY['Retract shoulder blades', 'Control the weight', 'Full extension'], 'intermediate', ARRAY[2, 7], ARRAY[1], ARRAY[3, 5]),
@@ -69,7 +69,7 @@ INSERT INTO public.exercises (name, description, video_url, cues, difficulty, eq
 ('Mountain Climbers', 'Dynamic core exercise', 'https://videos.fitdistance.io/mountain-climbers.mp4', ARRAY['Keep core tight', 'Quick alternating steps', 'Maintain plank position'], 'intermediate', ARRAY[1], ARRAY[7], ARRAY[10]);
 
 -- Insert programs
-INSERT INTO public.programs (name, description, level, type, duration_weeks, frequency_per_week, session_duration_minutes, equipment_required, is_premium) VALUES
+INSERT INTO public.gymguy_programs (name, description, level, type, duration_weeks, frequency_per_week, session_duration_minutes, equipment_required, is_premium) VALUES
 ('Full Body Novice', 'Perfect for beginners starting their fitness journey. Focus on learning proper form and building a foundation.', 'beginner', 'strength', 4, 3, 45, ARRAY[1, 2, 3, 7], false),
 ('Upper/Lower Split', 'Intermediate program alternating between upper and lower body workouts for balanced development.', 'intermediate', 'strength', 6, 4, 60, ARRAY[1, 2, 3, 6, 7, 8], false),
 ('Push/Pull/Legs', 'Advanced 6-day program for serious lifters. Maximum volume and intensity.', 'advanced', 'strength', 8, 6, 75, ARRAY[1, 2, 3, 6, 7, 8, 11], true),
@@ -78,7 +78,7 @@ INSERT INTO public.programs (name, description, level, type, duration_weeks, fre
 ('Mobility & Flexibility', 'Improve range of motion and reduce injury risk with this mobility-focused program.', 'beginner', 'mobility', 6, 5, 20, ARRAY[1, 9], false);
 
 -- Insert program sessions for Full Body Novice (Program ID 1)
-INSERT INTO public.program_sessions (program_id, week, day, name, blocks) VALUES
+INSERT INTO public.gymguy_program_sessions (program_id, week, day, name, blocks) VALUES
 (1, 1, 1, 'Full Body A', '[
   {
     "name": "Warm-up",
@@ -135,7 +135,7 @@ INSERT INTO public.program_sessions (program_id, week, day, name, blocks) VALUES
 ]'::jsonb);
 
 -- Insert translations
-INSERT INTO public.translations (key, locale, value) VALUES
+INSERT INTO public.gymguy_translations (key, locale, value) VALUES
 -- Navigation
 ('nav.home', 'en', 'Home'),
 ('nav.home', 'es', 'Inicio'),

@@ -26,13 +26,13 @@ export function LoginForm({ onSuccess, onSwitchToSignUp, locale = 'en' }: LoginF
     setError(null)
 
     const { error } = await signIn(email, password)
-    
+
     if (error) {
       setError(error.message)
     } else {
       onSuccess?.()
     }
-    
+
     setLoading(false)
   }
 
@@ -45,7 +45,7 @@ export function LoginForm({ onSuccess, onSwitchToSignUp, locale = 'en' }: LoginF
       noValidate
     >
       <div>
-        <label htmlFor="login-email" className="block text-sm font-medium text-white mb-1">
+        <label htmlFor="login-email" className="block text-sm font-medium text-[var(--text-primary)] mb-1">
           {getTranslation('auth.email', locale)}
         </label>
         <input
@@ -59,13 +59,13 @@ export function LoginForm({ onSuccess, onSwitchToSignUp, locale = 'en' }: LoginF
           aria-required="true"
           aria-invalid={error ? 'true' : 'false'}
           aria-describedby={error ? errorId : undefined}
-          className="w-full px-3 py-2 border border-gray-600 bg-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white placeholder:text-gray-400"
+          className="w-full px-3 py-2 border border-[var(--border)] bg-[var(--bg-tertiary)] rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--accent)] focus:border-transparent text-[var(--text-primary)] placeholder:text-[var(--text-secondary)]"
           placeholder={getTranslation('auth.email_placeholder', locale)}
         />
       </div>
 
       <div>
-        <label htmlFor="login-password" className="block text-sm font-medium text-white mb-1">
+        <label htmlFor="login-password" className="block text-sm font-medium text-[var(--text-primary)] mb-1">
           {getTranslation('auth.password', locale)}
         </label>
         <input
@@ -79,7 +79,7 @@ export function LoginForm({ onSuccess, onSwitchToSignUp, locale = 'en' }: LoginF
           aria-required="true"
           aria-invalid={error ? 'true' : 'false'}
           aria-describedby={error ? errorId : undefined}
-          className="w-full px-3 py-2 border border-gray-600 bg-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white placeholder:text-gray-400"
+          className="w-full px-3 py-2 border border-[var(--border)] bg-[var(--bg-tertiary)] rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--accent)] focus:border-transparent text-[var(--text-primary)] placeholder:text-[var(--text-secondary)]"
           placeholder={getTranslation('auth.password_placeholder', locale)}
         />
       </div>
@@ -89,7 +89,7 @@ export function LoginForm({ onSuccess, onSwitchToSignUp, locale = 'en' }: LoginF
           id={errorId}
           role="alert"
           aria-live="assertive"
-          className="text-red-400 text-sm bg-red-900/20 border border-red-800 p-3 rounded-md"
+          className="text-[var(--danger)] text-sm bg-[var(--danger)]/10 border border-[var(--danger)]/20 p-3 rounded-md"
         >
           <span className="sr-only">Error:</span> {error}
         </div>
@@ -117,7 +117,7 @@ export function LoginForm({ onSuccess, onSwitchToSignUp, locale = 'en' }: LoginF
           <button
             type="button"
             onClick={onSwitchToSignUp}
-            className="text-blue-400 hover:text-blue-300 text-sm underline focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-black rounded px-2 py-1"
+            className="text-[var(--accent)] hover:text-[var(--accent)]/80 text-sm underline focus:outline-none focus:ring-2 focus:ring-[var(--accent)] focus:ring-offset-2 focus:ring-offset-[var(--bg-primary)] rounded px-2 py-1"
           >
             {getTranslation('auth.no_account', locale)}
           </button>

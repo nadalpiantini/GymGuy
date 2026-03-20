@@ -19,7 +19,7 @@ export class I18nService {
   async loadTranslations(locale: Locale = this.currentLocale): Promise<void> {
     try {
       // Check if we're in development mode without Supabase
-      if (!process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL === 'https://placeholder.supabase.co') {
+      if (!process.env.NEXT_PUBLIC_GYMGUY_SUPABASE_URL || process.env.NEXT_PUBLIC_GYMGUY_SUPABASE_URL === 'https://placeholder.supabase.co') {
         // Use default translations in development mode
         this.translations.clear()
         Object.entries(defaultTranslations).forEach(([key, value]) => {
@@ -30,7 +30,7 @@ export class I18nService {
       }
 
       const { data, error } = await supabase
-        .from('translations')
+        .from('gymguy_translations')
         .select('key, value')
         .eq('locale', locale)
 

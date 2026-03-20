@@ -230,7 +230,7 @@ CREATE POLICY "Users can view own workout items" ON public.gymguy_workout_items
     FOR SELECT USING (
         EXISTS (
             SELECT 1 FROM public.gymguy_workouts 
-            WHERE id = workout_items.workout_id 
+            WHERE id = gymguy_workout_items.workout_id 
             AND user_id = auth.uid()
         )
     );
@@ -239,7 +239,7 @@ CREATE POLICY "Users can insert own workout items" ON public.gymguy_workout_item
     FOR INSERT WITH CHECK (
         EXISTS (
             SELECT 1 FROM public.gymguy_workouts 
-            WHERE id = workout_items.workout_id 
+            WHERE id = gymguy_workout_items.workout_id 
             AND user_id = auth.uid()
         )
     );
@@ -248,7 +248,7 @@ CREATE POLICY "Users can update own workout items" ON public.gymguy_workout_item
     FOR UPDATE USING (
         EXISTS (
             SELECT 1 FROM public.gymguy_workouts 
-            WHERE id = workout_items.workout_id 
+            WHERE id = gymguy_workout_items.workout_id 
             AND user_id = auth.uid()
         )
     );
@@ -257,7 +257,7 @@ CREATE POLICY "Users can delete own workout items" ON public.gymguy_workout_item
     FOR DELETE USING (
         EXISTS (
             SELECT 1 FROM public.gymguy_workouts 
-            WHERE id = workout_items.workout_id 
+            WHERE id = gymguy_workout_items.workout_id 
             AND user_id = auth.uid()
         )
     );
@@ -301,6 +301,15 @@ CREATE POLICY "Users can delete own bodyweight logs" ON public.gymguy_bodyweight
 -- Payments policies
 CREATE POLICY "Users can view own payments" ON public.gymguy_payments
     FOR SELECT USING (auth.uid() = user_id);
+
+-- Enable RLS on public-read tables (read-only via policy, no INSERT/UPDATE/DELETE allowed)
+ALTER TABLE public.gymguy_equipment ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.gymguy_muscles ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.gymguy_exercises ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.gymguy_programs ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.gymguy_program_sessions ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.gymguy_translations ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.gymguy_leaderboard_snapshots ENABLE ROW LEVEL SECURITY;
 
 -- Public read access for equipment, muscles, exercises, programs, program_sessions, translations
 CREATE POLICY "Anyone can view equipment" ON public.gymguy_equipment FOR SELECT USING (true);

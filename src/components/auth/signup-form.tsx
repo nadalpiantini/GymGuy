@@ -41,24 +41,24 @@ export function SignUpForm({ onSuccess, onSwitchToLogin, locale = 'en' }: SignUp
     }
 
     const { error } = await signUp(email, password, name)
-    
+
     if (error) {
       setError(error.message)
     } else {
       setSuccess(true)
       onSuccess?.()
     }
-    
+
     setLoading(false)
   }
 
   if (success) {
     return (
       <div className="text-center space-y-4" role="status" aria-live="polite">
-        <div className="text-green-400 text-lg font-medium">
+        <div className="text-[var(--success)] text-lg font-medium">
           {getTranslation('auth.signup_success', locale)}
         </div>
-        <p className="text-gray-300">
+        <p className="text-[var(--text-secondary)]">
           {getTranslation('auth.check_email', locale)}
         </p>
       </div>
@@ -74,7 +74,7 @@ export function SignUpForm({ onSuccess, onSwitchToLogin, locale = 'en' }: SignUp
       noValidate
     >
       <div>
-        <label htmlFor="signup-name" className="block text-sm font-medium text-white mb-1">
+        <label htmlFor="signup-name" className="block text-sm font-medium text-[var(--text-primary)] mb-1">
           {getTranslation('auth.name', locale)}
         </label>
         <input
@@ -88,13 +88,13 @@ export function SignUpForm({ onSuccess, onSwitchToLogin, locale = 'en' }: SignUp
           aria-required="true"
           aria-invalid={error ? 'true' : 'false'}
           aria-describedby={error ? errorId : undefined}
-          className="w-full px-3 py-2 border border-gray-600 bg-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white placeholder:text-gray-400"
+          className="w-full px-3 py-2 border border-[var(--border)] bg-[var(--bg-tertiary)] rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--accent)] focus:border-transparent text-[var(--text-primary)] placeholder:text-[var(--text-secondary)]"
           placeholder={getTranslation('auth.name_placeholder', locale)}
         />
       </div>
 
       <div>
-        <label htmlFor="signup-email" className="block text-sm font-medium text-white mb-1">
+        <label htmlFor="signup-email" className="block text-sm font-medium text-[var(--text-primary)] mb-1">
           {getTranslation('auth.email', locale)}
         </label>
         <input
@@ -108,15 +108,15 @@ export function SignUpForm({ onSuccess, onSwitchToLogin, locale = 'en' }: SignUp
           aria-required="true"
           aria-invalid={error ? 'true' : 'false'}
           aria-describedby={error ? errorId : undefined}
-          className="w-full px-3 py-2 border border-gray-600 bg-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white placeholder:text-gray-400"
+          className="w-full px-3 py-2 border border-[var(--border)] bg-[var(--bg-tertiary)] rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--accent)] focus:border-transparent text-[var(--text-primary)] placeholder:text-[var(--text-secondary)]"
           placeholder={getTranslation('auth.email_placeholder', locale)}
         />
       </div>
 
       <div>
-        <label htmlFor="signup-password" className="block text-sm font-medium text-white mb-1">
+        <label htmlFor="signup-password" className="block text-sm font-medium text-[var(--text-primary)] mb-1">
           {getTranslation('auth.password', locale)}
-          <span className="text-gray-400 text-xs ml-1">(min 6 characters)</span>
+          <span className="text-[var(--text-secondary)] text-xs ml-1">(min 6 characters)</span>
         </label>
         <input
           id="signup-password"
@@ -130,14 +130,14 @@ export function SignUpForm({ onSuccess, onSwitchToLogin, locale = 'en' }: SignUp
           aria-invalid={error ? 'true' : 'false'}
           aria-describedby={error ? errorId : 'password-requirements'}
           minLength={6}
-          className="w-full px-3 py-2 border border-gray-600 bg-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white placeholder:text-gray-400"
+          className="w-full px-3 py-2 border border-[var(--border)] bg-[var(--bg-tertiary)] rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--accent)] focus:border-transparent text-[var(--text-primary)] placeholder:text-[var(--text-secondary)]"
           placeholder={getTranslation('auth.password_placeholder', locale)}
         />
         <span id="password-requirements" className="sr-only">Password must be at least 6 characters</span>
       </div>
 
       <div>
-        <label htmlFor="signup-confirm-password" className="block text-sm font-medium text-white mb-1">
+        <label htmlFor="signup-confirm-password" className="block text-sm font-medium text-[var(--text-primary)] mb-1">
           {getTranslation('auth.confirm_password', locale)}
         </label>
         <input
@@ -151,7 +151,7 @@ export function SignUpForm({ onSuccess, onSwitchToLogin, locale = 'en' }: SignUp
           aria-required="true"
           aria-invalid={error ? 'true' : 'false'}
           aria-describedby={error ? errorId : undefined}
-          className="w-full px-3 py-2 border border-gray-600 bg-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white placeholder:text-gray-400"
+          className="w-full px-3 py-2 border border-[var(--border)] bg-[var(--bg-tertiary)] rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--accent)] focus:border-transparent text-[var(--text-primary)] placeholder:text-[var(--text-secondary)]"
           placeholder={getTranslation('auth.confirm_password_placeholder', locale)}
         />
       </div>
@@ -161,7 +161,7 @@ export function SignUpForm({ onSuccess, onSwitchToLogin, locale = 'en' }: SignUp
           id={errorId}
           role="alert"
           aria-live="assertive"
-          className="text-red-400 text-sm bg-red-900/20 border border-red-800 p-3 rounded-md"
+          className="text-[var(--danger)] text-sm bg-[var(--danger)]/10 border border-[var(--danger)]/20 p-3 rounded-md"
         >
           <span className="sr-only">Error:</span> {error}
         </div>
@@ -189,7 +189,7 @@ export function SignUpForm({ onSuccess, onSwitchToLogin, locale = 'en' }: SignUp
           <button
             type="button"
             onClick={onSwitchToLogin}
-            className="text-blue-600 hover:text-blue-800 text-sm"
+            className="text-[var(--accent)] hover:text-[var(--accent)]/80 text-sm"
           >
             {getTranslation('auth.have_account', locale)}
           </button>
