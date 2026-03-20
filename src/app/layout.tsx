@@ -1,11 +1,13 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
+import { JetBrains_Mono } from 'next/font/google'
 import Image from 'next/image'
 import './globals.css'
 import { AuthProvider } from '@/components/auth/auth-provider'
 import { HydrationFix } from '@/components/hydration-fix'
 
 const inter = Inter({ subsets: ['latin'] })
+const jetbrainsMono = JetBrains_Mono({ subsets: ['latin'], variable: '--font-mono' })
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'https://gymguy.sujeto10.com'),
@@ -49,7 +51,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
+    <html lang="en" className={jetbrainsMono.variable}>
       <body className={inter.className} suppressHydrationWarning={true}>
         <HydrationFix />
         <AuthProvider>

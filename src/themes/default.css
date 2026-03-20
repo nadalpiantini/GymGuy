@@ -1,0 +1,14 @@
+:root {
+  --bg-primary: #0A0A0F;
+  --bg-secondary: #12121A;
+  --bg-tertiary: #1A1A25;
+  --border: #2A2A3A;
+  --text-primary: #F0F0F5;
+  --text-secondary: #8888A0;
+  --accent: #00D4FF;
+  --accent-glow: rgba(0, 212, 255, 0.2);
+  --accent-surface: rgba(0, 212, 255, 0.06);
+  --success: #00E676;
+  --warning: #FFB300;
+  --danger: #FF3D57;
+}
