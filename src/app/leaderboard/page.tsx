@@ -4,11 +4,14 @@ import { useState, useEffect, useCallback } from 'react'
 import { useAuth } from '@/components/auth/auth-provider'
 import { supabase } from '@/lib/supabase-client'
 import { Button } from '@/components/ui/button'
-import { 
-  Trophy, 
-  Medal, 
-  Crown, 
-  Users, 
+import { Card } from '@/components/ui/card'
+import { StatCard } from '@/components/ui/stat-card'
+import { PageHero } from '@/components/ui/page-hero'
+import {
+  Trophy,
+  Medal,
+  Crown,
+  Users,
   Calendar,
   TrendingUp,
   Target,
@@ -163,13 +166,13 @@ export default function LeaderboardPage() {
   const getRankIcon = (rank: number) => {
     switch (rank) {
       case 1:
-        return <Crown className="w-6 h-6 text-yellow-500" />
+        return <Crown className="w-6 h-6 text-[var(--warning)]" />
       case 2:
-        return <Medal className="w-6 h-6 text-gray-400" />
+        return <Medal className="w-6 h-6 text-[var(--text-secondary)]" />
       case 3:
-        return <Trophy className="w-6 h-6 text-orange-600" />
+        return <Trophy className="w-6 h-6 text-[var(--warning)]" />
       default:
-        return <Medal className="w-6 h-6 text-gray-300" />
+        return <Medal className="w-6 h-6 text-[var(--border)]" />
     }
   }
 
@@ -201,20 +204,24 @@ export default function LeaderboardPage() {
 
   const currentUserRank = leaderboard.find(entry => entry.user_id === user?.id)
 
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
-      <div className="max-w-4xl mx-auto px-4 py-8">
-        <div className="mb-8 text-center">
-          <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">
-            Leaderboard
-          </h1>
-          <p className="text-gray-600 dark:text-gray-400">
-            See how you stack up against other gym members
-          </p>
-        </div>
+  const avgValue = leaderboard.length > 0
+    ? Math.round(leaderboard.reduce((sum, entry) =>
+        sum + (scope === 'workouts' ? entry.workouts :
+              scope === 'volume' ? entry.volume :
+              entry.streak), 0) / leaderboard.length)
+    : 0
 
+  return (
+    <div className="min-h-screen bg-[var(--bg-primary)]">
+      <PageHero
+        badge="Community"
+        title="Leaderboard"
+        subtitle="See how you stack up against other gym members."
+      />
+
+      <div className="max-w-4xl mx-auto px-4 pb-16">
         {/* Filters */}
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-8">
+        <Card className="mb-8">
           <div className="flex flex-wrap gap-4 items-center justify-between">
             <div className="flex flex-wrap gap-2">
               <Button
@@ -269,21 +276,21 @@ export default function LeaderboardPage() {
               </Button>
             </div>
           </div>
-        </div>
+        </Card>
 
         {/* Current User Stats */}
         {currentUserRank && (
-          <div className="bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg shadow-md p-6 mb-8 text-white">
+          <div className="bg-gradient-to-r from-[var(--accent)]/20 to-[var(--accent)]/10 border border-[var(--accent)]/30 rounded-xl p-6 mb-8">
             <div className="flex items-center justify-between">
               <div>
-                <h3 className="text-lg font-semibold mb-1">Your Rank</h3>
+                <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-1">Your Rank</h3>
                 <div className="flex items-center gap-2">
-                  <div className="w-12 h-12 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
-                    <span className="text-xl font-bold">{currentUserRank.rank}</span>
+                  <div className="w-12 h-12 bg-[var(--accent)]/20 rounded-full flex items-center justify-center">
+                    <span className="text-xl font-bold text-[var(--accent)]">{currentUserRank.rank}</span>
                   </div>
                   <div>
-                    <p className="font-medium">{currentUserRank.name}</p>
-                    <p className="text-sm opacity-90">
+                    <p className="font-medium text-[var(--text-primary)]">{currentUserRank.name}</p>
+                    <p className="text-sm text-[var(--text-secondary)]">
                       {getScopeLabel()}: {
                         scope === 'workouts' ? currentUserRank.workouts :
                         scope === 'volume' ? currentUserRank.volume :
@@ -294,8 +301,8 @@ export default function LeaderboardPage() {
                 </div>
               </div>
               <div className="text-right">
-                <p className="text-sm opacity-90">{getPeriodLabel()}</p>
-                <p className="text-lg font-semibold">
+                <p className="text-sm text-[var(--text-secondary)]">{getPeriodLabel()}</p>
+                <p className="text-lg font-semibold text-[var(--accent)]">
                   Top {Math.round((currentUserRank.rank / leaderboard.length) * 100)}%
                 </p>
               </div>
@@ -304,25 +311,25 @@ export default function LeaderboardPage() {
         )}
 
         {/* Leaderboard Table */}
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
-          <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
-              {getPeriodLabel()} - {getScopeLabel()}
+        <Card className="overflow-hidden p-0">
+          <div className="px-6 py-4 border-b border-[var(--border)]">
+            <h2 className="text-xl font-semibold text-[var(--text-primary)]">
+              {getPeriodLabel()} — {getScopeLabel()}
             </h2>
           </div>
-          
+
           {loading ? (
             <div className="p-8 text-center">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-              <p className="mt-4 text-gray-600 dark:text-gray-400">Loading leaderboard...</p>
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[var(--accent)] mx-auto"></div>
+              <p className="mt-4 text-[var(--text-secondary)]">Loading leaderboard...</p>
             </div>
           ) : (
-            <div className="divide-y divide-gray-200 dark:divide-gray-700">
+            <div className="divide-y divide-[var(--border)]">
               {leaderboard.map((entry) => (
                 <div
                   key={entry.user_id}
-                  className={`px-6 py-4 flex items-center justify-between hover:bg-gray-50 dark:hover:bg-gray-700 ${
-                    entry.user_id === user?.id ? 'bg-blue-50 dark:bg-blue-900/20' : ''
+                  className={`px-6 py-4 flex items-center justify-between hover:bg-[var(--bg-tertiary)] transition-colors duration-150 ${
+                    entry.user_id === user?.id ? 'bg-[var(--accent)]/5' : 'bg-[var(--bg-secondary)]'
                   }`}
                 >
                   <div className="flex items-center gap-4">
@@ -331,13 +338,13 @@ export default function LeaderboardPage() {
                     </div>
                     <div>
                       <p className={`font-medium ${
-                        entry.user_id === user?.id 
-                          ? 'text-blue-600 dark:text-blue-400' 
-                          : 'text-gray-900 dark:text-white'
+                        entry.user_id === user?.id
+                          ? 'text-[var(--accent)]'
+                          : 'text-[var(--text-primary)]'
                       }`}>
                         {entry.name}
                       </p>
-                      <p className="text-sm text-gray-600 dark:text-gray-400">
+                      <p className="text-sm text-[var(--text-secondary)]">
                         {getScopeLabel()}: {
                           scope === 'workouts' ? entry.workouts :
                           scope === 'volume' ? entry.volume :
@@ -348,13 +355,13 @@ export default function LeaderboardPage() {
                   </div>
                   <div className="text-right">
                     <p className={`font-semibold ${
-                      entry.user_id === user?.id 
-                        ? 'text-blue-600 dark:text-blue-400' 
-                        : 'text-gray-900 dark:text-white'
+                      entry.user_id === user?.id
+                        ? 'text-[var(--accent)]'
+                        : 'text-[var(--text-primary)]'
                     }`}>
                       #{entry.rank}
                     </p>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                    <p className="text-sm text-[var(--text-secondary)]">
                       {Math.round((entry.rank / leaderboard.length) * 100)}%
                     </p>
                   </div>
@@ -362,43 +369,22 @@ export default function LeaderboardPage() {
               ))}
             </div>
           )}
-        </div>
+        </Card>
 
         {/* Stats Summary */}
         <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 text-center">
-            <Users className="w-8 h-8 text-blue-600 mx-auto mb-2" />
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-1">
-              Total Members
-            </h3>
-            <p className="text-2xl font-bold text-blue-600">
-              {leaderboard.length}
-            </p>
-          </div>
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 text-center">
-            <Dumbbell className="w-8 h-8 text-green-600 mx-auto mb-2" />
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-1">
-              Avg. {getScopeLabel()}
-            </h3>
-            <p className="text-2xl font-bold text-green-600">
-              {leaderboard.length > 0 
-                ? Math.round(leaderboard.reduce((sum, entry) => 
-                    sum + (scope === 'workouts' ? entry.workouts :
-                          scope === 'volume' ? entry.volume :
-                          entry.streak), 0) / leaderboard.length)
-                : 0
-              }
-            </p>
-          </div>
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 text-center">
-            <Trophy className="w-8 h-8 text-yellow-600 mx-auto mb-2" />
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-1">
-              Top Performer
-            </h3>
-            <p className="text-2xl font-bold text-yellow-600">
-              {leaderboard[0]?.name || 'N/A'}
-            </p>
-          </div>
+          <StatCard
+            value={leaderboard.length}
+            label="Total Members"
+          />
+          <StatCard
+            value={avgValue}
+            label={`Avg. ${getScopeLabel()}`}
+          />
+          <StatCard
+            value={leaderboard[0]?.name || 'N/A'}
+            label="Top Performer"
+          />
         </div>
       </div>
     </div>

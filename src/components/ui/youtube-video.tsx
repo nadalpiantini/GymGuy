@@ -24,7 +24,7 @@ export function YouTubeVideo({ videoId, title, className = '' }: YouTubeVideoPro
   if (!isPlaying) {
     return (
       <div className={`relative cursor-pointer group ${className}`} onClick={handlePlay} role="button" tabIndex={0} aria-label={`Play video: ${title}`} onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handlePlay(); } }}>
-        <div className="relative w-full h-48 bg-gray-900 rounded-lg overflow-hidden">
+        <div className="relative w-full h-48 bg-[var(--bg-secondary)] rounded-lg overflow-hidden">
           <Image
             src={`https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`}
             alt={`Video thumbnail: ${title}`}
@@ -38,9 +38,9 @@ export function YouTubeVideo({ videoId, title, className = '' }: YouTubeVideoPro
             </div>
           </div>
         </div>
-        <div className="mt-2 text-sm text-gray-600">
-          <p className="font-medium">{title}</p>
-          <p className="text-xs text-gray-500">Click to watch video</p>
+        <div className="mt-2 text-sm text-[var(--text-secondary)]">
+          <p className="font-medium text-[var(--text-primary)]">{title}</p>
+          <p className="text-xs text-[var(--text-secondary)]">Click to watch video</p>
         </div>
       </div>
     )
@@ -55,7 +55,7 @@ export function YouTubeVideo({ videoId, title, className = '' }: YouTubeVideoPro
       >
         <X className="w-4 h-4" aria-hidden="true" />
       </button>
-      <div className="relative w-full h-64 bg-gray-900 rounded-lg overflow-hidden">
+      <div className="relative w-full h-64 bg-[var(--bg-secondary)] rounded-lg overflow-hidden">
         <iframe
           width="100%"
           height="100%"

@@ -4,10 +4,14 @@ import { useState, useEffect, useCallback } from 'react'
 import { useAuth } from '@/components/auth/auth-provider'
 import { supabase } from '@/lib/supabase-client'
 import { Button } from '@/components/ui/button'
+import { Card } from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
+import { FormField } from '@/components/ui/form-field'
+import { PageHero } from '@/components/ui/page-hero'
 import { getTranslation } from '@/lib/i18n'
-import { 
-  exercisesDatabase, 
-  muscleGroups, 
+import {
+  exercisesDatabase,
+  muscleGroups,
   exerciseCategories,
   getExercisesByMuscle,
   getExercisesByEquipment,
@@ -16,11 +20,11 @@ import {
   type MuscleGroup
 } from '@/lib/exercise-database'
 import { YouTubeVideo } from '@/components/ui/youtube-video'
-import { 
-  ArrowLeft, 
-  ArrowRight, 
-  Save, 
-  Plus, 
+import {
+  ArrowLeft,
+  ArrowRight,
+  Save,
+  Plus,
   Check,
   Play,
   Dumbbell,
@@ -104,19 +108,19 @@ export default function WorkoutGeneratorPage() {
       if (!supabaseUrl || supabaseUrl === 'https://placeholder.supabase.co' || supabaseUrl === 'your_supabase_project_url') {
         // Use exercise database for development
         console.log('Loading exercises from database')
-        
+
         // Filter exercises based on selected equipment and muscles
         const filteredExercises = exercisesDatabase.filter(exercise => {
           const hasEquipment = selectedEquipment.some(eq => exercise.equipment.includes(
             equipment.find(e => e.id === eq)?.name || eq
           ))
-          const hasMuscles = selectedMuscles.some(muscle => 
-            exercise.primary_muscles.includes(muscle) || 
+          const hasMuscles = selectedMuscles.some(muscle =>
+            exercise.primary_muscles.includes(muscle) ||
             exercise.secondary_muscles.includes(muscle)
           )
           return hasEquipment && hasMuscles
         })
-        
+
         setExercises(filteredExercises)
         return
       }
@@ -142,7 +146,7 @@ export default function WorkoutGeneratorPage() {
   }, [loadExercises, selectedEquipment, selectedMuscles])
 
   const toggleEquipment = (equipmentId: string) => {
-    setSelectedEquipment(prev => 
+    setSelectedEquipment(prev =>
       prev.includes(equipmentId)
         ? prev.filter(id => id !== equipmentId)
         : [...prev, equipmentId]
@@ -150,7 +154,7 @@ export default function WorkoutGeneratorPage() {
   }
 
   const toggleMuscle = (muscleId: string) => {
-    setSelectedMuscles(prev => 
+    setSelectedMuscles(prev =>
       prev.includes(muscleId)
         ? prev.filter(id => id !== muscleId)
         : [...prev, muscleId]
@@ -173,7 +177,7 @@ export default function WorkoutGeneratorPage() {
   }
 
   const updateExercise = (index: number, field: keyof WorkoutItem, value: any) => {
-    setSelectedExercises(prev => prev.map((item, i) => 
+    setSelectedExercises(prev => prev.map((item, i) =>
       i === index ? { ...item, [field]: value } : item
     ))
   }
@@ -199,7 +203,7 @@ export default function WorkoutGeneratorPage() {
       setSelectedExercises([])
       setWorkoutName('')
       setCurrentStep(1)
-      
+
       // Show success message
       alert('Workout saved successfully!')
     } catch (error) {
@@ -212,16 +216,16 @@ export default function WorkoutGeneratorPage() {
 
   const renderStep1 = () => (
     <div className="space-y-6">
-      <h2 className="text-2xl font-bold">Select Equipment</h2>
+      <h2 className="text-2xl font-bold text-[var(--text-primary)]">Select Equipment</h2>
       <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
         {equipment.map((item) => (
           <button
             key={item.id}
             onClick={() => toggleEquipment(item.id)}
-            className={`p-4 rounded-lg border-2 transition-all ${
+            className={`p-4 rounded-xl border-2 transition-all duration-200 text-left ${
               selectedEquipment.includes(item.id)
-                ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20'
-                : 'border-gray-300 dark:border-gray-600 hover:border-gray-400'
+                ? 'border-[var(--accent)] bg-[var(--accent)]/10 text-[var(--text-primary)]'
+                : 'border-[var(--border)] bg-[var(--bg-secondary)] hover:border-[var(--accent)]/40 text-[var(--text-primary)]'
             }`}
           >
             <div className="text-2xl mb-2">{item.icon}</div>
@@ -229,7 +233,7 @@ export default function WorkoutGeneratorPage() {
           </button>
         ))}
       </div>
-      
+
       {selectedEquipment.length > 0 && (
         <div className="flex justify-end">
           <Button onClick={() => setCurrentStep(2)}>
@@ -242,23 +246,23 @@ export default function WorkoutGeneratorPage() {
 
   const renderStep2 = () => (
     <div className="space-y-6">
-      <h2 className="text-2xl font-bold">Select Target Muscles</h2>
+      <h2 className="text-2xl font-bold text-[var(--text-primary)]">Select Target Muscles</h2>
       <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
         {muscles.map((muscle) => (
           <button
             key={muscle.id}
             onClick={() => toggleMuscle(muscle.id)}
-            className={`p-4 rounded-lg border-2 transition-all ${
+            className={`p-4 rounded-xl border-2 transition-all duration-200 text-left ${
               selectedMuscles.includes(muscle.id)
-                ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20'
-                : 'border-gray-300 dark:border-gray-600 hover:border-gray-400'
+                ? 'border-[var(--accent)] bg-[var(--accent)]/10 text-[var(--text-primary)]'
+                : 'border-[var(--border)] bg-[var(--bg-secondary)] hover:border-[var(--accent)]/40 text-[var(--text-primary)]'
             }`}
           >
             <div className="font-medium">{muscle.name}</div>
           </button>
         ))}
       </div>
-      
+
       <div className="flex justify-between">
         <Button variant="outline" onClick={() => setCurrentStep(1)}>
           <ArrowLeft className="mr-2 w-4 h-4" /> Back
@@ -274,21 +278,21 @@ export default function WorkoutGeneratorPage() {
 
   const renderStep3 = () => (
     <div className="space-y-6">
-      <h2 className="text-2xl font-bold">Select Exercises</h2>
+      <h2 className="text-2xl font-bold text-[var(--text-primary)]">Select Exercises</h2>
       <div className="grid gap-4">
         {exercises.map((exercise) => (
-          <div key={exercise.id} className="p-4 border rounded-lg">
+          <Card key={exercise.id}>
             <div className="flex justify-between items-start">
               <div className="flex-1">
-                <h3 className="font-semibold">{exercise.name}</h3>
+                <h3 className="font-semibold text-[var(--text-primary)]">{exercise.name}</h3>
                 <div className="flex flex-wrap gap-2 mt-2">
-                  <span className="text-sm bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded">
+                  <Badge variant="default">
                     {exercise.primary_muscles.join(', ')}
-                  </span>
+                  </Badge>
                   {exercise.equipment.map((eq) => (
-                    <span key={eq} className="text-sm bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded">
+                    <Badge key={eq} variant="default">
                       {eq}
-                    </span>
+                    </Badge>
                   ))}
                 </div>
               </div>
@@ -309,10 +313,10 @@ export default function WorkoutGeneratorPage() {
                 Add to Workout
               </Button>
             </div>
-          </div>
+          </Card>
         ))}
       </div>
-      
+
       <div className="flex justify-between">
         <Button variant="outline" onClick={() => setCurrentStep(2)}>
           <ArrowLeft className="mr-2 w-4 h-4" /> Back
@@ -328,17 +332,19 @@ export default function WorkoutGeneratorPage() {
 
   const renderStep4 = () => (
     <div className="space-y-6">
-      <h2 className="text-2xl font-bold">Review Your Workout</h2>
-      
-      <div>
-        <label htmlFor="workout-name" className="block text-sm font-medium mb-2">Workout Name</label>
+      <h2 className="text-2xl font-bold text-[var(--text-primary)]">Review Your Workout</h2>
+
+      <div className="space-y-1.5">
+        <label htmlFor="workout-name" className="block text-sm font-medium text-[var(--text-secondary)]">
+          Workout Name
+        </label>
         <input
           id="workout-name"
           type="text"
           value={workoutName}
           onChange={(e) => setWorkoutName(e.target.value)}
           placeholder={`Workout ${new Date().toLocaleDateString()}`}
-          className="w-full p-2 border rounded-md"
+          className="w-full px-3 py-2 bg-[var(--bg-tertiary)] border border-[var(--border)] rounded-lg text-[var(--text-primary)] placeholder:text-[var(--text-secondary)] focus:outline-none focus:ring-2 focus:ring-[var(--accent)] focus:border-transparent transition-all duration-200 min-h-[44px]"
         />
       </div>
 
@@ -346,9 +352,9 @@ export default function WorkoutGeneratorPage() {
         {selectedExercises.map((item, index) => {
           const exercise = exercises.find(e => e.id === item.exercise_id)
           return (
-            <div key={index} className="p-4 border rounded-lg">
+            <Card key={index}>
               <div className="flex justify-between items-start mb-4">
-                <h3 className="font-semibold">{exercise?.name}</h3>
+                <h3 className="font-semibold text-[var(--text-primary)]">{exercise?.name}</h3>
                 <Button
                   variant="outline"
                   size="sm"
@@ -357,10 +363,10 @@ export default function WorkoutGeneratorPage() {
                   Remove
                 </Button>
               </div>
-              
+
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 <div>
-                  <label htmlFor={`workout-sets-${index}`} className="block text-sm font-medium mb-1">Sets</label>
+                  <label htmlFor={`workout-sets-${index}`} className="block text-sm font-medium text-[var(--text-secondary)] mb-1">Sets</label>
                   <input
                     id={`workout-sets-${index}`}
                     type="number"
@@ -368,11 +374,11 @@ export default function WorkoutGeneratorPage() {
                     max="10"
                     value={item.sets}
                     onChange={(e) => updateExercise(index, 'sets', parseInt(e.target.value))}
-                    className="w-full p-2 border rounded-md"
+                    className="w-full px-3 py-2 bg-[var(--bg-tertiary)] border border-[var(--border)] rounded-lg text-[var(--text-primary)] focus:outline-none focus:ring-2 focus:ring-[var(--accent)] focus:border-transparent transition-all duration-200"
                   />
                 </div>
                 <div>
-                  <label htmlFor={`workout-reps-${index}`} className="block text-sm font-medium mb-1">Reps</label>
+                  <label htmlFor={`workout-reps-${index}`} className="block text-sm font-medium text-[var(--text-secondary)] mb-1">Reps</label>
                   <input
                     id={`workout-reps-${index}`}
                     type="number"
@@ -380,11 +386,11 @@ export default function WorkoutGeneratorPage() {
                     max="50"
                     value={item.reps || ''}
                     onChange={(e) => updateExercise(index, 'reps', e.target.value ? parseInt(e.target.value) : null)}
-                    className="w-full p-2 border rounded-md"
+                    className="w-full px-3 py-2 bg-[var(--bg-tertiary)] border border-[var(--border)] rounded-lg text-[var(--text-primary)] focus:outline-none focus:ring-2 focus:ring-[var(--accent)] focus:border-transparent transition-all duration-200"
                   />
                 </div>
                 <div>
-                  <label htmlFor={`workout-weight-${index}`} className="block text-sm font-medium mb-1">Weight (lbs)</label>
+                  <label htmlFor={`workout-weight-${index}`} className="block text-sm font-medium text-[var(--text-secondary)] mb-1">Weight (lbs)</label>
                   <input
                     id={`workout-weight-${index}`}
                     type="number"
@@ -392,11 +398,11 @@ export default function WorkoutGeneratorPage() {
                     step="2.5"
                     value={item.weight || ''}
                     onChange={(e) => updateExercise(index, 'weight', e.target.value ? parseFloat(e.target.value) : null)}
-                    className="w-full p-2 border rounded-md"
+                    className="w-full px-3 py-2 bg-[var(--bg-tertiary)] border border-[var(--border)] rounded-lg text-[var(--text-primary)] focus:outline-none focus:ring-2 focus:ring-[var(--accent)] focus:border-transparent transition-all duration-200"
                   />
                 </div>
                 <div>
-                  <label htmlFor={`workout-rest-${index}`} className="block text-sm font-medium mb-1">Rest (sec)</label>
+                  <label htmlFor={`workout-rest-${index}`} className="block text-sm font-medium text-[var(--text-secondary)] mb-1">Rest (sec)</label>
                   <input
                     id={`workout-rest-${index}`}
                     type="number"
@@ -405,11 +411,11 @@ export default function WorkoutGeneratorPage() {
                     step="30"
                     value={item.rest_seconds}
                     onChange={(e) => updateExercise(index, 'rest_seconds', parseInt(e.target.value))}
-                    className="w-full p-2 border rounded-md"
+                    className="w-full px-3 py-2 bg-[var(--bg-tertiary)] border border-[var(--border)] rounded-lg text-[var(--text-primary)] focus:outline-none focus:ring-2 focus:ring-[var(--accent)] focus:border-transparent transition-all duration-200"
                   />
                 </div>
               </div>
-            </div>
+            </Card>
           )
         })}
       </div>
@@ -431,7 +437,7 @@ export default function WorkoutGeneratorPage() {
           >
             {saving ? (
               <>
-                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-[var(--text-primary)] mr-2"></div>
                 Saving...
               </>
             ) : (
@@ -448,37 +454,39 @@ export default function WorkoutGeneratorPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+      <div className="min-h-screen bg-[var(--bg-primary)] flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[var(--accent)]"></div>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      <div className="max-w-4xl mx-auto px-4 py-8">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
-            Workout Generator
-          </h1>
-          <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
-            <span>Step {currentStep} of 4</span>
-            <span>•</span>
-            <span>
-              {currentStep === 1 && 'Select Equipment'}
-              {currentStep === 2 && 'Select Target Muscles'}
-              {currentStep === 3 && 'Select Exercises'}
-              {currentStep === 4 && 'Review & Save'}
-            </span>
-          </div>
+    <div className="min-h-screen bg-[var(--bg-primary)]">
+      <PageHero
+        badge="Workout Generator"
+        title="Create Your Workout"
+        subtitle="Pick your equipment, target your muscles, and build the perfect session."
+      />
+
+      <div className="max-w-4xl mx-auto px-4 pb-16">
+        {/* Step indicator */}
+        <div className="flex items-center gap-2 text-sm text-[var(--text-secondary)] mb-6">
+          <span>Step {currentStep} of 4</span>
+          <span>•</span>
+          <span>
+            {currentStep === 1 && 'Select Equipment'}
+            {currentStep === 2 && 'Select Target Muscles'}
+            {currentStep === 3 && 'Select Exercises'}
+            {currentStep === 4 && 'Review & Save'}
+          </span>
         </div>
 
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+        <Card>
           {currentStep === 1 && renderStep1()}
           {currentStep === 2 && renderStep2()}
           {currentStep === 3 && renderStep3()}
           {currentStep === 4 && renderStep4()}
-        </div>
+        </Card>
       </div>
     </div>
   )
