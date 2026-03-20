@@ -58,7 +58,8 @@
 
   /* High contrast selection styles */
   ::selection {
-    @apply bg-blue-500 text-white;
+    background-color: var(--accent);
+    color: var(--bg-primary);
   }
 
   /* Enhanced focus styles for better visibility */

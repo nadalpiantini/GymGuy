@@ -122,13 +122,13 @@ export default function ProgramDetailClient({ program }: ProgramDetailClientProp
     <div className="min-h-screen bg-[var(--bg-primary)]">
       <div className="pt-24 pb-24">
         {/* Hero Section */}
-        <div className="relative h-96 bg-gradient-to-br from-blue-600 to-purple-600">
-          <div className="absolute inset-0 bg-black/50" />
+        <div className="relative h-96 bg-gradient-to-br from-[var(--accent)]/20 to-[var(--accent)]/5">
+          <div className="absolute inset-0 bg-[var(--bg-primary)]/50" />
           <div className="absolute inset-0 flex flex-col justify-end p-8">
             <div className="max-w-7xl mx-auto w-full">
               <button
                 onClick={() => router.push('/programs')}
-                className="flex items-center gap-2 text-white/80 hover:text-white mb-4 transition-colors"
+                className="flex items-center gap-2 text-[var(--text-secondary)] hover:text-[var(--text-primary)] mb-4 transition-colors"
               >
                 <ArrowLeft className="w-5 h-5" />
                 <span>Back to Programs</span>
@@ -141,20 +141,20 @@ export default function ProgramDetailClient({ program }: ProgramDetailClientProp
                     </Badge>
                     <span className="text-4xl">{getTypeIcon(program.type)}</span>
                   </div>
-                  <h1 className="text-5xl font-bold text-white mb-4">
+                  <h1 className="text-5xl font-bold text-[var(--text-primary)] mb-4">
                     {program.name}
                   </h1>
-                  <p className="text-xl text-white/80 max-w-3xl">
+                  <p className="text-xl text-[var(--text-secondary)] max-w-3xl">
                     {program.description}
                   </p>
                 </div>
                 {isEnrolled && (
-                  <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4">
-                    <div className="text-white/60 text-sm mb-1">Your Progress</div>
-                    <div className="text-3xl font-bold text-white mb-2">
+                  <div className="bg-[var(--bg-secondary)]/80 backdrop-blur-sm rounded-lg p-4">
+                    <div className="text-[var(--text-secondary)] text-sm mb-1">Your Progress</div>
+                    <div className="text-3xl font-bold text-[var(--text-primary)] mb-2">
                       {completionPercentage.toFixed(0)}%
                     </div>
-                    <div className="text-white/80 text-sm">
+                    <div className="text-[var(--text-secondary)] text-sm">
                       Week {currentWeek} of {program.duration_weeks}
                     </div>
                   </div>
@@ -173,22 +173,22 @@ export default function ProgramDetailClient({ program }: ProgramDetailClientProp
                 <h2 className="text-2xl font-bold text-[var(--text-primary)] mb-6">Program Overview</h2>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                   <div className="bg-[var(--bg-primary)] rounded-lg p-4">
-                    <Calendar className="w-5 h-5 text-blue-500 mb-2" />
+                    <Calendar className="w-5 h-5 text-[var(--accent)] mb-2" />
                     <div className="text-2xl font-bold text-[var(--text-primary)]">{program.duration_weeks}</div>
                     <div className="text-sm text-[var(--text-secondary)]">Weeks</div>
                   </div>
                   <div className="bg-[var(--bg-primary)] rounded-lg p-4">
-                    <Dumbbell className="w-5 h-5 text-green-500 mb-2" />
+                    <Dumbbell className="w-5 h-5 text-[var(--success)] mb-2" />
                     <div className="text-2xl font-bold text-[var(--text-primary)]">{program.frequency_per_week}</div>
                     <div className="text-sm text-[var(--text-secondary)]">Days/Week</div>
                   </div>
                   <div className="bg-[var(--bg-primary)] rounded-lg p-4">
-                    <Clock className="w-5 h-5 text-purple-500 mb-2" />
+                    <Clock className="w-5 h-5 text-[var(--accent)] mb-2" />
                     <div className="text-2xl font-bold text-[var(--text-primary)]">{program.session_duration_minutes}</div>
                     <div className="text-sm text-[var(--text-secondary)]">Min/Session</div>
                   </div>
                   <div className="bg-[var(--bg-primary)] rounded-lg p-4">
-                    <TrendingUp className="w-5 h-5 text-red-500 mb-2" />
+                    <TrendingUp className="w-5 h-5 text-[var(--danger)] mb-2" />
                     <div className="text-2xl font-bold text-[var(--text-primary)]">{program.difficulty}/10</div>
                     <div className="text-sm text-[var(--text-secondary)]">Difficulty</div>
                   </div>
@@ -211,9 +211,9 @@ export default function ProgramDetailClient({ program }: ProgramDetailClientProp
                       <div className="flex items-start justify-between mb-4">
                         <div>
                           <div className="flex items-center gap-3 mb-2">
-                            <div className={`w-10 h-10 rounded-full flex items-center justify-center text-white font-bold ${
-                              index < activePhaseIndex ? 'bg-green-500' :
-                              index === activePhaseIndex ? 'bg-[var(--accent)]' : 'bg-[var(--bg-tertiary)]'
+                            <div className={`w-10 h-10 rounded-full flex items-center justify-center text-[var(--bg-primary)] font-bold ${
+                              index < activePhaseIndex ? 'bg-[var(--success)]' :
+                              index === activePhaseIndex ? 'bg-[var(--accent)]' : 'bg-[var(--bg-tertiary)] text-[var(--text-secondary)]'
                             }`}>
                               {index < activePhaseIndex ? <CheckCircle className="w-5 h-5" /> : index + 1}
                             </div>
@@ -279,31 +279,31 @@ export default function ProgramDetailClient({ program }: ProgramDetailClientProp
             {/* Sidebar */}
             <div className="lg:col-span-1 space-y-6">
               {/* CTA Card */}
-              <div className="bg-gradient-to-br from-blue-600 to-purple-600 rounded-2xl p-6 text-white">
-                <h3 className="text-2xl font-bold mb-2">
+              <div className="bg-gradient-to-br from-[var(--accent)]/20 to-[var(--accent)]/5 border border-[var(--accent)]/30 rounded-2xl p-6">
+                <h3 className="text-2xl font-bold text-[var(--text-primary)] mb-2">
                   {isEnrolled ? 'Continue Training' : 'Ready to Start?'}
                 </h3>
-                <p className="mb-4 text-white/80">
+                <p className="mb-4 text-[var(--text-secondary)]">
                   {isEnrolled
                     ? `You're on week ${currentWeek} of ${program.duration_weeks}`
                     : 'Join thousands transforming their fitness'
                   }
                 </p>
                 {isEnrolled ? (
-                  <button className="w-full bg-white text-black py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors flex items-center justify-center gap-2">
+                  <button className="w-full bg-[var(--accent)] text-[var(--bg-primary)] py-3 rounded-lg font-semibold hover:bg-[var(--accent)]/90 transition-colors flex items-center justify-center gap-2">
                     <Play className="w-5 h-5" />
                     Continue Workout
                   </button>
                 ) : (
                   <button
                     onClick={handleStartProgram}
-                    className="w-full bg-white text-black py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors"
+                    className="w-full bg-[var(--accent)] text-[var(--bg-primary)] py-3 rounded-lg font-semibold hover:bg-[var(--accent)]/90 transition-colors"
                   >
                     Start Program
                   </button>
                 )}
                 {!isEnrolled && (
-                  <p className="text-xs text-white/60 mt-3 text-center">
+                  <p className="text-xs text-[var(--text-secondary)] mt-3 text-center">
                     Free • No credit card required
                   </p>
                 )}
@@ -314,7 +314,7 @@ export default function ProgramDetailClient({ program }: ProgramDetailClientProp
                 <div className="flex items-center justify-between mb-4">
                   <h3 className="text-lg font-bold text-[var(--text-primary)]">Community Rating</h3>
                   <div className="flex items-center gap-1">
-                    <Star className="w-5 h-5 text-yellow-500 fill-yellow-500" />
+                    <Star className="w-5 h-5 text-[var(--warning)] fill-[var(--warning)]" />
                     <span className="text-lg font-bold text-[var(--text-primary)]">{program.rating}</span>
                   </div>
                 </div>
@@ -329,7 +329,7 @@ export default function ProgramDetailClient({ program }: ProgramDetailClientProp
                         </div>
                         <div className="flex-1 bg-[var(--bg-tertiary)] rounded-full h-2 overflow-hidden">
                           <div
-                            className="h-full bg-yellow-500 transition-all duration-500"
+                            className="h-full bg-[var(--warning)] transition-all duration-500"
                             style={{ width: `${percentage}%` }}
                           />
                         </div>
@@ -363,34 +363,34 @@ export default function ProgramDetailClient({ program }: ProgramDetailClientProp
                 <h3 className="text-lg font-bold text-[var(--text-primary)] mb-4">Unlock Achievements</h3>
                 <div className="space-y-3">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-yellow-500/10 rounded-full flex items-center justify-center text-2xl">
+                    <div className="w-10 h-10 bg-[var(--warning)]/10 rounded-full flex items-center justify-center text-2xl">
                       🎯
                     </div>
                     <div className="flex-1">
                       <div className="text-sm font-medium text-[var(--text-primary)]">First Steps</div>
                       <div className="text-xs text-[var(--text-secondary)]">Complete your first workout</div>
                     </div>
-                    <Award className="w-5 h-5 text-yellow-500" />
+                    <Award className="w-5 h-5 text-[var(--warning)]" />
                   </div>
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-blue-500/10 rounded-full flex items-center justify-center text-2xl">
+                    <div className="w-10 h-10 bg-[var(--accent)]/10 rounded-full flex items-center justify-center text-2xl">
                       🗓️
                     </div>
                     <div className="flex-1">
                       <div className="text-sm font-medium text-[var(--text-primary)]">Week Warrior</div>
                       <div className="text-xs text-[var(--text-secondary)]">Complete 7 workouts in a week</div>
                     </div>
-                    <Award className="w-5 h-5 text-blue-500" />
+                    <Award className="w-5 h-5 text-[var(--accent)]" />
                   </div>
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-purple-500/10 rounded-full flex items-center justify-center text-2xl">
+                    <div className="w-10 h-10 bg-[var(--accent)]/10 rounded-full flex items-center justify-center text-2xl">
                       🎓
                     </div>
                     <div className="flex-1">
                       <div className="text-sm font-medium text-[var(--text-primary)]">Program Graduate</div>
                       <div className="text-xs text-[var(--text-secondary)]">Complete the full program</div>
                     </div>
-                    <Award className="w-5 h-5 text-purple-500" />
+                    <Award className="w-5 h-5 text-[var(--accent)]" />
                   </div>
                 </div>
               </Card>

@@ -114,7 +114,7 @@ export default function ProfilePage() {
                 <div className="flex items-center space-x-2 mt-2">
                   {profile?.plan === 'premium' ? (
                     <>
-                      <Crown className="h-4 w-4 text-yellow-500" />
+                      <Crown className="h-4 w-4 text-[var(--warning)]" />
                       <Badge variant="premium">Premium Member</Badge>
                     </>
                   ) : (

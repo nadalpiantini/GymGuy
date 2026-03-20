@@ -91,9 +91,9 @@ export default function ProgramsPage() {
         key={i}
         className={`h-2 w-3 rounded-sm ${
           i < difficulty
-            ? difficulty <= 3 ? 'bg-green-500'
-              : difficulty <= 6 ? 'bg-yellow-500'
-              : 'bg-red-500'
+            ? difficulty <= 3 ? 'bg-[var(--success)]'
+              : difficulty <= 6 ? 'bg-[var(--warning)]'
+              : 'bg-[var(--danger)]'
             : 'bg-[var(--bg-tertiary)]'
         }`}
       />
@@ -184,8 +184,8 @@ export default function ProgramsPage() {
                 className="overflow-hidden p-0 group"
               >
                 {/* Program Image */}
-                <div className="relative h-48 bg-gradient-to-br from-blue-600 to-purple-600">
-                  <div className="absolute inset-0 bg-black/40" />
+                <div className="relative h-48 bg-gradient-to-br from-[var(--accent)]/30 to-[var(--accent)]/10">
+                  <div className="absolute inset-0 bg-[var(--bg-primary)]/40" />
                   <div className="absolute top-4 left-4">
                     <Badge variant={getLevelBadgeVariant(program.level)}>
                       {program.level.charAt(0).toUpperCase() + program.level.slice(1)}
@@ -241,7 +241,7 @@ export default function ProgramsPage() {
                   {/* Rating */}
                   <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center gap-1">
-                      <Star className="w-4 h-4 text-yellow-500 fill-yellow-500" />
+                      <Star className="w-4 h-4 text-[var(--warning)] fill-[var(--warning)]" />
                       <span className="text-sm text-[var(--text-primary)] font-medium">{program.rating}</span>
                       <span className="text-sm text-[var(--text-secondary)]">({program.reviews})</span>
                     </div>

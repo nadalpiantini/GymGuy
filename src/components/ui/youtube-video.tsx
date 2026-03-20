@@ -32,9 +32,9 @@ export function YouTubeVideo({ videoId, title, className = '' }: YouTubeVideoPro
             height={360}
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center group-hover:bg-opacity-40 transition-all duration-200">
-            <div className="w-16 h-16 bg-red-600 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-200" aria-hidden="true">
-              <Play className="w-8 h-8 text-white ml-1" />
+          <div className="absolute inset-0 bg-[var(--bg-primary)]/30 flex items-center justify-center group-hover:bg-[var(--bg-primary)]/40 transition-all duration-200">
+            <div className="w-16 h-16 bg-[var(--accent)] rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-200" aria-hidden="true">
+              <Play className="w-8 h-8 text-[var(--bg-primary)] ml-1" />
             </div>
           </div>
         </div>
@@ -50,7 +50,7 @@ export function YouTubeVideo({ videoId, title, className = '' }: YouTubeVideoPro
     <div className={`relative ${className}`}>
       <button
         onClick={handleClose}
-        className="absolute top-2 right-2 z-10 w-8 h-8 bg-black bg-opacity-50 rounded-full flex items-center justify-center text-white hover:bg-opacity-70 transition-all duration-200"
+        className="absolute top-2 right-2 z-10 w-8 h-8 bg-[var(--bg-primary)]/50 rounded-full flex items-center justify-center text-[var(--text-primary)] hover:bg-[var(--bg-primary)]/70 transition-all duration-200"
         aria-label="Close video"
       >
         <X className="w-4 h-4" aria-hidden="true" />

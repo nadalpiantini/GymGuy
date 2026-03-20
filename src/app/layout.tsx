@@ -56,7 +56,7 @@ export default function RootLayout({
       <body className={inter.className} suppressHydrationWarning={true}>
         <HydrationFix />
         <AuthProvider>
-          <div className="min-h-screen bg-black">
+          <div className="min-h-screen bg-[var(--bg-primary)]">
             {/* Skip to main content link for keyboard navigation */}
             <a href="#main-content" className="skip-to-content">
               Skip to main content

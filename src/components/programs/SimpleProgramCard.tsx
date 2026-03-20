@@ -54,11 +54,11 @@ export default function SimpleProgramCard({
 
   const getTypeColor = (type: string) => {
     const colors = {
-      strength: 'text-blue-500',
-      cardio: 'text-red-500',
-      hiit: 'text-orange-500',
-      mobility: 'text-green-500',
-      hybrid: 'text-purple-500'
+      strength: 'text-[var(--accent)]',
+      cardio: 'text-[var(--danger)]',
+      hiit: 'text-[var(--warning)]',
+      mobility: 'text-[var(--success)]',
+      hybrid: 'text-[var(--accent)]'
     }
     return colors[type as keyof typeof colors] || 'text-[var(--text-secondary)]'
   }
@@ -83,7 +83,7 @@ export default function SimpleProgramCard({
             {program.name}
           </h3>
           {program.is_premium && (
-            <Crown className="h-4 w-4 text-yellow-500 flex-shrink-0" />
+            <Crown className="h-4 w-4 text-[var(--warning)] flex-shrink-0" />
           )}
         </div>
 
