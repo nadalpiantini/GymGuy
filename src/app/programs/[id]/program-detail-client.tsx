@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import SimpleNav from '@/components/layout/simple-nav'
 import { userStorage, programStorage } from '@/lib/local-storage'
 import {
   ArrowLeft, Calendar, Clock, Dumbbell, Users, Star,
@@ -118,7 +117,6 @@ export default function ProgramDetailClient({ program }: ProgramDetailClientProp
 
   return (
     <div className="min-h-screen bg-black">
-      <SimpleNav />
       <div className="pt-24 pb-24">
         {/* Hero Section */}
         <div className="relative h-96 bg-gradient-to-br from-blue-600 to-purple-600">

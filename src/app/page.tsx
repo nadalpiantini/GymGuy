@@ -2,8 +2,7 @@
 
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
-import SimpleNav from '@/components/layout/simple-nav'
-import { 
+import {
   Dumbbell, 
   Calendar, 
   BarChart3, 
@@ -17,9 +16,6 @@ import {
 export default function HomePage() {
   return (
     <div className="min-h-screen">
-      {/* Simple Navigation */}
-      <SimpleNav />
-      
       {/* Hero Section */}
       <section className="relative overflow-hidden bg-black pt-32 pb-24 lg:pt-40 lg:pb-32">
         <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-primary/5"></div>
@@ -40,13 +36,13 @@ export default function HomePage() {
             </p>
             <div className="flex flex-col sm:flex-row gap-6 justify-center animate-in-delay-3">
               <Link href="/workouts">
-                <Button size="touch-lg" variant="trunkforce" className="group animate-motivate-pulse hover:animate-energy-boost">
+                <Button size="lg" variant="default" className="group">
                   <span>Create Workout</span>
                   <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
                 </Button>
               </Link>
               <Link href="/programs">
-                <Button size="touch-lg" variant="glass" className="group">
+                <Button size="lg" variant="secondary" className="group">
                   <span>Explore Programs</span>
                 </Button>
               </Link>
@@ -249,13 +245,13 @@ export default function HomePage() {
           </p>
           <div className="flex flex-col sm:flex-row gap-6 justify-center">
             <Link href="/workouts">
-              <Button size="touch-lg" variant="trunkforce" className="group bg-primary text-white hover:bg-primary/90 shadow-large hover:shadow-primary-glow animate-motivate-pulse">
+              <Button size="lg" variant="default" className="group">
                 <span>Create Your First Workout</span>
                 <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
               </Button>
             </Link>
             <Link href="/about">
-              <Button size="touch-lg" variant="outline" className="group border-primary text-primary hover:bg-primary hover:text-white hover:animate-energy-boost">
+              <Button size="lg" variant="outline" className="group">
                 <span>Learn More About Us</span>
               </Button>
             </Link>

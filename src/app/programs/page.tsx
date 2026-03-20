@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import SimpleNav from '@/components/layout/simple-nav'
 import programsData from '@/data/programs.json'
 import { Search, Filter, Clock, Calendar, Dumbbell, TrendingUp, Star, Users } from 'lucide-react'
 
@@ -98,7 +97,6 @@ export default function ProgramsPage() {
 
   return (
     <div className="min-h-screen bg-black">
-      <SimpleNav />
       <div className="pt-32 pb-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header */}

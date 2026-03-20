@@ -1,11 +1,8 @@
 'use client'
 
-import SimpleNav from '@/components/layout/simple-nav'
-
 export default function StatisticsPage() {
   return (
     <div className="min-h-screen bg-black">
-      <SimpleNav />
       <div className="pt-32 pb-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">

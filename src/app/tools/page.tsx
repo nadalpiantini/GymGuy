@@ -1,7 +1,6 @@
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
-import SimpleNav from '@/components/layout/simple-nav'
-import { 
+import {
   Calculator, 
   Heart, 
   Scale, 
@@ -69,9 +68,6 @@ export default function ToolsPage() {
 
   return (
     <div className="min-h-screen">
-      {/* Simple Navigation */}
-      <SimpleNav />
-      
       {/* Hero Section */}
       <section className="relative overflow-hidden bg-black pt-32 pb-24 lg:pt-40 lg:pb-32">
         <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-primary/5"></div>

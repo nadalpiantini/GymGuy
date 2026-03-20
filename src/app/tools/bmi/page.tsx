@@ -104,7 +104,7 @@ export default function BMICalculatorPage() {
               <Button
                 onClick={handleCalculate}
                 className="w-full py-4 text-lg shadow-colored-green"
-                variant="gradient"
+                variant="default"
                 size="lg"
               >
                 Calculate BMI
