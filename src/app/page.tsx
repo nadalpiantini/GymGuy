@@ -22,15 +22,15 @@ export default function HomePage() {
     <div className="min-h-screen">
       {/* Hero Section */}
       <PageHero
-        badge="Open Source • Self-Hostable • Community Driven"
-        title="Build Your Perfect Workout"
-        subtitle="Create personalized workouts, follow structured programs, and track your fitness journey with our comprehensive platform."
+        badge="The Core • by Alberto Mateo"
+        title="Entrena Con Propósito"
+        subtitle="Programas diseñados por Alberto Mateo para llevarte al siguiente nivel. Desde principiantes hasta atletas — aquí se trabaja en serio."
       >
         <Link href="/workouts">
-          <Button size="lg">Create Workout <ArrowRight className="ml-2 h-5 w-5" /></Button>
+          <Button size="lg">Empezar Entrenamiento <ArrowRight className="ml-2 h-5 w-5" /></Button>
         </Link>
         <Link href="/programs">
-          <Button size="lg" variant="outline">Explore Programs</Button>
+          <Button size="lg" variant="outline">Ver Programas</Button>
         </Link>
       </PageHero>
 
@@ -38,22 +38,22 @@ export default function HomePage() {
       <section className="py-16 sm:py-20 lg:py-24 bg-[var(--bg-primary)]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionHeader
-            badge="Powerful Features"
-            title="Everything You Need for Fitness Success"
-            subtitle="From workout generation to progress tracking, we provide all the tools you need to achieve your fitness goals with style and efficiency."
+            badge="Lo que incluye The Core"
+            title="Todo lo que necesitas para transformarte"
+            subtitle="Alberto Mateo diseñó cada herramienta pensando en resultados reales. Sin relleno, sin excusas — solo trabajo inteligente."
           />
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             <Card variant="interactive" className="p-8">
               <div className="w-16 h-16 bg-[var(--accent)]/10 rounded-2xl flex items-center justify-center mb-6">
                 <Dumbbell className="h-8 w-8 text-[var(--accent)]" />
               </div>
-              <h3 className="text-2xl font-bold text-[var(--accent)] mb-4">Workout Generator</h3>
+              <h3 className="text-2xl font-bold text-[var(--accent)] mb-4">Generador de Rutinas</h3>
               <p className="text-[var(--text-secondary)] mb-6 leading-relaxed">
-                Create personalized workouts by selecting your available equipment and target muscle groups.
-                Get exercise recommendations with videos and instructions.
+                Crea tu entrenamiento del día seleccionando equipamiento disponible y grupos musculares.
+                Ejercicios con videos e instrucciones paso a paso.
               </p>
               <Link href="/workouts" className="inline-flex items-center text-[var(--accent)] hover:text-[var(--accent)]/80 font-semibold transition-transform hover:translate-x-1">
-                Start Building
+                Crear Rutina
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
             </Card>
@@ -62,13 +62,13 @@ export default function HomePage() {
               <div className="w-16 h-16 bg-[var(--accent)]/10 rounded-2xl flex items-center justify-center mb-6">
                 <Calendar className="h-8 w-8 text-[var(--accent)]" />
               </div>
-              <h3 className="text-2xl font-bold text-[var(--text-primary)] mb-4">Structured Programs</h3>
+              <h3 className="text-2xl font-bold text-[var(--text-primary)] mb-4">Programas Estructurados</h3>
               <p className="text-[var(--text-secondary)] mb-6 leading-relaxed">
-                Follow professionally designed programs for different fitness levels and goals.
-                Track your progress and stay consistent with your training.
+                Sigue los programas diseñados por Alberto para distintos niveles y objetivos.
+                Progresión real, semana a semana.
               </p>
               <Link href="/programs" className="inline-flex items-center text-[var(--accent)] hover:text-[var(--accent)]/80 font-semibold transition-transform hover:translate-x-1">
-                Browse Programs
+                Ver Programas
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
             </Card>
@@ -77,13 +77,13 @@ export default function HomePage() {
               <div className="w-16 h-16 bg-[var(--accent)]/10 rounded-2xl flex items-center justify-center mb-6">
                 <BarChart3 className="h-8 w-8 text-[var(--accent)]" />
               </div>
-              <h3 className="text-2xl font-bold text-[var(--text-primary)] mb-4">Progress Tracking</h3>
+              <h3 className="text-2xl font-bold text-[var(--text-primary)] mb-4">Seguimiento de Progreso</h3>
               <p className="text-[var(--text-secondary)] mb-6 leading-relaxed">
-                Monitor your fitness journey with detailed statistics, weight tracking,
-                and performance analytics to stay motivated and on track.
+                Estadísticas detalladas, control de peso y análisis de rendimiento.
+                Ver los números crecer es la mejor motivación.
               </p>
               <Link href="/statistics" className="inline-flex items-center text-[var(--accent)] hover:text-[var(--accent)]/80 font-semibold transition-transform hover:translate-x-1">
-                View Statistics
+                Ver Estadísticas
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
             </Card>
@@ -92,13 +92,13 @@ export default function HomePage() {
               <div className="w-16 h-16 bg-[var(--accent)]/10 rounded-2xl flex items-center justify-center mb-6">
                 <Calculator className="h-8 w-8 text-[var(--accent)]" />
               </div>
-              <h3 className="text-2xl font-bold text-[var(--text-primary)] mb-4">Fitness Tools</h3>
+              <h3 className="text-2xl font-bold text-[var(--text-primary)] mb-4">Herramientas de Entrenamiento</h3>
               <p className="text-[var(--text-secondary)] mb-6 leading-relaxed">
-                Calculate your TDEE, BMI, macronutrients, heart rate zones, and 1RM.
-                All the tools you need for optimal training and nutrition.
+                Calcula tu TDEE, IMC, macros, zonas de frecuencia cardíaca y 1RM.
+                Todo lo que necesitas para entrenar con precisión.
               </p>
               <Link href="/tools" className="inline-flex items-center text-[var(--accent)] hover:text-[var(--accent)]/80 font-semibold transition-transform hover:translate-x-1">
-                Use Tools
+                Usar Herramientas
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
             </Card>
@@ -107,13 +107,13 @@ export default function HomePage() {
               <div className="w-16 h-16 bg-[var(--accent)]/10 rounded-2xl flex items-center justify-center mb-6">
                 <Trophy className="h-8 w-8 text-[var(--accent)]" />
               </div>
-              <h3 className="text-2xl font-bold text-[var(--text-primary)] mb-4">Community</h3>
+              <h3 className="text-2xl font-bold text-[var(--text-primary)] mb-4">Comunidad The Core</h3>
               <p className="text-[var(--text-secondary)] mb-6 leading-relaxed">
-                Compete with other users on the leaderboard, share your achievements,
-                and stay motivated with our supportive fitness community.
+                Compite en el leaderboard, comparte tus logros y mantente motivado
+                con una comunidad que entiende lo que es el trabajo de verdad.
               </p>
               <Link href="/leaderboard" className="inline-flex items-center text-[var(--accent)] hover:text-[var(--accent)]/80 font-semibold transition-transform hover:translate-x-1">
-                Join Community
+                Unirse a la Comunidad
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
             </Card>
@@ -122,13 +122,13 @@ export default function HomePage() {
               <div className="w-16 h-16 bg-[var(--accent)]/10 rounded-2xl flex items-center justify-center mb-6">
                 <Crown className="h-8 w-8 text-[var(--accent)]" />
               </div>
-              <h3 className="text-2xl font-bold text-[var(--text-primary)] mb-4">Premium Features</h3>
+              <h3 className="text-2xl font-bold text-[var(--text-primary)] mb-4">Coaching Premium</h3>
               <p className="text-[var(--text-secondary)] mb-6 leading-relaxed">
-                Unlock advanced statistics, unlimited history, premium programs,
-                and 1-on-1 coaching sessions with our premium membership.
+                Estadísticas avanzadas, historial ilimitado, programas exclusivos
+                y sesiones 1-a-1 con Alberto Mateo.
               </p>
               <Link href="/premium" className="inline-flex items-center text-[var(--accent)] hover:text-[var(--accent)]/80 font-semibold transition-transform hover:translate-x-1">
-                Go Premium
+                Ver Premium
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
             </Card>
@@ -140,21 +140,21 @@ export default function HomePage() {
       <section className="py-16 sm:py-20 lg:py-24 bg-[var(--bg-secondary)]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionHeader
-            badge="Why Choose Us"
-            title="Why Choose GymGuy?"
-            subtitle="We're different from other fitness platforms. Here's what makes us special and unique."
+            badge="Por qué The Core"
+            title="¿Por qué entrenar con Alberto Mateo?"
+            subtitle="No es un gym más. Es un método. Aquí hay resultados reales de personas reales."
           />
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div className="space-y-8">
-              <h3 className="text-3xl md:text-4xl font-bold text-[var(--accent)]">Open Source & Self-Hostable</h3>
+              <h3 className="text-3xl md:text-4xl font-bold text-[var(--accent)]">Metodología que funciona</h3>
               <div className="space-y-6">
                 <div className="flex items-start space-x-4">
                   <div className="w-8 h-8 bg-[var(--success)]/10 rounded-full flex items-center justify-center flex-shrink-0">
                     <CheckCircle className="h-5 w-5 text-[var(--success)]" />
                   </div>
                   <div>
-                    <h4 className="text-xl font-bold text-[var(--text-primary)] mb-2">Always Free</h4>
-                    <p className="text-[var(--text-secondary)]">The core platform will always remain free and open source.</p>
+                    <h4 className="text-xl font-bold text-[var(--text-primary)] mb-2">Programas basados en ciencia</h4>
+                    <p className="text-[var(--text-secondary)]">Cada programa está diseñado con principios de periodización probados para maximizar tu progreso.</p>
                   </div>
                 </div>
                 <div className="flex items-start space-x-4">
@@ -162,8 +162,8 @@ export default function HomePage() {
                     <CheckCircle className="h-5 w-5 text-[var(--success)]" />
                   </div>
                   <div>
-                    <h4 className="text-xl font-bold text-[var(--text-primary)] mb-2">Self-Hostable</h4>
-                    <p className="text-[var(--text-secondary)]">Run your own instance with full control over your data.</p>
+                    <h4 className="text-xl font-bold text-[var(--text-primary)] mb-2">Para todos los niveles</h4>
+                    <p className="text-[var(--text-secondary)]">Desde tu primer día en el gym hasta preparación de competencia — el método escala contigo.</p>
                   </div>
                 </div>
                 <div className="flex items-start space-x-4">
@@ -171,8 +171,8 @@ export default function HomePage() {
                     <CheckCircle className="h-5 w-5 text-[var(--success)]" />
                   </div>
                   <div>
-                    <h4 className="text-xl font-bold text-[var(--text-primary)] mb-2">Community Driven</h4>
-                    <p className="text-[var(--text-secondary)]">Built by the community, for the community. Contribute and shape the future.</p>
+                    <h4 className="text-xl font-bold text-[var(--text-primary)] mb-2">Comunidad activa</h4>
+                    <p className="text-[var(--text-secondary)]">Miles de personas siguiendo los mismos programas, compartiendo resultados y apoyándose mutuamente.</p>
                   </div>
                 </div>
                 <div className="flex items-start space-x-4">
@@ -180,23 +180,22 @@ export default function HomePage() {
                     <CheckCircle className="h-5 w-5 text-[var(--success)]" />
                   </div>
                   <div>
-                    <h4 className="text-xl font-bold text-[var(--text-primary)] mb-2">No Vendor Lock-in</h4>
-                    <p className="text-[var(--text-secondary)]">Your data, your rules. Export everything and move to your own server anytime.</p>
+                    <h4 className="text-xl font-bold text-[var(--text-primary)] mb-2">Flexibilidad total</h4>
+                    <p className="text-[var(--text-secondary)]">Entrena en el gym, en casa o donde sea. Los programas se adaptan a tu equipamiento disponible.</p>
                   </div>
                 </div>
               </div>
             </div>
             <Card className="p-8 lg:p-12">
-              <h4 className="text-2xl font-bold mb-6 text-[var(--text-primary)]">Modern Alternative</h4>
+              <h4 className="text-2xl font-bold mb-6 text-[var(--text-primary)]">El entrenador detrás del método</h4>
               <p className="text-[var(--text-secondary)] mb-8 leading-relaxed text-lg">
-                GymGuy was created to provide a modern, actively maintained alternative
-                to outdated fitness platforms. We&apos;re committed to continuous improvement
-                and community support.
+                Alberto Mateo lleva años transformando cuerpos y mentalidades. Su filosofía es simple:
+                consistencia + progresión inteligente + comunidad = resultados garantizados.
               </p>
               <div className="bg-[var(--accent)]/10 p-6 rounded-xl border border-[var(--border)]">
                 <p className="text-[var(--accent)] font-bold">
-                  <strong>Our Mission:</strong> To provide the best free fitness platform
-                  that puts users in control of their data and experience.
+                  &ldquo;No se trata de entrenar más duro. Se trata de entrenar más inteligente.&rdquo;
+                  <span className="block text-sm font-normal text-[var(--text-secondary)] mt-2">— Alberto Mateo</span>
                 </p>
               </div>
             </Card>
@@ -206,14 +205,14 @@ export default function HomePage() {
 
       {/* CTA Section */}
       <CTASection
-        title="Ready to Transform Your Training?"
-        subtitle="Join thousands using GymGuy to build better workouts and track their progress."
+        title="¿Listo para transformar tu entrenamiento?"
+        subtitle="Únete a The Core y empieza a progresar con un método que realmente funciona."
       >
         <Link href="/workouts">
-          <Button size="lg">Create Your Workout <ArrowRight className="ml-2 h-5 w-5" /></Button>
+          <Button size="lg">Empezar Ahora <ArrowRight className="ml-2 h-5 w-5" /></Button>
         </Link>
         <Link href="/programs">
-          <Button size="lg" variant="outline">Browse Programs</Button>
+          <Button size="lg" variant="outline">Ver Programas</Button>
         </Link>
       </CTASection>
     </div>

@@ -11,34 +11,34 @@ const inter = Inter({ subsets: ['latin'] })
 const jetbrainsMono = JetBrains_Mono({ subsets: ['latin'], variable: '--font-mono' })
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'https://gymguy.sujeto10.com'),
-  title: 'GymGuy - Build Your Perfect Workout',
-  description: 'Create personalized workouts, follow structured programs, and track your fitness journey with our comprehensive platform.',
-  keywords: 'workout, fitness, exercise, training, gym, health, wellness',
-  authors: [{ name: 'GymGuy Team' }],
+  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'),
+  title: 'The Core by Alberto Mateo — Train With Purpose',
+  description: 'Entrenamientos personalizados, programas estructurados y seguimiento de progreso. El gym de Alberto Mateo.',
+  keywords: 'the core, alberto mateo, entrenamiento, gym, fitness, programas, salud',
+  authors: [{ name: 'Alberto Mateo' }],
   icons: {
-    icon: '/images/ponteroca-logo.jpg',
-    apple: '/images/ponteroca-logo.jpg',
+    icon: '/images/the-core-logo.png',
+    apple: '/images/the-core-logo.png',
   },
   openGraph: {
-    title: 'GymGuy - Build Your Perfect Workout',
-    description: 'Create personalized workouts, follow structured programs, and track your fitness journey.',
+    title: 'The Core by Alberto Mateo — Train With Purpose',
+    description: 'Entrenamientos personalizados, programas estructurados y seguimiento de progreso.',
     type: 'website',
-    locale: 'en_US',
+    locale: 'es_ES',
     images: [
       {
-        url: '/images/ponteroca-logo.jpg',
+        url: '/images/the-core-logo.png',
         width: 1200,
         height: 630,
-        alt: 'PONTEROCA Logo - GymGuy Fitness Platform',
+        alt: 'The Core by Alberto Mateo',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'GymGuy - Build Your Perfect Workout',
-    description: 'Create personalized workouts, follow structured programs, and track your fitness journey.',
-    images: ['/images/ponteroca-logo.jpg'],
+    title: 'The Core by Alberto Mateo — Train With Purpose',
+    description: 'Entrenamientos personalizados, programas estructurados y seguimiento de progreso.',
+    images: ['/images/the-core-logo.png'],
   },
   robots: {
     index: true,
@@ -61,7 +61,7 @@ export default function RootLayout({
             <a href="#main-content" className="skip-to-content">
               Skip to main content
             </a>
-            <NavBar logo="/images/ponteroca-logo.jpg" brandName="GymGuy" />
+            <NavBar logo="/images/the-core-logo.png" brandName="The Core" />
             <main id="main-content" tabIndex={-1}>
               {children}
             </main>
@@ -72,53 +72,53 @@ export default function RootLayout({
                     <div className="flex items-center space-x-3 mb-6">
                       <div className="w-12 h-12 rounded-xl overflow-hidden">
                         <Image
-                          src="/images/ponteroca-logo.jpg"
-                          alt="PONTEROCA Logo"
+                          src="/images/the-core-logo.png"
+                          alt="The Core Logo"
                           width={48}
                           height={48}
                           className="w-full h-full object-cover"
                         />
                       </div>
                       <div className="flex flex-col">
-                        <span className="text-2xl font-extrabold text-[var(--accent)]">GymGuy</span>
-                        <span className="text-xs text-[var(--text-secondary)] uppercase tracking-wider -mt-1">UNSTOPPABLE STRENGTH</span>
+                        <span className="text-2xl font-extrabold text-[var(--accent)]">The Core</span>
+                        <span className="text-xs text-[var(--text-secondary)] uppercase tracking-wider -mt-1">BY ALBERTO MATEO</span>
                       </div>
                     </div>
                     <p className="text-[var(--text-secondary)] mb-6 leading-relaxed text-lg">
-                      Build your perfect workout with our comprehensive fitness platform.
-                      Create personalized routines, follow structured programs, and track your progress.
+                      Entrena con propósito. Programas diseñados por Alberto Mateo para
+                      llevarte al siguiente nivel, sin importar tu punto de partida.
                     </p>
                     <div className="flex items-center space-x-2 text-sm text-[var(--text-secondary)]">
                       <span className="w-2 h-2 bg-[var(--accent)] rounded-full"></span>
-                      <span>Open source</span>
+                      <span>Entrenamiento real</span>
                       <span>•</span>
-                      <span>Self-hostable</span>
+                      <span>Resultados reales</span>
                       <span>•</span>
-                      <span>Community driven</span>
+                      <span>Alberto Mateo Coach</span>
                     </div>
                   </div>
 
                   <div>
                     <h3 className="text-sm font-semibold text-[var(--accent)] uppercase tracking-wider mb-6">
-                      Product
+                      Plataforma
                     </h3>
                     <ul className="space-y-3">
-                      <li><a href="/workouts" className="text-[var(--text-secondary)] hover:text-[var(--accent)] transition-colors">Workout Generator</a></li>
-                      <li><a href="/programs" className="text-[var(--text-secondary)] hover:text-[var(--accent)] transition-colors">Programs</a></li>
-                      <li><a href="/tools" className="text-[var(--text-secondary)] hover:text-[var(--accent)] transition-colors">Tools</a></li>
-                      <li><a href="/statistics" className="text-[var(--text-secondary)] hover:text-[var(--accent)] transition-colors">Statistics</a></li>
+                      <li><a href="/workouts" className="text-[var(--text-secondary)] hover:text-[var(--accent)] transition-colors">Generador de Rutinas</a></li>
+                      <li><a href="/programs" className="text-[var(--text-secondary)] hover:text-[var(--accent)] transition-colors">Programas</a></li>
+                      <li><a href="/tools" className="text-[var(--text-secondary)] hover:text-[var(--accent)] transition-colors">Herramientas</a></li>
+                      <li><a href="/statistics" className="text-[var(--text-secondary)] hover:text-[var(--accent)] transition-colors">Estadísticas</a></li>
                     </ul>
                   </div>
 
                   <div>
                     <h3 className="text-sm font-semibold text-[var(--accent)] uppercase tracking-wider mb-6">
-                      Community
+                      Comunidad
                     </h3>
                     <ul className="space-y-3">
-                      <li><a href="/about" className="text-[var(--text-secondary)] hover:text-[var(--accent)] transition-colors">About</a></li>
+                      <li><a href="/about" className="text-[var(--text-secondary)] hover:text-[var(--accent)] transition-colors">Sobre Nosotros</a></li>
                       <li><a href="/leaderboard" className="text-[var(--text-secondary)] hover:text-[var(--accent)] transition-colors">Leaderboard</a></li>
                       <li><a href="/premium" className="text-[var(--text-secondary)] hover:text-[var(--accent)] transition-colors">Premium</a></li>
-                      <li><a href="/donate" className="text-[var(--text-secondary)] hover:text-[var(--accent)] transition-colors">Donate</a></li>
+                      <li><a href="/donate" className="text-[var(--text-secondary)] hover:text-[var(--accent)] transition-colors">Donar</a></li>
                     </ul>
                   </div>
                 </div>
@@ -126,12 +126,12 @@ export default function RootLayout({
                 <div className="border-t border-[var(--border)] mt-12 pt-8">
                   <div className="flex flex-col md:flex-row justify-between items-center">
                     <p className="text-[var(--text-secondary)] text-sm">
-                      © 2025 GymGuy. Open source and self-hostable.
+                      © 2025 The Core by Alberto Mateo. Todos los derechos reservados.
                     </p>
                     <div className="flex space-x-6 mt-4 md:mt-0">
                       <a href="/legal/privacy" className="text-[var(--text-secondary)] hover:text-[var(--accent)] text-sm transition-colors">Privacy</a>
                       <a href="/legal/terms" className="text-[var(--text-secondary)] hover:text-[var(--accent)] text-sm transition-colors">Terms</a>
-                      <a href="https://github.com/gymguy" className="text-[var(--text-secondary)] hover:text-[var(--accent)] text-sm transition-colors">GitHub</a>
+                      <a href="https://www.instagram.com/albertomateocoach/" target="_blank" rel="noopener noreferrer" className="text-[var(--text-secondary)] hover:text-[var(--accent)] text-sm transition-colors">Instagram</a>
                     </div>
                   </div>
                 </div>

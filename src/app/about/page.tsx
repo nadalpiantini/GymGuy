@@ -1,17 +1,7 @@
 'use client'
 
-import {
-  Heart,
-  Github,
-  MessageCircle,
-  Mail,
-  Users,
-  Code,
-  BookOpen,
-  Zap,
-  Shield,
-  Globe
-} from 'lucide-react'
+import Image from 'next/image'
+import { Instagram, Dumbbell, Users, Target, Award } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { PageHero } from '@/components/ui/page-hero'
 import { Card } from '@/components/ui/card'
@@ -20,245 +10,100 @@ export default function AboutPage() {
   return (
     <div className="min-h-screen bg-[var(--bg-primary)]">
       <PageHero
-        badge="Our Story"
-        title="About GymGuy"
-        subtitle="Building the future of fitness, one workout at a time"
+        badge="Sobre nosotros"
+        title="The Core by Alberto Mateo"
+        subtitle="Un método de entrenamiento construido sobre resultados reales, no promesas vacías."
       />
 
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
-        {/* Story Section */}
-        <Card className="mb-12">
-          <h2 className="text-2xl font-bold text-[var(--text-primary)] mb-6">Our Story</h2>
-          <div className="prose prose-lg max-w-none text-[var(--text-secondary)]">
-            <p className="mb-4">
-              GymGuy was born out of frustration with the abandonment of workout.lol,
-              a beloved fitness platform that helped thousands of people create and track their workouts.
-              When the original platform was discontinued, we saw an opportunity to build something better.
-            </p>
-            <p className="mb-4">
-              Our mission is simple: provide a modern, actively maintained, and community-driven
-              alternative that puts users in control of their fitness journey. We believe that
-              fitness tools should be accessible, transparent, and always improving.
-            </p>
-            <p>
-              What started as a passion project has grown into a comprehensive fitness platform
-              that serves thousands of users worldwide. We&apos;re committed to continuous improvement,
-              community feedback, and maintaining the open-source spirit that makes this project special.
-            </p>
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
+
+        {/* Alberto Section */}
+        <Card className="mb-12 overflow-hidden">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-0">
+            {/* Photo */}
+            <div className="relative h-80 md:h-auto min-h-[320px]">
+              <Image
+                src="/images/alberto-mateo.jpeg"
+                alt="Alberto Mateo — The Core Coach"
+                fill
+                className="object-cover"
+              />
+            </div>
+            {/* Bio */}
+            <div className="p-8 lg:p-10 flex flex-col justify-center">
+              <span className="text-xs font-semibold text-[var(--accent)] uppercase tracking-widest mb-3">
+                Fundador & Head Coach
+              </span>
+              <h2 className="text-3xl font-extrabold text-[var(--text-primary)] mb-2">
+                Alberto Mateo
+              </h2>
+              <p className="text-[var(--text-secondary)] mb-6 leading-relaxed">
+                Alberto es entrenador personal certificado con años de experiencia transformando
+                cuerpos y mentalidades. Su filosofía combina periodización inteligente,
+                nutrición práctica y una comunidad que te empuja a ser mejor cada día.
+              </p>
+              <p className="text-[var(--text-secondary)] mb-8 leading-relaxed">
+                Fundó The Core con una visión clara: hacer accesible el entrenamiento de
+                élite para cualquier persona, sin importar su nivel o dónde entrene.
+              </p>
+              <a
+                href="https://www.instagram.com/albertomateocoach/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Button variant="outline" className="inline-flex items-center gap-2 w-fit">
+                  <Instagram className="h-4 w-4" />
+                  @albertomateocoach
+                </Button>
+              </a>
+            </div>
           </div>
         </Card>
 
-        {/* Values Section */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-          <Card className="text-center">
-            <div className="w-12 h-12 bg-[var(--accent)]/10 rounded-lg flex items-center justify-center mx-auto mb-4">
-              <Shield className="h-6 w-6 text-[var(--accent)]" />
-            </div>
-            <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">Open Source</h3>
-            <p className="text-[var(--text-secondary)]">
-              Always free and open source. You can inspect, modify, and self-host the entire platform.
-            </p>
-          </Card>
-
-          <Card className="text-center">
-            <div className="w-12 h-12 bg-[var(--accent)]/10 rounded-lg flex items-center justify-center mx-auto mb-4">
-              <Users className="h-6 w-6 text-[var(--accent)]" />
-            </div>
-            <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">Community Driven</h3>
-            <p className="text-[var(--text-secondary)]">
-              Built by the community, for the community. Your feedback shapes our development.
-            </p>
-          </Card>
-
-          <Card className="text-center">
-            <div className="w-12 h-12 bg-[var(--accent)]/10 rounded-lg flex items-center justify-center mx-auto mb-4">
-              <Zap className="h-6 w-6 text-[var(--accent)]" />
-            </div>
-            <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">Always Improving</h3>
-            <p className="text-[var(--text-secondary)]">
-              Continuous updates, new features, and improvements based on user needs.
-            </p>
-          </Card>
+        {/* Stats */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12">
+          {[
+            { icon: Users, label: 'Atletas entrenados', value: '1,000+' },
+            { icon: Dumbbell, label: 'Programas diseñados', value: '20+' },
+            { icon: Target, label: 'Años de experiencia', value: '10+' },
+            { icon: Award, label: 'Transformaciones reales', value: '500+' },
+          ].map(({ icon: Icon, label, value }) => (
+            <Card key={label} className="p-6 text-center">
+              <div className="w-12 h-12 bg-[var(--accent)]/10 rounded-xl flex items-center justify-center mx-auto mb-4">
+                <Icon className="h-6 w-6 text-[var(--accent)]" />
+              </div>
+              <div className="text-2xl font-extrabold text-[var(--accent)] mb-1">{value}</div>
+              <div className="text-sm text-[var(--text-secondary)]">{label}</div>
+            </Card>
+          ))}
         </div>
 
-        {/* Team Section */}
-        <Card className="mb-12">
-          <h2 className="text-2xl font-bold text-[var(--text-primary)] mb-6">Our Team</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div>
-              <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-4">Core Team</h3>
-              <p className="text-[var(--text-secondary)] mb-4">
-                A passionate group of developers, designers, and fitness enthusiasts working
-                to make fitness accessible to everyone.
-              </p>
-              <div className="space-y-2">
-                <div className="flex items-center space-x-2">
-                  <Code className="h-4 w-4 text-[var(--accent)]" />
-                  <span className="text-sm text-[var(--text-secondary)]">Full-stack development</span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <Heart className="h-4 w-4 text-[var(--accent)]" />
-                  <span className="text-sm text-[var(--text-secondary)]">Fitness expertise</span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <Globe className="h-4 w-4 text-[var(--accent)]" />
-                  <span className="text-sm text-[var(--text-secondary)]">Global perspective</span>
-                </div>
-              </div>
-            </div>
-
-            <div>
-              <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-4">Community Contributors</h3>
-              <p className="text-[var(--text-secondary)] mb-4">
-                Hundreds of community members who contribute code, report bugs, suggest features,
-                and help others in our community.
-              </p>
-              <div className="space-y-2">
-                <div className="flex items-center space-x-2">
-                  <Github className="h-4 w-4 text-[var(--text-secondary)]" />
-                  <span className="text-sm text-[var(--text-secondary)]">Code contributions</span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <BookOpen className="h-4 w-4 text-[var(--accent)]" />
-                  <span className="text-sm text-[var(--text-secondary)]">Documentation</span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <MessageCircle className="h-4 w-4 text-[var(--accent)]" />
-                  <span className="text-sm text-[var(--text-secondary)]">Community support</span>
-                </div>
-              </div>
-            </div>
+        {/* Mission */}
+        <Card className="p-8 lg:p-12">
+          <h2 className="text-2xl font-bold text-[var(--text-primary)] mb-6">La misión de The Core</h2>
+          <div className="space-y-4 text-[var(--text-secondary)] leading-relaxed">
+            <p>
+              The Core nació de la frustración con plataformas de fitness genéricas que ofrecen
+              programas cookie-cutter sin atención personalizada ni progresión real.
+            </p>
+            <p>
+              Nuestra misión es simple: democratizar el acceso al entrenamiento de calidad.
+              Programas diseñados por Alberto Mateo, herramientas inteligentes de seguimiento
+              y una comunidad activa que te acompaña en cada etapa de tu transformación.
+            </p>
+            <p>
+              Ya sea que estés empezando desde cero o buscando romper tu plateau, aquí
+              encontrarás el método, las herramientas y la comunidad para lograrlo.
+            </p>
+          </div>
+          <div className="bg-[var(--accent)]/10 p-6 rounded-xl border border-[var(--border)] mt-8">
+            <p className="text-[var(--accent)] font-bold text-lg">
+              &ldquo;No se trata de entrenar más duro. Se trata de entrenar más inteligente.&rdquo;
+            </p>
+            <p className="text-[var(--text-secondary)] text-sm mt-2">— Alberto Mateo</p>
           </div>
         </Card>
 
-        {/* Partners Section */}
-        <Card className="mb-12">
-          <h2 className="text-2xl font-bold text-[var(--text-primary)] mb-6">Our Partners</h2>
-          <div className="text-center">
-            <div className="mb-6">
-              <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">Fit&apos;Distance</h3>
-              <p className="text-[var(--text-secondary)]">
-                Our trusted partner for high-quality exercise demonstration videos.
-                Fit&apos;Distance provides the visual content that helps users perform exercises
-                with proper form and technique.
-              </p>
-            </div>
-            <Button
-              variant="outline"
-              onClick={() => window.open('https://fitdistance.io', '_blank')}
-            >
-              Visit Fit&apos;Distance
-            </Button>
-          </div>
-        </Card>
-
-        {/* Get Involved Section */}
-        <Card className="mb-12">
-          <h2 className="text-2xl font-bold text-[var(--text-primary)] mb-6 text-center">
-            Get Involved
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="text-center">
-              <div className="w-12 h-12 bg-[var(--accent)]/10 rounded-lg flex items-center justify-center mx-auto mb-4">
-                <Code className="h-6 w-6 text-[var(--accent)]" />
-              </div>
-              <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">Contribute Code</h3>
-              <p className="text-[var(--text-secondary)] mb-4">
-                Help us build new features, fix bugs, and improve the platform.
-              </p>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => window.open('https://github.com/workout-cool', '_blank')}
-              >
-                View on GitHub
-              </Button>
-            </div>
-
-            <div className="text-center">
-              <div className="w-12 h-12 bg-[var(--accent)]/10 rounded-lg flex items-center justify-center mx-auto mb-4">
-                <MessageCircle className="h-6 w-6 text-[var(--accent)]" />
-              </div>
-              <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">Join Community</h3>
-              <p className="text-[var(--text-secondary)] mb-4">
-                Connect with other users, share tips, and get support.
-              </p>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => window.open('https://discord.gg/workout-cool', '_blank')}
-              >
-                Join Discord
-              </Button>
-            </div>
-
-            <div className="text-center">
-              <div className="w-12 h-12 bg-[var(--accent)]/10 rounded-lg flex items-center justify-center mx-auto mb-4">
-                <Heart className="h-6 w-6 text-[var(--accent)]" />
-              </div>
-              <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">Support Us</h3>
-              <p className="text-[var(--text-secondary)] mb-4">
-                Help us keep the project running and growing.
-              </p>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => window.location.href = '/premium'}
-              >
-                Go Premium
-              </Button>
-            </div>
-          </div>
-        </Card>
-
-        {/* Contact Section */}
-        <Card>
-          <h2 className="text-2xl font-bold text-[var(--text-primary)] mb-6 text-center">
-            Get in Touch
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div>
-              <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-4">Contact Information</h3>
-              <div className="space-y-3">
-                <div className="flex items-center space-x-3">
-                  <Mail className="h-5 w-5 text-[var(--text-secondary)]" />
-                  <span className="text-[var(--text-secondary)]">hello@gymguy.app</span>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <Github className="h-5 w-5 text-[var(--text-secondary)]" />
-                  <span className="text-[var(--text-secondary)]">github.com/workout-cool</span>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <MessageCircle className="h-5 w-5 text-[var(--text-secondary)]" />
-                  <span className="text-[var(--text-secondary)]">discord.gg/workout-cool</span>
-                </div>
-              </div>
-            </div>
-
-            <div>
-              <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-4">Support</h3>
-              <p className="text-[var(--text-secondary)] mb-4">
-                Need help? Have a question? Want to report a bug? We&apos;re here to help!
-              </p>
-              <div className="space-y-2">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => window.open('mailto:hello@gymguy.app', '_blank')}
-                >
-                  Send Email
-                </Button>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => window.open('https://github.com/workout-cool/issues', '_blank')}
-                >
-                  Report Issue
-                </Button>
-              </div>
-            </div>
-          </div>
-        </Card>
       </div>
     </div>
   )
