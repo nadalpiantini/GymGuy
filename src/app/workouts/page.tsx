@@ -6,37 +6,34 @@ import { supabase } from '@/lib/supabase-client'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { FormField } from '@/components/ui/form-field'
 import { PageHero } from '@/components/ui/page-hero'
-import { getTranslation } from '@/lib/i18n'
 import {
-  exercisesDatabase,
-  muscleGroups,
-  exerciseCategories,
-  getExercisesByMuscle,
-  getExercisesByEquipment,
-  searchExercises,
-  type Exercise,
-  type MuscleGroup
-} from '@/lib/exercise-database'
-import { YouTubeVideo } from '@/components/ui/youtube-video'
+  fetchMuscles,
+  fetchEquipment,
+  fetchExercises,
+  type WgerMuscle,
+  type WgerEquipment,
+  type WgerExerciseInfo,
+} from '@/lib/wger-client'
 import {
   ArrowLeft,
   ArrowRight,
   Save,
   Plus,
-  Check,
-  Play,
   Dumbbell,
-  Target,
-  List
 } from 'lucide-react'
 
-interface Equipment {
-  id: string
+// ─── Types ────────────────────────────────────────────────────────────────────
+
+interface MappedExercise {
+  id: number
   name: string
-  slug: string
-  icon: string
+  description: string
+  primary_muscles: string[]
+  secondary_muscles: string[]
+  equipment: string[]
+  image_url: string | null
+  category: string
 }
 
 interface WorkoutItem {
@@ -47,20 +44,39 @@ interface WorkoutItem {
   rest_seconds: number
 }
 
+// ─── Helpers ──────────────────────────────────────────────────────────────────
+
+function mapWgerToUI(exercise: WgerExerciseInfo): MappedExercise {
+  const translation =
+    exercise.translations.find(t => t.language === 2) ?? exercise.translations[0]
+  const mainImage =
+    exercise.images.find(i => i.is_main) ?? exercise.images[0]
+  return {
+    id: exercise.id,
+    name: translation?.name || `Exercise #${exercise.id}`,
+    description: translation?.description || '',
+    primary_muscles: exercise.muscles.map(m => m.name_en),
+    secondary_muscles: exercise.muscles_secondary.map(m => m.name_en),
+    equipment: exercise.equipment.map(e => e.name),
+    image_url: mainImage?.image || null,
+    category: exercise.category.name,
+  }
+}
+
+// ─── Component ────────────────────────────────────────────────────────────────
+
 export default function WorkoutGeneratorPage() {
   const { user } = useAuth()
   const [currentStep, setCurrentStep] = useState(1)
-  const [selectedEquipment, setSelectedEquipment] = useState<string[]>([])
-  const [selectedMuscles, setSelectedMuscles] = useState<string[]>([])
+  const [selectedEquipment, setSelectedEquipment] = useState<number[]>([])
+  const [selectedMuscles, setSelectedMuscles] = useState<number[]>([])
   const [selectedExercises, setSelectedExercises] = useState<WorkoutItem[]>([])
-  const [equipment, setEquipment] = useState<Equipment[]>([])
-  const [muscles, setMuscles] = useState<MuscleGroup[]>([])
-  const [exercises, setExercises] = useState<Exercise[]>([])
+  const [equipment, setEquipment] = useState<WgerEquipment[]>([])
+  const [muscles, setMuscles] = useState<WgerMuscle[]>([])
+  const [exercises, setExercises] = useState<MappedExercise[]>([])
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [workoutName, setWorkoutName] = useState('')
-
-  // Using the imported supabase client from supabase-client.ts
 
   useEffect(() => {
     loadData()
@@ -68,32 +84,12 @@ export default function WorkoutGeneratorPage() {
 
   const loadData = async () => {
     try {
-      // Check if we're in development mode without Supabase
-      const supabaseUrl = process.env.NEXT_PUBLIC_GYMGUY_SUPABASE_URL
-      if (!supabaseUrl || supabaseUrl === 'https://placeholder.supabase.co' || supabaseUrl === 'your_supabase_project_url') {
-        // Use exercise database for development
-        console.log('Using exercise database for development')
-        setEquipment([
-          { id: 'dumbbells', name: 'Dumbbells', slug: 'dumbbells', icon: '🏋️' },
-          { id: 'barbell', name: 'Barbell', slug: 'barbell', icon: '🏋️‍♂️' },
-          { id: 'kettlebell', name: 'Kettlebell', slug: 'kettlebell', icon: '⚡' },
-          { id: 'resistance-bands', name: 'Resistance Bands', slug: 'resistance-bands', icon: '🎯' },
-          { id: 'bodyweight', name: 'Bodyweight', slug: 'bodyweight', icon: '💪' },
-          { id: 'pull-up-bar', name: 'Pull-up Bar', slug: 'pull-up-bar', icon: '🆙' },
-          { id: 'bench', name: 'Bench', slug: 'bench', icon: '🪑' }
-        ])
-        setMuscles(muscleGroups)
-        setLoading(false)
-        return
-      }
-
-      const [equipmentRes, musclesRes] = await Promise.all([
-        supabase.from('gymguy_equipment').select('*').order('name'),
-        supabase.from('gymguy_muscles').select('*').order('name')
+      const [muscleList, equipmentList] = await Promise.all([
+        fetchMuscles(),
+        fetchEquipment(),
       ])
-
-      if (equipmentRes.data) setEquipment(equipmentRes.data)
-      if (musclesRes.data) setMuscles(musclesRes.data)
+      setMuscles(muscleList)
+      setEquipment(equipmentList)
     } catch (error) {
       console.error('Error loading data:', error)
     } finally {
@@ -102,42 +98,19 @@ export default function WorkoutGeneratorPage() {
   }
 
   const loadExercises = useCallback(async () => {
+    if (selectedEquipment.length === 0 || selectedMuscles.length === 0) return
     try {
-      // Check if we're in development mode without Supabase
-      const supabaseUrl = process.env.NEXT_PUBLIC_GYMGUY_SUPABASE_URL
-      if (!supabaseUrl || supabaseUrl === 'https://placeholder.supabase.co' || supabaseUrl === 'your_supabase_project_url') {
-        // Use exercise database for development
-        console.log('Loading exercises from database')
-
-        // Filter exercises based on selected equipment and muscles
-        const filteredExercises = exercisesDatabase.filter(exercise => {
-          const hasEquipment = selectedEquipment.some(eq => exercise.equipment.includes(
-            equipment.find(e => e.id === eq)?.name || eq
-          ))
-          const hasMuscles = selectedMuscles.some(muscle =>
-            exercise.primary_muscles.includes(muscle) ||
-            exercise.secondary_muscles.includes(muscle)
-          )
-          return hasEquipment && hasMuscles
-        })
-
-        setExercises(filteredExercises)
-        return
-      }
-
-      // If in production mode with Supabase
-      const { data, error } = await supabase
-        .from('gymguy_exercises')
-        .select('*')
-        .in('equipment', selectedEquipment)
-        .or(`primary_muscles.ov.{"${selectedMuscles.join('","')}"},secondary_muscles.ov.{"${selectedMuscles.join('","')}"}`)
-
-      if (error) throw error
-      setExercises(data || [])
+      const data = await fetchExercises({
+        muscles: selectedMuscles,
+        equipment: selectedEquipment,
+        language: 2,
+        limit: 20,
+      })
+      setExercises(data.results.map(mapWgerToUI))
     } catch (error) {
       console.error('Error loading exercises:', error)
     }
-  }, [selectedEquipment, selectedMuscles, equipment])
+  }, [selectedEquipment, selectedMuscles])
 
   useEffect(() => {
     if (selectedEquipment.length > 0 && selectedMuscles.length > 0) {
@@ -145,29 +118,25 @@ export default function WorkoutGeneratorPage() {
     }
   }, [loadExercises, selectedEquipment, selectedMuscles])
 
-  const toggleEquipment = (equipmentId: string) => {
+  const toggleEquipment = (id: number) => {
     setSelectedEquipment(prev =>
-      prev.includes(equipmentId)
-        ? prev.filter(id => id !== equipmentId)
-        : [...prev, equipmentId]
+      prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]
     )
   }
 
-  const toggleMuscle = (muscleId: string) => {
+  const toggleMuscle = (id: number) => {
     setSelectedMuscles(prev =>
-      prev.includes(muscleId)
-        ? prev.filter(id => id !== muscleId)
-        : [...prev, muscleId]
+      prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]
     )
   }
 
-  const addExercise = (exercise: Exercise) => {
+  const addExercise = (exercise: MappedExercise) => {
     const workoutItem: WorkoutItem = {
       exercise_id: exercise.id,
       sets: 3,
       reps: 12,
       weight: null,
-      rest_seconds: 60
+      rest_seconds: 60,
     }
     setSelectedExercises(prev => [...prev, workoutItem])
   }
@@ -176,35 +145,31 @@ export default function WorkoutGeneratorPage() {
     setSelectedExercises(prev => prev.filter((_, i) => i !== index))
   }
 
-  const updateExercise = (index: number, field: keyof WorkoutItem, value: any) => {
-    setSelectedExercises(prev => prev.map((item, i) =>
-      i === index ? { ...item, [field]: value } : item
-    ))
+  const updateExercise = (index: number, field: keyof WorkoutItem, value: number | null) => {
+    setSelectedExercises(prev =>
+      prev.map((item, i) => (i === index ? { ...item, [field]: value } : item))
+    )
   }
 
   const saveWorkout = async () => {
     if (!user) return
-
     setSaving(true)
     try {
-      const { data, error } = await supabase
+      const { error } = await supabase
         .from('gymguy_workouts')
         .insert({
           name: workoutName || `Workout ${new Date().toLocaleDateString()}`,
           user_id: user.id,
-          exercises: selectedExercises
+          exercises: selectedExercises,
         })
         .select()
         .single()
 
       if (error) throw error
 
-      // Reset form
       setSelectedExercises([])
       setWorkoutName('')
       setCurrentStep(1)
-
-      // Show success message
       alert('Workout saved successfully!')
     } catch (error) {
       console.error('Error saving workout:', error)
@@ -213,6 +178,8 @@ export default function WorkoutGeneratorPage() {
       setSaving(false)
     }
   }
+
+  // ─── Steps ──────────────────────────────────────────────────────────────────
 
   const renderStep1 = () => (
     <div className="space-y-6">
@@ -228,7 +195,6 @@ export default function WorkoutGeneratorPage() {
                 : 'border-[var(--border)] bg-[var(--bg-secondary)] hover:border-[var(--accent)]/40 text-[var(--text-primary)]'
             }`}
           >
-            <div className="text-2xl mb-2">{item.icon}</div>
             <div className="font-medium">{item.name}</div>
           </button>
         ))}
@@ -258,7 +224,7 @@ export default function WorkoutGeneratorPage() {
                 : 'border-[var(--border)] bg-[var(--bg-secondary)] hover:border-[var(--accent)]/40 text-[var(--text-primary)]'
             }`}
           >
-            <div className="font-medium">{muscle.name}</div>
+            <div className="font-medium">{muscle.name_en}</div>
           </button>
         ))}
       </div>
@@ -279,43 +245,51 @@ export default function WorkoutGeneratorPage() {
   const renderStep3 = () => (
     <div className="space-y-6">
       <h2 className="text-2xl font-bold text-[var(--text-primary)]">Select Exercises</h2>
-      <div className="grid gap-4">
-        {exercises.map((exercise) => (
-          <Card key={exercise.id}>
-            <div className="flex justify-between items-start">
-              <div className="flex-1">
-                <h3 className="font-semibold text-[var(--text-primary)]">{exercise.name}</h3>
-                <div className="flex flex-wrap gap-2 mt-2">
-                  <Badge variant="default">
-                    {exercise.primary_muscles.join(', ')}
-                  </Badge>
-                  {exercise.equipment.map((eq) => (
-                    <Badge key={eq} variant="default">
-                      {eq}
-                    </Badge>
-                  ))}
+      {exercises.length === 0 ? (
+        <p className="text-[var(--text-secondary)]">No exercises found for this selection. Try different muscles or equipment.</p>
+      ) : (
+        <div className="grid gap-4">
+          {exercises.map((exercise) => (
+            <Card key={exercise.id}>
+              <div className="flex justify-between items-start">
+                <div className="flex-1">
+                  <h3 className="font-semibold text-[var(--text-primary)]">{exercise.name}</h3>
+                  <div className="flex flex-wrap gap-2 mt-2">
+                    {exercise.primary_muscles.map((m) => (
+                      <Badge key={m} variant="default">{m}</Badge>
+                    ))}
+                    {exercise.equipment.map((eq) => (
+                      <Badge key={eq} variant="default">{eq}</Badge>
+                    ))}
+                  </div>
+                </div>
+                <div className="ml-4 flex-shrink-0">
+                  {exercise.image_url ? (
+                    <img
+                      src={exercise.image_url}
+                      alt={exercise.name}
+                      className="w-32 h-24 object-cover rounded-lg"
+                    />
+                  ) : (
+                    <div className="w-32 h-24 bg-[var(--bg-tertiary)] rounded-lg flex items-center justify-center">
+                      <Dumbbell className="w-8 h-8 text-[var(--text-secondary)]" />
+                    </div>
+                  )}
                 </div>
               </div>
-              <div className="ml-4">
-                <YouTubeVideo
-                  videoId={exercise.youtube_id || 'default'}
-                  title={exercise.name}
-                  className="w-32"
-                />
+              <div className="mt-4 flex justify-end">
+                <Button
+                  onClick={() => addExercise(exercise)}
+                  disabled={selectedExercises.some(item => item.exercise_id === exercise.id)}
+                >
+                  <Plus className="w-4 h-4 mr-2" />
+                  Add to Workout
+                </Button>
               </div>
-            </div>
-            <div className="mt-4 flex justify-end">
-              <Button
-                onClick={() => addExercise(exercise)}
-                disabled={selectedExercises.some(item => item.exercise_id === exercise.id)}
-              >
-                <Plus className="w-4 h-4 mr-2" />
-                Add to Workout
-              </Button>
-            </div>
-          </Card>
-        ))}
-      </div>
+            </Card>
+          ))}
+        </div>
+      )}
 
       <div className="flex justify-between">
         <Button variant="outline" onClick={() => setCurrentStep(2)}>
@@ -355,11 +329,7 @@ export default function WorkoutGeneratorPage() {
             <Card key={index}>
               <div className="flex justify-between items-start mb-4">
                 <h3 className="font-semibold text-[var(--text-primary)]">{exercise?.name}</h3>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => removeExercise(index)}
-                >
+                <Button variant="outline" size="sm" onClick={() => removeExercise(index)}>
                   Remove
                 </Button>
               </div>
@@ -425,16 +395,10 @@ export default function WorkoutGeneratorPage() {
           <ArrowLeft className="mr-2 w-4 h-4" /> Back
         </Button>
         <div className="flex gap-2">
-          <Button
-            onClick={() => setCurrentStep(3)}
-            variant="outline"
-          >
+          <Button variant="outline" onClick={() => setCurrentStep(3)}>
             Add More Exercises
           </Button>
-          <Button
-            onClick={saveWorkout}
-            disabled={saving}
-          >
+          <Button onClick={saveWorkout} disabled={saving}>
             {saving ? (
               <>
                 <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-[var(--text-primary)] mr-2"></div>
@@ -451,6 +415,8 @@ export default function WorkoutGeneratorPage() {
       </div>
     </div>
   )
+
+  // ─── Render ─────────────────────────────────────────────────────────────────
 
   if (loading) {
     return (
@@ -469,7 +435,6 @@ export default function WorkoutGeneratorPage() {
       />
 
       <div className="max-w-4xl mx-auto px-4 pb-16">
-        {/* Step indicator */}
         <div className="flex items-center gap-2 text-sm text-[var(--text-secondary)] mb-6">
           <span>Step {currentStep} of 4</span>
           <span>•</span>

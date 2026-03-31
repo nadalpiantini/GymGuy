@@ -12,32 +12,31 @@ const jetbrainsMono = JetBrains_Mono({ subsets: ['latin'], variable: '--font-mon
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'),
-  title: 'The Core by Alberto Mateo — Train With Purpose',
-  description: 'Entrenamientos personalizados, programas estructurados y seguimiento de progreso. El gym de Alberto Mateo.',
-  keywords: 'the core, alberto mateo, entrenamiento, gym, fitness, programas, salud',
-  authors: [{ name: 'Alberto Mateo' }],
+  title: 'Body OS — Train Smart',
+  description: 'Personalized workouts, structured programs, and progress tracking. 896 exercises powered by science.',
+  keywords: 'body os, workout generator, fitness, gym, training programs, exercise library',
   icons: {
     icon: '/images/the-core-logo.png',
     apple: '/images/the-core-logo.png',
   },
   openGraph: {
-    title: 'The Core by Alberto Mateo — Train With Purpose',
-    description: 'Entrenamientos personalizados, programas estructurados y seguimiento de progreso.',
+    title: 'Body OS — Train Smart',
+    description: 'Personalized workouts, structured programs, and progress tracking.',
     type: 'website',
-    locale: 'es_ES',
+    locale: 'en_US',
     images: [
       {
         url: '/images/the-core-logo.png',
         width: 1200,
         height: 630,
-        alt: 'The Core by Alberto Mateo',
+        alt: 'Body OS',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'The Core by Alberto Mateo — Train With Purpose',
-    description: 'Entrenamientos personalizados, programas estructurados y seguimiento de progreso.',
+    title: 'Body OS — Train Smart',
+    description: 'Personalized workouts, structured programs, and progress tracking.',
     images: ['/images/the-core-logo.png'],
   },
   robots: {
@@ -61,7 +60,7 @@ export default function RootLayout({
             <a href="#main-content" className="skip-to-content">
               Skip to main content
             </a>
-            <NavBar logo="/images/the-core-logo.png" brandName="The Core" />
+            <NavBar logo="/images/the-core-logo.png" brandName="Body OS" />
             <main id="main-content" tabIndex={-1}>
               {children}
             </main>
@@ -80,45 +79,44 @@ export default function RootLayout({
                         />
                       </div>
                       <div className="flex flex-col">
-                        <span className="text-2xl font-extrabold text-[var(--accent)]">The Core</span>
-                        <span className="text-xs text-[var(--text-secondary)] uppercase tracking-wider -mt-1">BY ALBERTO MATEO</span>
+                        <span className="text-2xl font-extrabold text-[var(--accent)]">Body OS</span>
                       </div>
                     </div>
                     <p className="text-[var(--text-secondary)] mb-6 leading-relaxed text-lg">
-                      Entrena con propósito. Programas diseñados por Alberto Mateo para
-                      llevarte al siguiente nivel, sin importar tu punto de partida.
+                      Train smarter. 896 exercises, personalized workouts, and
+                      structured programs to take you to the next level.
                     </p>
                     <div className="flex items-center space-x-2 text-sm text-[var(--text-secondary)]">
                       <span className="w-2 h-2 bg-[var(--accent)] rounded-full"></span>
-                      <span>Entrenamiento real</span>
+                      <span>Real training</span>
                       <span>•</span>
-                      <span>Resultados reales</span>
+                      <span>Real results</span>
                       <span>•</span>
-                      <span>Alberto Mateo Coach</span>
+                      <span>896 exercises</span>
                     </div>
                   </div>
 
                   <div>
                     <h3 className="text-sm font-semibold text-[var(--accent)] uppercase tracking-wider mb-6">
-                      Plataforma
+                      Platform
                     </h3>
                     <ul className="space-y-3">
-                      <li><a href="/workouts" className="text-[var(--text-secondary)] hover:text-[var(--accent)] transition-colors">Generador de Rutinas</a></li>
-                      <li><a href="/programs" className="text-[var(--text-secondary)] hover:text-[var(--accent)] transition-colors">Programas</a></li>
-                      <li><a href="/tools" className="text-[var(--text-secondary)] hover:text-[var(--accent)] transition-colors">Herramientas</a></li>
-                      <li><a href="/statistics" className="text-[var(--text-secondary)] hover:text-[var(--accent)] transition-colors">Estadísticas</a></li>
+                      <li><a href="/workouts" className="text-[var(--text-secondary)] hover:text-[var(--accent)] transition-colors">Workout Generator</a></li>
+                      <li><a href="/programs" className="text-[var(--text-secondary)] hover:text-[var(--accent)] transition-colors">Programs</a></li>
+                      <li><a href="/tools" className="text-[var(--text-secondary)] hover:text-[var(--accent)] transition-colors">Tools</a></li>
+                      <li><a href="/statistics" className="text-[var(--text-secondary)] hover:text-[var(--accent)] transition-colors">Statistics</a></li>
                     </ul>
                   </div>
 
                   <div>
                     <h3 className="text-sm font-semibold text-[var(--accent)] uppercase tracking-wider mb-6">
-                      Comunidad
+                      Community
                     </h3>
                     <ul className="space-y-3">
-                      <li><a href="/about" className="text-[var(--text-secondary)] hover:text-[var(--accent)] transition-colors">Sobre Nosotros</a></li>
+                      <li><a href="/about" className="text-[var(--text-secondary)] hover:text-[var(--accent)] transition-colors">About</a></li>
                       <li><a href="/leaderboard" className="text-[var(--text-secondary)] hover:text-[var(--accent)] transition-colors">Leaderboard</a></li>
                       <li><a href="/premium" className="text-[var(--text-secondary)] hover:text-[var(--accent)] transition-colors">Premium</a></li>
-                      <li><a href="/donate" className="text-[var(--text-secondary)] hover:text-[var(--accent)] transition-colors">Donar</a></li>
+                      <li><a href="/donate" className="text-[var(--text-secondary)] hover:text-[var(--accent)] transition-colors">Donate</a></li>
                     </ul>
                   </div>
                 </div>
@@ -126,12 +124,11 @@ export default function RootLayout({
                 <div className="border-t border-[var(--border)] mt-12 pt-8">
                   <div className="flex flex-col md:flex-row justify-between items-center">
                     <p className="text-[var(--text-secondary)] text-sm">
-                      © 2025 The Core by Alberto Mateo. Todos los derechos reservados.
+                      © 2025 Body OS. All rights reserved.
                     </p>
                     <div className="flex space-x-6 mt-4 md:mt-0">
                       <a href="/legal/privacy" className="text-[var(--text-secondary)] hover:text-[var(--accent)] text-sm transition-colors">Privacy</a>
                       <a href="/legal/terms" className="text-[var(--text-secondary)] hover:text-[var(--accent)] text-sm transition-colors">Terms</a>
-                      <a href="https://www.instagram.com/albertomateocoach/" target="_blank" rel="noopener noreferrer" className="text-[var(--text-secondary)] hover:text-[var(--accent)] text-sm transition-colors">Instagram</a>
                     </div>
                   </div>
                 </div>

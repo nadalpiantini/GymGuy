@@ -22,15 +22,15 @@ export default function HomePage() {
     <div className="min-h-screen">
       {/* Hero Section */}
       <PageHero
-        badge="The Core • by Alberto Mateo"
-        title="Entrena Con Propósito"
-        subtitle="Programas diseñados por Alberto Mateo para llevarte al siguiente nivel. Desde principiantes hasta atletas — aquí se trabaja en serio."
+        badge="Body OS"
+        title="Train Smarter"
+        subtitle="Personalized workouts built from 896 real exercises. Pick your equipment, target your muscles, and get to work."
       >
         <Link href="/workouts">
-          <Button size="lg">Empezar Entrenamiento <ArrowRight className="ml-2 h-5 w-5" /></Button>
+          <Button size="lg">Start Workout <ArrowRight className="ml-2 h-5 w-5" /></Button>
         </Link>
         <Link href="/programs">
-          <Button size="lg" variant="outline">Ver Programas</Button>
+          <Button size="lg" variant="outline">View Programs</Button>
         </Link>
       </PageHero>
 
