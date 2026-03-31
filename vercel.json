@@ -74,8 +74,6 @@
     }
   ],
   "env": {
-    "WGER_API_URL": "@wger_api_url",
-    "WGER_API_TOKEN": "@wger_api_token",
     "NEXT_PUBLIC_GYMGUY_SUPABASE_URL": "@gymguy_supabase_url",
     "NEXT_PUBLIC_GYMGUY_SUPABASE_ANON_KEY": "@gymguy_supabase_anon_key",
     "GYMGUY_SUPABASE_SERVICE_ROLE_KEY": "@gymguy_supabase_service_key",
