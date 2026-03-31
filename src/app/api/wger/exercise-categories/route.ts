@@ -1,5 +1,7 @@
 import { wgerFetch } from '@/lib/wger-proxy'
 
+export const dynamic = 'force-dynamic'
+
 export async function GET() {
   try {
     const res = await wgerFetch('exercisecategory/?format=json', 86400)
